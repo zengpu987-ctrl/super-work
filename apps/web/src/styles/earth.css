@@ -1,0 +1,234 @@
+/* The same globe stays behind the interface in both the welcome and dock poses. */
+.workspace-main {
+  position: relative;
+  isolation: isolate;
+}
+
+.workspace-main[data-earth-mode="hero"] {
+  background: radial-gradient(ellipse at 68% 38%, #233134 0%, var(--desk) 52%);
+}
+
+.workspace .workspace-main .topbar,
+.workspace .workspace-main .canvas-column,
+.workspace .workspace-main .canvas {
+  background: transparent;
+}
+
+.workspace .workspace-main .canvas-column {
+  position: relative;
+  z-index: 1;
+}
+
+.workspace .workspace-main .conversation-dock {
+  position: relative;
+  z-index: 2;
+  background: transparent;
+}
+
+.workspace .brand__mark[data-earth-slot="mini"] {
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  transition: background-color 320ms ease, border-color 320ms ease, color 320ms ease;
+}
+
+.workspace-main[data-earth-mode="mini"] .brand__mark {
+  background-color: transparent;
+  border-color: transparent;
+  color: transparent;
+}
+
+.workspace .welcome {
+  position: relative;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: center;
+  justify-items: start;
+  min-height: clamp(180px, min(27cqw, 32dvh), 269px);
+  padding: 12px 2px;
+  text-align: left;
+}
+
+.welcome__copy {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  justify-items: start;
+  gap: 13px;
+  max-width: min(100%, 56cqw, 430px);
+}
+
+.welcome__copy .welcome__actions {
+  justify-content: flex-start;
+}
+
+.earth-globe__drag-target {
+  position: absolute;
+  inset: 5.4%;
+  border: 1px solid transparent;
+  border-radius: 50%;
+  clip-path: circle(50%);
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.earth-globe__drag-target[data-dragging="true"] {
+  cursor: grabbing;
+}
+
+.earth-globe__drag-target:focus-visible {
+  outline: none;
+  border-color: var(--mint);
+}
+
+.earth-globe__drag-hint {
+  color: var(--text-3);
+}
+
+.earth-hero-slot {
+  position: absolute;
+  right: min(1cqw, 12px);
+  top: 47%;
+  transform: translateY(-50%);
+  inline-size: clamp(202px, min(36cqw, 41dvh), 358px);
+  aspect-ratio: 1;
+}
+
+.earth-globe {
+  position: absolute;
+  inset: 0;
+  isolation: isolate;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 220ms ease;
+}
+
+.earth-globe[data-visible="true"] {
+  opacity: 1;
+}
+
+.earth-globe__stage {
+  position: absolute;
+  width: 360px;
+  height: 360px;
+  transform-origin: top left;
+  transform: translate3d(var(--earth-x, 0px), var(--earth-y, 0px), 0) scale(var(--earth-scale, 0));
+  transition: transform 560ms cubic-bezier(.22, .8, .25, 1);
+  will-change: transform;
+}
+
+.earth-globe__stage::before {
+  content: "";
+  position: absolute;
+  inset: -4%;
+  background: radial-gradient(ellipse at 50% 48%, #587d8623 0%, #35555d15 52%, transparent 72%);
+  opacity: 1;
+  transition: opacity 360ms ease;
+}
+
+.earth-globe.is-mini .earth-globe__stage::before {
+  opacity: .5;
+}
+
+.earth-globe__webgl {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.earth-globe__fallback {
+  position: absolute;
+  inset: 12%;
+  border: 1px solid #6b8e8652;
+  border-radius: 50%;
+  background: radial-gradient(circle at 34% 29%, #47615a35, #1c2b2a18 72%);
+}
+
+.earth-globe[data-render="ready"] .earth-globe__fallback {
+  display: none;
+}
+
+.earth-globe[data-render="unavailable"].is-mini .earth-globe__fallback {
+  display: none;
+}
+
+.workspace-main:has(.earth-globe[data-render="unavailable"])[data-earth-mode="mini"] .brand__mark {
+  color: var(--mint);
+}
+
+.earth-globe__caption {
+  position: absolute;
+  width: var(--earth-size, 0px);
+  transform: translate3d(var(--earth-x, 0px), calc(var(--earth-y, 0px) + var(--earth-size, 0px) - 39px), 0);
+  transition: transform 560ms cubic-bezier(.22, .8, .25, 1), opacity 210ms ease;
+  display: grid;
+  justify-items: center;
+  gap: 3px;
+  color: var(--muted-ink);
+  font-size: 10px;
+  line-height: 1.3;
+  text-align: center;
+  text-shadow: 0 1px 3px #101717, 0 1px 5px #101717;
+}
+
+.earth-globe__legend {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  white-space: nowrap;
+}
+
+.earth-globe__legend::before {
+  content: "";
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #dcbb83;
+}
+
+.earth-globe__coordinates {
+  color: #d0dfdd;
+  font-variant-numeric: tabular-nums;
+}
+
+.earth-globe__coordinates small {
+  margin-inline-start: 3px;
+  color: var(--text-3);
+  font-size: inherit;
+  white-space: nowrap;
+}
+
+.earth-globe.is-mini .earth-globe__caption {
+  opacity: 0;
+}
+
+@container conversation (max-width: 520px) {
+  .workspace .welcome {
+    min-height: 160px;
+  }
+
+  .welcome__copy {
+    max-width: 65%;
+  }
+
+  .earth-hero-slot {
+    right: -9px;
+    inline-size: clamp(148px, 44cqw, 208px);
+  }
+
+  .earth-globe.is-hero .earth-globe__webgl {
+    opacity: .62;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .earth-globe,
+  .earth-globe__stage,
+  .earth-globe__caption,
+  .earth-globe__stage::before {
+    transition-duration: 1ms;
+  }
+}

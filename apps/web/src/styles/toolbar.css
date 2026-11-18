@@ -1,0 +1,142 @@
+/* ============================================================
+   工作台工具条 48px（v0.0.2）
+   左：并行 / 配合 分段控件；右：保存为工作流 / 运行记录
+   ============================================================ */
+
+.toolbar {
+  height: var(--toolbar-h);
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  padding: 0 var(--page-pad);
+  border-bottom: 1px solid var(--line-1);
+  background: var(--bg-0);
+  position: relative;
+  z-index: 40;
+}
+
+.segmented {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px;
+  border-radius: var(--r-md);
+  border: 1px solid var(--line-1);
+  background: var(--bg-1);
+  flex: none;
+}
+
+.segmented__item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 28px;
+  padding: 0 12px;
+  border-radius: var(--r-sm);
+  color: var(--text-2);
+  font-size: var(--fs-small);
+  font-weight: 500;
+  transition:
+    background var(--dur-fast) var(--ease),
+    color var(--dur-fast) var(--ease),
+    opacity var(--dur-fast) var(--ease);
+}
+
+.segmented__item:hover:not(:disabled) {
+  color: var(--text-1);
+}
+
+.segmented__item.is-active {
+  background: var(--bg-2);
+  color: var(--text-1);
+  font-weight: 600;
+}
+
+.segmented__item:disabled {
+  opacity: 0.55;
+}
+
+.seg-en {
+  font-size: 10px;
+  color: var(--text-3);
+  font-family: var(--font-mono);
+}
+
+.toolbar__desc {
+  min-width: 0;
+  color: var(--text-3);
+  font-size: var(--fs-small);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.toolbar__count {
+  color: var(--text-2);
+}
+
+.toolbar__actions {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  flex: none;
+}
+
+.toolbar__lock {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  height: 24px;
+  padding: 0 8px;
+  border-radius: var(--r-sm);
+  border: 1px solid rgba(217, 164, 65, 0.28);
+  background: rgba(217, 164, 65, 0.08);
+  color: #e8c27e;
+  font-size: 11px;
+}
+
+.toolbar__role-entry {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 28px;
+  padding: 0 10px;
+  border-radius: var(--r-sm);
+  border: 1px solid var(--line-1);
+  background: var(--bg-1);
+  color: var(--text-2);
+  font-size: var(--fs-small);
+}
+
+.toolbar__role-entry:hover {
+  background: var(--bg-2);
+  color: var(--text-1);
+}
+
+.toolbar__role-entry b {
+  font-family: var(--font-mono);
+  color: var(--text-1);
+  font-weight: 600;
+}
+
+@media (max-width: 1180px) {
+  .toolbar__desc {
+    display: none;
+  }
+}
+
+@media (max-width: 720px) {
+  .toolbar {
+    padding: 0 8px;
+    gap: var(--sp-2);
+  }
+
+  .segmented__item {
+    padding: 0 8px;
+  }
+
+  .toolbar__actions .btn span {
+    display: none;
+  }
+}

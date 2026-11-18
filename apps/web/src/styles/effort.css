@@ -1,0 +1,214 @@
+/* ============================================================
+   强度档位选择器（独立命名空间 .effort*）
+   视觉严格按 docs/kimi-ui-review-v2.md §5：
+     五格刻度；选中格及左侧填充；文字保持中性色；
+     --low:#64748B --medium:#60A5FA --fast:#3B82F6 --max:#6366F1 --ultra:#7C3AED --track:#E2E8F0
+     圆角 4px、格间距 2px；不用红绿 / 发光 / 渐变。
+   组件 EffortSelector.tsx 自行 import 本文件（也可改为 styles.css 集中 import）。
+   ============================================================ */
+
+.effort {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  color: var(--text-2, #a4aebe);
+  font-family: var(--font-sans, -apple-system, "PingFang SC", sans-serif);
+  line-height: 1;
+}
+
+.effort__label {
+  font-size: 10.5px;
+  color: var(--text-3, #6f7a8c);
+  white-space: nowrap;
+  flex: none;
+}
+
+/* 五格刻度容器：2px 内边距 + 2px 格间距 */
+.effort__options {
+  --effort-track: #e2e8f0;
+  display: inline-flex;
+  align-items: stretch;
+  gap: 2px;
+  padding: 2px;
+  border: 1px solid var(--line-1, #202633);
+  border-radius: var(--r-sm, 6px);
+  background: var(--bg-0, #090b10);
+  flex: none;
+}
+
+.effort__option {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 4px;
+  /* --track @ 7%：未填充格 */
+  background: rgba(226, 232, 240, 0.07);
+  color: var(--text-2, #a4aebe);
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  line-height: 1;
+  cursor: pointer;
+  transition:
+    background var(--dur-fast, 120ms) var(--ease, ease),
+    color var(--dur-fast, 120ms) var(--ease, ease);
+}
+
+/* 选中格及左侧所有格填充；文字保持中性色，不使用档位色/发光 */
+.effort__option.is-filled {
+  background: var(--effort-fill, rgba(96, 165, 250, 0.24));
+  color: var(--text-1, #e8ecf3);
+}
+
+.effort__option.is-active {
+  background: var(--effort-fill-strong, rgba(96, 165, 250, 0.4));
+  color: var(--text-1, #e8ecf3);
+  font-weight: 700;
+}
+
+.effort__option:hover:not(:disabled) {
+  background: rgba(226, 232, 240, 0.13);
+  color: var(--text-1, #e8ecf3);
+}
+
+.effort__option.is-filled:hover:not(:disabled) {
+  background: var(--effort-fill-strong, rgba(96, 165, 250, 0.4));
+}
+
+.effort__option:focus-visible {
+  outline: 2px solid var(--accent, #6d8dff);
+  outline-offset: 1px;
+}
+
+.effort__helper {
+  font-size: 10px;
+  color: var(--text-3, #6f7a8c);
+  white-space: nowrap;
+  flex: none;
+}
+
+/* ---------- 尺寸：sm = 编排行内 96×24 ---------- */
+
+.effort--sm .effort__options {
+  width: 96px;
+  height: 24px;
+}
+
+.effort--sm .effort__option {
+  flex: 1 1 0;
+  font-size: 9.5px;
+}
+
+.effort--sm.effort--full .effort__options {
+  width: auto;
+}
+
+.effort--sm.effort--full .effort__option {
+  flex: none;
+  padding: 0 6px;
+  font-family: var(--font-sans, -apple-system, "PingFang SC", sans-serif);
+  font-size: 9.5px;
+}
+
+/* ---------- 尺寸：md = 卡片 / 抽屉内更大触控 ---------- */
+
+.effort--md {
+  gap: 8px;
+}
+
+.effort--md .effort__label {
+  font-size: 11px;
+}
+
+.effort--md .effort__options {
+  height: 30px;
+}
+
+.effort--md .effort__option {
+  padding: 0 8px;
+  font-size: 11px;
+}
+
+.effort--md.effort--full .effort__option {
+  padding: 0 10px;
+  font-family: var(--font-sans, -apple-system, "PingFang SC", sans-serif);
+  font-size: 11px;
+}
+
+.effort--md .effort__helper {
+  font-size: 10.5px;
+}
+
+/* ---------- 禁用态（运行已结束 / 请求中 / 旧服务端） ---------- */
+
+.effort.is-disabled {
+  opacity: 0.5;
+}
+
+.effort.is-disabled .effort__option {
+  cursor: not-allowed;
+}
+
+.effort.is-disabled .effort__option:hover {
+  background: rgba(226, 232, 240, 0.07);
+  color: var(--text-2, #a4aebe);
+}
+
+.effort.is-disabled .effort__option.is-filled:hover {
+  background: var(--effort-fill, rgba(96, 165, 250, 0.24));
+  color: var(--text-1, #e8ecf3);
+}
+
+.effort.is-disabled .effort__option.is-active:hover {
+  background: var(--effort-fill-strong, rgba(96, 165, 250, 0.4));
+}
+
+/* ---------- 只读徽标（卡片头部 / chips / 历史） ---------- */
+
+.effort-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  height: 18px;
+  padding: 0 6px;
+  border: 1px solid var(--effort-line, rgba(96, 165, 250, 0.55));
+  border-radius: var(--radius-pill, 999px);
+  background: var(--effort-soft, rgba(96, 165, 250, 0.24));
+  color: var(--effort-color, #60a5fa);
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 9.5px;
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+  flex: none;
+}
+
+.effort-badge__dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--effort-color, #60a5fa);
+  flex: none;
+}
+
+/* ---------- 窄容器：允许换行，不撑破 40px 行 ---------- */
+
+@media (max-width: 1200px) {
+  .effort {
+    flex-wrap: wrap;
+    row-gap: 3px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .effort__option {
+    transition: none;
+  }
+}

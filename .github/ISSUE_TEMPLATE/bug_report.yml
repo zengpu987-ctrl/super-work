@@ -1,0 +1,54 @@
+name: Bug report / 问题反馈
+description: 可复现的缺陷（请先搜索已有 issue）
+title: "[bug] "
+labels: ["bug", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        感谢反馈！请先搜索 issue/discussion，并**不要**粘贴 API Key、token、cookie 或 `~/.super-work` 数据。
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: 发生了什么 / What happened
+      description: 现象、预期、错误日志（脱敏）
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: 复现步骤 / Steps
+      placeholder: |
+        1. 打开 …
+        2. 选择模式 …
+        3. 点击 …
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: 版本 / Version
+      description: v0.0.3 或 commit hash
+    validations:
+      required: true
+  - type: input
+    id: env
+    attributes:
+      label: 环境 / Environment
+      description: macOS 版本、Node、浏览器/原生壳、平台连接情况
+    validations:
+      required: true
+  - type: textarea
+    id: extra
+    attributes:
+      label: 截图 / 补充
+      description: 可拖拽截图；请遮盖凭证与隐私
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: 确认
+      options:
+        - label: 我已搜索现有 issue/discussion
+          required: true
+        - label: 我没有粘贴任何密钥或个人数据
+          required: true

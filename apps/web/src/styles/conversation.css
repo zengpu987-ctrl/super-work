@@ -1,0 +1,653 @@
+/* ============================================================
+   多轮对话：历史轮次 + 对话底部上下文条（v0.0.4）
+   ============================================================ */
+
+.conversation-rounds {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.conversation-rounds__head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 2px;
+  font-size: 10.5px;
+  color: var(--text-3);
+}
+
+.conversation-rounds__title {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-2);
+  letter-spacing: 0.02em;
+}
+
+.conversation-rounds__count {
+  color: var(--text-3);
+}
+
+.conversation-rounds__hint {
+  margin-left: auto;
+  font-size: 10px;
+  color: var(--text-3);
+}
+
+.conversation-rounds__divider {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 2px 0;
+  color: var(--text-3);
+  font-size: 10px;
+}
+
+.conversation-rounds__divider::before,
+.conversation-rounds__divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--line-1), transparent);
+}
+
+.conversation-rounds__divider span {
+  padding: 0 8px;
+  letter-spacing: 0.08em;
+}
+
+.round-block {
+  border: 1px solid var(--line-1);
+  border-radius: var(--r-md);
+  background: linear-gradient(180deg, rgba(14, 22, 34, 0.72), rgba(11, 17, 27, 0.5));
+  overflow: hidden;
+}
+
+.round-block.is-error {
+  border-color: rgba(227, 109, 120, 0.3);
+}
+
+.round-block__head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 11px 6px;
+  border-bottom: 1px solid rgba(27, 41, 58, 0.6);
+}
+
+.round-block__index {
+  font-size: 10.5px;
+  font-weight: 700;
+  color: var(--accent-2);
+  letter-spacing: 0.02em;
+}
+
+.round-block__mode {
+  font-size: 10px;
+  color: var(--text-2);
+  padding: 1px 5px;
+  border: 1px solid var(--line-1);
+  border-radius: 4px;
+}
+
+.round-block__meta {
+  font-size: 10px;
+  color: var(--text-3);
+}
+
+.round-block__status {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10px;
+  color: var(--text-3);
+}
+
+.round-block__status .dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--text-3);
+}
+
+.round-block__status.is-done .dot {
+  background: var(--ok);
+}
+
+.round-block__status.is-error .dot {
+  background: var(--danger);
+}
+
+.round-block__status.is-running .dot {
+  background: var(--warn);
+}
+
+.round-block__toggle {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  height: 20px;
+  padding: 0 6px;
+  border: 1px solid var(--line-1);
+  border-radius: 5px;
+  background: transparent;
+  color: var(--text-3);
+  font-size: 10px;
+  cursor: pointer;
+}
+
+.round-block__toggle:hover {
+  color: var(--text-1);
+  border-color: var(--line-2);
+}
+
+.round-block__command {
+  margin: 0;
+  padding: 8px 11px 0;
+  font-size: 11.5px;
+  line-height: 1.55;
+  color: var(--text-2);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.round-block__answer {
+  margin: 6px 11px 0;
+  padding: 7px 9px;
+  border-radius: var(--r-sm);
+  background: rgba(7, 10, 16, 0.5);
+  border: 1px solid var(--line-faint);
+  font-size: 11.5px;
+  line-height: 1.65;
+  color: var(--text-1);
+  white-space: pre-wrap;
+  word-break: break-word;
+  display: -webkit-box;
+  -webkit-line-clamp: 6;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.round-block__answer.is-full {
+  display: block;
+  max-height: 420px;
+  overflow-y: auto;
+}
+
+.round-block__empty {
+  color: var(--text-3);
+}
+
+.round-block__foot {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 11px 8px;
+  font-size: 10px;
+  color: var(--text-3);
+}
+
+.round-block__ctx.is-ok {
+  color: var(--ok);
+}
+
+.round-block__ctx.is-warn {
+  color: var(--warn);
+}
+
+.round-block__ctx.is-danger {
+  color: var(--danger);
+}
+
+.round-block__note {
+  color: var(--text-3);
+}
+
+.round-block__more {
+  margin-left: auto;
+  border: none;
+  background: transparent;
+  color: var(--accent-2);
+  font-size: 10px;
+  cursor: pointer;
+  padding: 0;
+}
+
+.round-block__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 8px;
+  padding: 0 10px 10px;
+}
+
+.round-block__grid .participant-card {
+  min-height: 0;
+}
+
+/* ---------------- 对话底部上下文条 ---------------- */
+
+.context-bar {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 30px;
+  padding: 0 14px;
+  margin: 0 var(--page-pad);
+  border: 1px solid var(--line-1);
+  border-bottom: none;
+  border-radius: var(--r-md) var(--r-md) 0 0;
+  background: rgba(11, 17, 27, 0.92);
+  backdrop-filter: blur(8px);
+  font-size: 10.5px;
+  color: var(--text-3);
+  min-width: 0;
+}
+
+.context-bar__lead {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex: none;
+}
+
+.context-bar__icon {
+  display: inline-flex;
+  color: var(--accent-2);
+}
+
+.context-bar__label {
+  color: var(--text-2);
+  letter-spacing: 0.04em;
+}
+
+.context-bar__pct {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--ok);
+}
+
+.context-bar__pct.is-warn {
+  color: var(--warn);
+}
+
+.context-bar__pct.is-danger {
+  color: var(--danger);
+}
+
+.context-bar__track {
+  position: relative;
+  flex: 1 1 auto;
+  min-width: 60px;
+  max-width: 520px;
+  height: 6px;
+  border-radius: 3px;
+  background: rgba(148, 176, 208, 0.1);
+  overflow: hidden;
+}
+
+.context-bar__fill {
+  display: flex;
+  height: 100%;
+  border-radius: 3px;
+  overflow: hidden;
+  transition: width 320ms ease;
+  background: rgba(109, 141, 255, 0.35);
+}
+
+.context-bar__meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  white-space: nowrap;
+}
+
+.context-bar__tokens {
+  color: var(--text-2);
+}
+
+.context-bar__tight {
+  color: var(--text-3);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 180px;
+}
+
+.context-bar__tight.is-warn {
+  color: var(--warn);
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.context-bar__round {
+  color: var(--text-2);
+}
+
+.context-bar__open {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  border: none;
+  background: transparent;
+  color: var(--accent-2);
+  font-size: 10px;
+  cursor: pointer;
+  padding: 0;
+}
+
+.context-bar__open:hover {
+  color: var(--text-1);
+}
+
+.context-bar.is-warn {
+  border-color: rgba(214, 167, 86, 0.28);
+}
+
+.context-bar.is-danger {
+  border-color: rgba(227, 109, 120, 0.36);
+}
+
+@media (max-width: 1100px) {
+  .context-bar__tight,
+  .context-bar__round {
+    display: none;
+  }
+}
+
+@media (max-width: 760px) {
+  .context-bar {
+    margin: 0 8px;
+    padding: 0 10px;
+  }
+  .context-bar__meta .context-bar__tokens {
+    display: none;
+  }
+}
+
+/* 命令台：当前轮次标记 */
+.composer__round {
+  display: inline-flex;
+  align-items: center;
+  height: 18px;
+  padding: 0 6px;
+  border-radius: 4px;
+  border: 1px solid var(--accent-line, rgba(109, 141, 255, 0.38));
+  background: var(--accent-soft, rgba(109, 141, 255, 0.12));
+  color: var(--accent-2);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  flex: none;
+}
+
+/* 左栏：工作记录的轮次标记 */
+.history-item__round {
+  min-width: 0;
+  padding: 0 4px;
+  border-radius: 3px;
+  border: 1px solid var(--line-1);
+  color: var(--text-3);
+  font-size: 9px;
+  line-height: 14px;
+}
+
+/* 计费页：模型行图标 */
+.data-table__model-name {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+
+.data-table__model-name b {
+  min-width: 0;
+}
+
+/* 参与者卡片：单独停止入口与「已停止」态 */
+.participant-card__stop {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: 5px;
+  border: 1px solid rgba(227, 109, 120, 0.32);
+  background: rgba(227, 109, 120, 0.08);
+  color: #e8a1a8;
+  font-size: 10px;
+  cursor: pointer;
+  flex: none;
+}
+
+.participant-card__stop:hover {
+  border-color: rgba(227, 109, 120, 0.6);
+  background: rgba(227, 109, 120, 0.16);
+  color: #ffd3d7;
+}
+
+.participant-card.is-stopped {
+  border-color: rgba(214, 167, 86, 0.32);
+}
+
+.participant-card.is-stopped .participant-card__state {
+  color: var(--warn);
+}
+
+.participant-card.is-stopped .participant-card__state .dot {
+  background: var(--warn);
+}
+
+.participant-card__stop:focus-visible {
+  outline: 2px solid rgba(227, 109, 120, 0.6);
+  outline-offset: 1px;
+}
+
+/* ---------------- 设置：官方购买 / 充值入口 ---------------- */
+
+.purchase-card {
+  margin: 10px 16px 0;
+  padding: 10px 12px;
+  border: 1px solid var(--line-1);
+  border-radius: var(--r-md);
+  background: linear-gradient(180deg, rgba(109, 141, 255, 0.06), rgba(109, 141, 255, 0.015));
+}
+
+.purchase-card__head {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-2);
+}
+
+.purchase-card__note {
+  margin-left: auto;
+  font-weight: 400;
+  font-size: 10px;
+  color: var(--text-3);
+}
+
+.purchase-card__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.purchase-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  height: 24px;
+  padding: 0 9px;
+  border: 1px solid var(--accent-line);
+  border-radius: 6px;
+  background: var(--accent-soft);
+  color: var(--accent-2);
+  font-size: 10.5px;
+  text-decoration: none;
+  transition: border-color 120ms ease, background 120ms ease;
+}
+
+.purchase-btn:hover {
+  border-color: var(--accent);
+  background: rgba(109, 141, 255, 0.2);
+  color: var(--text-1);
+}
+
+.purchase-card__tip {
+  margin: 7px 0 0;
+  font-size: 10px;
+  line-height: 1.55;
+  color: var(--text-3);
+}
+
+/* 停止：中性灰状态（与失败红区分），悬停才出现浅红危险色 */
+.participant-card__stop {
+  border-color: var(--line-2);
+  background: rgba(148, 176, 208, 0.06);
+  color: var(--text-3);
+}
+
+.participant-card__stop:hover:not(:disabled) {
+  border-color: rgba(227, 109, 120, 0.55);
+  background: rgba(227, 109, 120, 0.14);
+  color: #f0a8ae;
+}
+
+.participant-card__stop:disabled {
+  opacity: 0.7;
+  cursor: progress;
+}
+
+.participant-card__stop-text {
+  font-size: 10px;
+}
+
+.participant-card.is-stopped .participant-card__state {
+  color: var(--text-3);
+}
+
+.participant-card.is-stopped .participant-card__state .dot {
+  background: var(--text-3);
+}
+
+.participant-card__stopped-note {
+  margin-top: 8px;
+  padding-top: 6px;
+  border-top: 1px dashed var(--line-1);
+  color: var(--text-3);
+  font-size: 10px;
+}
+
+.stopped-note {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 2px 0 8px;
+  padding: 6px 10px;
+  border: 1px solid var(--line-1);
+  border-radius: var(--r-sm);
+  background: rgba(148, 176, 208, 0.05);
+  color: var(--text-2);
+  font-size: 10.5px;
+}
+
+.stopped-note .dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--text-3);
+}
+
+.stopped-note em {
+  font-style: normal;
+  color: var(--text-3);
+}
+
+
+/* 购买入口：Kimi 复核后的底部布局与分组 */
+.purchase-card {
+  margin: 8px 14px 10px;
+  padding: 10px 12px;
+  border: 1px solid var(--line-1);
+  border-radius: var(--r-md);
+  background: linear-gradient(180deg, rgba(109, 141, 255, 0.05), rgba(109, 141, 255, 0.012));
+}
+
+.purchase-card__groups {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.purchase-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.purchase-group__label {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  min-width: 74px;
+  font-size: 10px;
+  color: var(--text-3);
+}
+
+.purchase-group__label em {
+  font-style: normal;
+  color: var(--text-3);
+  opacity: 0.75;
+}
+
+.purchase-group__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.purchase-btn {
+  border: 1px solid var(--line-2);
+  background: rgba(148, 176, 208, 0.06);
+  color: var(--text-2);
+}
+
+.purchase-btn:hover {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--text-1);
+}
+
+.purchase-btn.is-ghost {
+  background: transparent;
+  border-color: var(--line-1);
+  color: var(--text-3);
+}
+
+.purchase-confirm {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px dashed var(--line-1);
+  color: var(--text-3);
+  font-size: 10px;
+  flex-wrap: wrap;
+}
+
+.purchase-confirm b {
+  color: var(--accent-2);
+  font-weight: 500;
+}

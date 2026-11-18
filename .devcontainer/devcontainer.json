@@ -1,0 +1,22 @@
+{
+  "name": "Super Work Dev",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:22",
+  "features": {
+    "ghcr.io/devcontainers/features/github-cli:1": {}
+  },
+  "postCreateCommand": "corepack enable && corepack prepare pnpm@9.15.0 --activate && pnpm install",
+  "forwardPorts": [7788, 5178],
+  "portsAttributes": {
+    "7788": { "label": "Super Work server", "onAutoForward": "notify" },
+    "5178": { "label": "Vite dev", "onAutoForward": "notify" }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": ["dbaeumer.vscode-eslint", "esbenp.prettier-vscode", "bradlc.vscode-tailwindcss"],
+      "settings": {
+        "editor.formatOnSave": false,
+        "typescript.tsdk": "node_modules/typescript/lib"
+      }
+    }
+  }
+}

@@ -1,0 +1,124 @@
+/* Super Work · 应用和通用面板骨架 */
+
+.app-shell {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+  overflow: hidden;
+  background: var(--bg-0);
+}
+
+.rail {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  min-width: 0;
+  background: var(--bg-1);
+  border: 1px solid var(--line-1);
+  border-radius: var(--r-lg);
+  margin: 12px 0;
+  overflow: hidden;
+}
+
+.rail-left {
+  border-right: 1px solid var(--line-1);
+}
+
+.rail-right {
+  border-left: 1px solid var(--line-1);
+}
+
+.rail-scroll {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.rail-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+
+.drawer-backdrop {
+  display: none;
+}
+
+.topbar .drawer-toggle {
+  display: none;
+}
+
+/* ---------- 顶部提示条 / 离线条 ---------- */
+
+.hint-banner {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  padding: 8px var(--page-pad);
+  border-bottom: 1px solid var(--line-1);
+  background: var(--bg-1);
+  color: var(--text-2);
+  font-size: var(--fs-small);
+  flex: none;
+}
+
+.hint-banner__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: var(--r-sm);
+  background: var(--bg-2);
+  color: var(--accent);
+  flex: none;
+}
+
+.hint-banner__text {
+  min-width: 0;
+}
+
+.hint-banner__text strong {
+  color: var(--text-1);
+  font-weight: 600;
+}
+
+.hint-banner__actions {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  flex: none;
+}
+
+.hint-banner__close {
+  width: 24px;
+  height: 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--r-sm);
+  color: var(--text-3);
+}
+
+.hint-banner__close:hover {
+  background: var(--bg-2);
+  color: var(--text-1);
+}
+
+.offline-strip {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  padding: 6px var(--page-pad);
+  border-bottom: 1px solid rgba(217, 164, 65, 0.22);
+  background: rgba(217, 164, 65, 0.08);
+  color: #e8c27e;
+  font-size: var(--fs-small);
+  flex: none;
+}
+
+.offline-strip .mono {
+  color: #f0d29d;
+}

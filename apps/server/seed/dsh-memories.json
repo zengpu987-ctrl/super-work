@@ -1,0 +1,96 @@
+{
+  "version": 1,
+  "exportedAt": 1794941666201,
+  "source": "DSH 运行时记忆快照（USER.md / MEMORY.md）",
+  "memories": [
+    {
+      "kind": "preference",
+      "content": "订阅账户分派规则：强推理/长链推理交给 ChatGPT 订阅（openai-codex）；绘图/视频创意与视觉判断、3D/建模交给 Kimi 订阅（kimi-subscription，k3.1-pro）；普通任务用主模型。",
+      "tags": [
+        "routing",
+        "subscription"
+      ],
+      "importance": 5,
+      "space": "偏好"
+    },
+    {
+      "kind": "preference",
+      "content": "豆包通道已卸载，不再使用 doubao_ask；图片与视频生成走本机 image_generate / generate_video。",
+      "tags": [
+        "routing",
+        "doubao"
+      ],
+      "importance": 4,
+      "space": "偏好"
+    },
+    {
+      "kind": "fact",
+      "content": "本机是 macOS 26（Apple Silicon），Node 24，pnpm 12；Super Work 数据目录为 ~/.super-work。",
+      "tags": [
+        "environment"
+      ],
+      "importance": 3,
+      "space": "环境"
+    },
+    {
+      "kind": "fact",
+      "content": "本机直连 OpenAI 会被地域拦截，需要走系统代理（Hiddify 127.0.0.1:12334）；Super Work 启动时会自动跟随系统代理。",
+      "tags": [
+        "network",
+        "proxy"
+      ],
+      "importance": 4,
+      "space": "环境"
+    },
+    {
+      "kind": "decision",
+      "content": "Super Work v0.0.2 的模型配合逻辑：顶层只有并行模式与配合模式；配合模式有 8 个角色（发令官/生图/强推理/代码实现/整合优化/建模/Chat/裁判），每个角色可多选模型，未选中的角色严格不调用。",
+      "tags": [
+        "super-work",
+        "v0.0.2"
+      ],
+      "importance": 5,
+      "space": "项目"
+    },
+    {
+      "kind": "decision",
+      "content": "Super Work 的三款中转站：贾维斯官网、Devin、WorkBuddy；WorkBuddy 从本机登录态自动导入，贾维斯/Devin 通过设置页填 Base URL + Key 后拉取模型。",
+      "tags": [
+        "super-work",
+        "relay"
+      ],
+      "importance": 4,
+      "space": "项目"
+    },
+    {
+      "kind": "insight",
+      "content": "WorkBuddy 国内区聊天端点是 https://copilot.tencent.com/v2/chat/completions，模型目录在 https://www.codebuddy.cn/v2/enterprises/personal/models，生图端点是 /v2/images/generations。",
+      "tags": [
+        "workbuddy",
+        "api"
+      ],
+      "importance": 4,
+      "space": "项目"
+    },
+    {
+      "kind": "preference",
+      "content": "UI 设计偏好：深色控制室风格、克制渐变与发光、13px 正文字号、间距只用 4/8/12/16/24、动效 120/180ms；不要做成聊天软件。",
+      "tags": [
+        "ui",
+        "design"
+      ],
+      "importance": 3,
+      "space": "偏好"
+    },
+    {
+      "kind": "insight",
+      "content": "跨模型协作里，思考型模型可能把 maxTokens 全部花在 reasoning 上导致正文为空；需要提示用户提高预算或换非推理模型。",
+      "tags": [
+        "reasoning",
+        "tokens"
+      ],
+      "importance": 3,
+      "space": "项目"
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "files": [],
+  "references": [
+    {
+      "path": "packages/core"
+    },
+    {
+      "path": "packages/providers"
+    },
+    {
+      "path": "packages/orchestrator"
+    },
+    {
+      "path": "apps/server"
+    },
+    {
+      "path": "packages/memory"
+    },
+    {
+      "path": "packages/workflow"
+    },
+    {
+      "path": "packages/files"
+    },
+    {
+      "path": "packages/plugins"
+    }
+  ]
+}

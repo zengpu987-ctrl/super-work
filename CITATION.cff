@@ -1,0 +1,26 @@
+cff-version: 1.2.0
+message: "If you use Super Work in academic work, please cite it as below."
+title: "Super Work: A Local-First Multi-Model Orchestration Workbench"
+abstract: "Super Work is an open-source, local-first workbench that orchestrates multiple large language models into parallel, coordinated, and conversational workflows, with artifact delivery and a physically accurate real-time Earth visualization."
+authors:
+  - family-names: "Super Work Contributors"
+    name: "Super Work Contributors"
+version: 0.0.3
+date-released: "2026-11-19"
+license: Apache-2.0
+repository-code: "https://github.com/zengpu987-ctrl/super-work"
+url: "https://github.com/zengpu987-ctrl/super-work"
+keywords:
+  - multi-model
+  - LLM orchestration
+  - local-first
+  - multi-agent
+  - privacy
+  - desktop
+preferred-citation:
+  type: article
+  title: "Super Work: A Local-First Multi-Model Orchestration Workbench"
+  authors:
+    - name: "Super Work Contributors"
+  year: 2026
+  url: "https://github.com/zengpu987-ctrl/super-work/blob/main/paper/super-work-paper.pdf"

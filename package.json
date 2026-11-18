@@ -1,0 +1,52 @@
+{
+  "name": "super-work",
+  "version": "0.0.3",
+  "private": true,
+  "description": "Super Work — 多模型联合工作台（v0.0.1）",
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "build": "tsc -b",
+    "build:web": "node scripts/prepare-web.mjs && vite build --config apps/web/vite.config.ts",
+    "build:all": "pnpm build && pnpm build:web",
+    "dev": "node scripts/dev.mjs",
+    "start": "node apps/server/dist/index.js",
+    "serve": "pnpm build:all && node apps/server/dist/index.js",
+    "test": "node --test \"packages/*/dist/**/*.test.js\" \"apps/server/dist/**/*.test.js\"",
+    "typecheck": "tsc -b --force",
+    "smoke": "node scripts/smoke.mjs",
+    "build:mac": "bash apps/mac/build.sh",
+    "smoke:v2": "node scripts/smoke-v2.mjs",
+    "smoke:v3": "node scripts/smoke-v3.mjs"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "@vitejs/plugin-react": "^5.0.0",
+    "typescript": "^5.9.0",
+    "tsx": "^4.20.0",
+    "vite": "^7.0.0"
+  },
+  "dependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild"
+    ]
+  },
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zengpu987-ctrl/super-work.git"
+  },
+  "homepage": "https://github.com/zengpu987-ctrl/super-work#readme",
+  "bugs": {
+    "url": "https://github.com/zengpu987-ctrl/super-work/issues"
+  },
+  "author": "Super Work Contributors"
+}

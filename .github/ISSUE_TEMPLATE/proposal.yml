@@ -1,0 +1,37 @@
+name: Proposal / 架构提案
+description: 协议、架构或破坏性变更（需 7 天讨论）
+title: "[proposal] "
+labels: ["proposal", "discussion"]
+body:
+  - type: textarea
+    id: summary
+    attributes:
+      label: 摘要 / Summary
+    validations:
+      required: true
+  - type: textarea
+    id: motivation
+    attributes:
+      label: 动机 / Motivation
+      description: 现有问题、用户价值、为什么现在做
+    validations:
+      required: true
+  - type: textarea
+    id: design
+    attributes:
+      label: 设计 / Design
+      description: 接口、数据模型、兼容性、迁移路径
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: 替代方案与风险 / Alternatives & risks
+  - type: checkboxes
+    id: scope
+    attributes:
+      label: 影响面
+      options:
+        - label: 破坏性变更（需要迁移说明）
+        - label: 涉及许可证/治理
+        - label: 涉及第三方商标或数据

@@ -1,0 +1,14 @@
+node_modules/
+dist/
+*.tsbuildinfo
+.DS_Store
+.super-work/
+*.log
+apps/web/dist/
+apps/web/public/vendor/
+
+# macOS 应用构建产物
+apps/mac/build/
+
+# 文档渲染临时预览
+.dsh-office.*/
