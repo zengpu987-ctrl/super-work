@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Super Work — 本地优先的多模型联合工作台</title>
+<style>
+  :root { --bg:#0e1412; --surface:#17211d; --line:#2c3a34; --ink:#eef4ef; --muted:#a7b8ae; --mint:#9fe0c2; --accent:#1f6b55; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:radial-gradient(1200px 600px at 80% -10%, #1c3a2e 0%, var(--bg) 55%); color:var(--ink);
+         font:16px/1.7 -apple-system,BlinkMacSystemFont,"PingFang SC","Segoe UI",sans-serif; }
+  main { max-width: 980px; margin: 0 auto; padding: 72px 24px 100px; }
+  .badge { display:inline-flex; gap:8px; align-items:center; padding:6px 12px; border:1px solid var(--line);
+           border-radius:999px; color:var(--mint); font-size:13px; letter-spacing:.02em; }
+  h1 { font-size: clamp(38px, 7vw, 68px); line-height:1.05; margin:28px 0 12px; letter-spacing:-.04em; }
+  h1 span { color:var(--mint); }
+  .lead { color:var(--muted); font-size:18px; max-width: 720px; }
+  .grid { display:grid; grid-template-columns: repeat(auto-fit,minmax(220px,1fr)); gap:14px; margin:38px 0; }
+  a.card { display:block; padding:18px 20px; background:linear-gradient(180deg,var(--surface),#121a16);
+           border:1px solid var(--line); border-radius:14px; color:var(--ink); text-decoration:none; transition:.18s ease; }
+  a.card:hover { transform:translateY(-2px); border-color:#4e7b68; background:#1b2923; }
+  a.card b { display:block; font-size:16px; margin-bottom:4px; }
+  a.card small { color:var(--muted); font-size:13px; }
+  .row { display:flex; flex-wrap:wrap; gap:10px; margin-top:18px; }
+  .btn { display:inline-flex; padding:10px 18px; border-radius:10px; background:var(--accent); color:#fff;
+         text-decoration:none; font-weight:600; font-size:14px; }
+  .btn.ghost { background:transparent; border:1px solid var(--line); color:var(--mint); }
+  footer { margin-top:54px; color:var(--muted); font-size:13px; border-top:1px solid var(--line); padding-top:18px; }
+  code { background:#0b120f; border:1px solid var(--line); padding:2px 6px; border-radius:6px; font-size:13px; }
+</style>
+</head>
+<body>
+<main>
+  <span class="badge">Apache-2.0 · Local-first · Open source</span>
+  <h1>Super Work<br /><span>多模型联合工作台</span></h1>
+  <p class="lead">
+    跑在你自己电脑上的多模型指挥台：并行、角色配合、多轮 Chat，逐模型停止与五档强度，
+    文件产物（Word / Excel / PPT / PDF / 代码），实时光照 3D 地球。数据与凭证不出本机。
+  </p>
+  <div class="row">
+    <a class="btn" href="https://github.com/zengpu987-ctrl/super-work">GitHub 仓库</a>
+    <a class="btn ghost" href="https://github.com/zengpu987-ctrl/super-work/blob/main/paper/super-work-paper.pdf">中英双语论文</a>
+    <a class="btn ghost" href="https://github.com/zengpu987-ctrl/super-work/blob/main/docs/USER-GUIDE.md">使用说明</a>
+  </div>
+
+  <div class="grid">
+    <a class="card" href="https://github.com/zengpu987-ctrl/super-work/blob/main/docs/USER-GUIDE.md">
+      <b>全功能使用说明</b><small>安装 · 模式 · 团队 · 文件 · 插件 · 隐私 · 合作</small>
+    </a>
+    <a class="card" href="https://github.com/zengpu987-ctrl/super-work/blob/main/docs/DEEPSEEK.md">
+      <b>DeepSeek 工作细节</b><small>模型 · 参数 · 计费 · 开发工作流</small>
+    </a>
+    <a class="card" href="https://github.com/zengpu987-ctrl/super-work/blob/main/docs/SOFTWARE-EVALUATION.md">
+      <b>软件评测报告</b><small>定位 · 13 个模块评分 · 风险 · 路线</small>
+    </a>
+    <a class="card" href="https://github.com/zengpu987-ctrl/super-work/blob/main/docs/COMMUNITY.md">
+      <b>参与共建</b><small>如何编辑 · 贡献路径 · 治理 · 招募</small>
+    </a>
+    <a class="card" href="https://github.com/zengpu987-ctrl/super-work/issues">
+      <b>Issues / 问题</b><small>Bug、功能建议、Provider 适配</small>
+    </a>
+    <a class="card" href="https://github.com/zengpu987-ctrl/super-work/discussions">
+      <b>Discussions / 讨论</b><small>问答、想法、合作与展示</small>
+    </a>
+  </div>
+
+  <h2>快速开始</h2>
+  <pre><code>git clone https://github.com/zengpu987-ctrl/super-work.git
+cd super-work
+pnpm install
+pnpm build:all
+pnpm test
+pnpm start   # http://127.0.0.1:7788</code></pre>
+  <p class="lead">没有 API Key 也能跑：内置演示模型；连接真实模型在设置里完成。</p>
+
+  <footer>
+    Copyright 2026 Super Work contributors · Apache-2.0 · 模型名称与图标归各自厂商所有<br />
+    欢迎模型厂商、开源作者、设计师、研究者与技术写作者参与共建。
+  </footer>
+</main>
+</body>
+</html>
