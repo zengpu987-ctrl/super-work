@@ -5,12 +5,34 @@
     "outDir": "dist",
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
-    "types": ["node"]
+    "types": [
+      "node"
+    ]
   },
-  "include": ["src/**/*.ts"],
+  "include": [
+    "src/**/*.ts"
+  ],
   "references": [
-    { "path": "../../packages/core" },
-    { "path": "../../packages/providers" },
-    { "path": "../../packages/orchestrator" }
+    {
+      "path": "../../packages/core"
+    },
+    {
+      "path": "../../packages/providers"
+    },
+    {
+      "path": "../../packages/orchestrator"
+    },
+    {
+      "path": "../../packages/memory"
+    },
+    {
+      "path": "../../packages/files"
+    },
+    {
+      "path": "../../packages/plugins"
+    },
+    {
+      "path": "../../packages/workflow"
+    }
   ]
 }

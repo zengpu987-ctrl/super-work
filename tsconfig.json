@@ -11,9 +11,6 @@
       "path": "packages/orchestrator"
     },
     {
-      "path": "apps/server"
-    },
-    {
       "path": "packages/memory"
     },
     {
@@ -24,6 +21,9 @@
     },
     {
       "path": "packages/plugins"
+    },
+    {
+      "path": "apps/server"
     }
   ]
 }
