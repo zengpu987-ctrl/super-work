@@ -22,7 +22,7 @@ git clone https://github.com/zengpu987-ctrl/super-work.git
 cd super-work
 pnpm install
 pnpm build:all      # tsc -b + vite build（会复制离线 three.js）
-pnpm test           # 184+ 项单元/集成测试
+pnpm test           # 187+ 项单元/集成测试
 pnpm dev            # 服务端 7788 + Vite 5178
 ```
 

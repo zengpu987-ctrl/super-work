@@ -8,13 +8,13 @@
 
 ## Abstract
 
-Single-model chat interfaces are convenient but poorly suited to work that benefits from independent perspectives, division of labour, and verifiable convergence. Existing multi-agent frameworks target developers and cloud deployments, while API gateways optimize routing rather than collaboration. We present **Super Work**, an open-source, local-first workbench that organizes multiple large language models (LLMs) into a controllable team. Users select participants and a collaboration mode (parallel, role-based coordination, or multi-turn chat); the system streams individual contributions, supports per-participant stopping and five effort levels, injects memory and context budgets, and converges outputs through integration or judging roles. A unified artifact protocol turns model text into downloadable Markdown, CSV, code, DOCX, XLSX, PPTX, and PDF files. A real-time Earth visualization, driven by NOAA solar-position mathematics and a custom WebGL shader, reflects the actual day/night terminator. All credentials and run data remain on the user's machine; the server binds to loopback, and credentials are encrypted with AES-256-GCM. The v0.0.3 implementation comprises 14 provider adapters, 81 catalogued models, eight orchestration modes, five effort levels, and 184 passing tests. We report the architecture, design rationale, functional evaluation, limitations, and a roadmap for community collaboration.
+Single-model chat interfaces are convenient but poorly suited to work that benefits from independent perspectives, division of labour, and verifiable convergence. Existing multi-agent frameworks target developers and cloud deployments, while API gateways optimize routing rather than collaboration. We present **Super Work**, an open-source, local-first workbench that organizes multiple large language models (LLMs) into a controllable team. Users select participants and a collaboration mode (parallel, role-based coordination, or multi-turn chat); the system streams individual contributions, supports per-participant stopping and five effort levels, injects memory and context budgets, and converges outputs through integration or judging roles. A unified artifact protocol turns model text into downloadable Markdown, CSV, code, DOCX, XLSX, PPTX, and PDF files. A real-time Earth visualization, driven by NOAA solar-position mathematics and a custom WebGL shader, reflects the actual day/night terminator. All credentials and run data remain on the user's machine; the server binds to loopback, and credentials are encrypted with AES-256-GCM. The v0.0.3 implementation comprises 14 provider adapters, 81 catalogued models, eight orchestration modes, five effort levels, and 187 passing tests. We report the architecture, design rationale, functional evaluation, limitations, and a roadmap for community collaboration.
 
 **Keywords:** multi-model orchestration; local-first; LLM workbench; multi-agent collaboration; artifact generation; WebGL visualization
 
 ## 摘要
 
-单模型聊天界面适合问答，却难以胜任需要多视角、分工与可验证收敛的工作。现有多智能体框架多面向开发者与云端部署，API 网关则侧重路由而非协作。本文提出 **Super Work**：一个开源、本地优先的多模型联合工作台，把多个大语言模型组织成一支可指挥的团队。用户选择参与模型与协作模式（并行、角色配合、多轮 Chat），系统流式呈现各自贡献，支持逐模型停止与五档强度，注入记忆与上下文预算，并通过整合/裁判角色收敛为最终答案。统一的文件产物协议把模型文本转成可下载的 Markdown、CSV、代码、DOCX、XLSX、PPTX 与 PDF。一个由 NOAA 太阳位置算法与自定义 WebGL 着色器驱动的实时地球，准确反映真实昼夜线。全部凭证与运行数据留在本机：服务仅监听回环地址，凭证以 AES-256-GCM 加密。v0.0.3 包含 14 家平台适配、81 个目录模型、8 种编排模式、5 档强度与 184 项通过测试。本文报告其架构、设计取舍、功能评测、局限与社区协作路线。
+单模型聊天界面适合问答，却难以胜任需要多视角、分工与可验证收敛的工作。现有多智能体框架多面向开发者与云端部署，API 网关则侧重路由而非协作。本文提出 **Super Work**：一个开源、本地优先的多模型联合工作台，把多个大语言模型组织成一支可指挥的团队。用户选择参与模型与协作模式（并行、角色配合、多轮 Chat），系统流式呈现各自贡献，支持逐模型停止与五档强度，注入记忆与上下文预算，并通过整合/裁判角色收敛为最终答案。统一的文件产物协议把模型文本转成可下载的 Markdown、CSV、代码、DOCX、XLSX、PPTX 与 PDF。一个由 NOAA 太阳位置算法与自定义 WebGL 着色器驱动的实时地球，准确反映真实昼夜线。全部凭证与运行数据留在本机：服务仅监听回环地址，凭证以 AES-256-GCM 加密。v0.0.3 包含 14 家平台适配、81 个目录模型、8 种编排模式、5 档强度与 187 项通过测试。本文报告其架构、设计取舍、功能评测、局限与社区协作路线。
 
 **关键词：** 多模型编排；本地优先；大模型工作台；多智能体协作；文件产物；WebGL 可视化
 
@@ -33,7 +33,7 @@ This paper asks a product-level question: *what would a multi-model workbench lo
 3. **A delivery-oriented output layer.** A file protocol that converts model text into office documents and code files, with download and preview in the UI, alongside image and 3D artifacts.
 4. **An ambient, physically grounded visualization.** A WebGL Earth whose terminator follows the real subsolar point, shrinking to a spinning status orb while work runs.
 
-We evaluate the implementation functionally: 184 automated tests, isolated end-to-end runs with mock and local relay models, file-signature and content checks for six output formats, and browser-level interaction checks. The contribution is not a new model or a new multi-agent algorithm; it is an integrated, reproducible system and an open invitation to harden it together.
+We evaluate the implementation functionally: 187 automated tests, isolated end-to-end runs with mock and local relay models, file-signature and content checks for six output formats, and browser-level interaction checks. The contribution is not a new model or a new multi-agent algorithm; it is an integrated, reproducible system and an open invitation to harden it together.
 
 ## 2. Related Work
 
@@ -122,17 +122,17 @@ Images from a designated image role and HTML/Three.js scenes from a 3D role use 
 
 The workspace includes a real-time 3D Earth. It is not a decorative loop: the terminator is computed from the actual solar position. We implement the NOAA/Meeus solar-position approximation: Julian day, mean longitude and anomaly, equation of centre, apparent longitude, nutation-corrected obliquity, declination, and equation of time. The subsolar longitude is `180° − (UTC minutes + EoT)/4`. The Earth mesh is rotated so that this longitude faces a fixed sun direction; the sun vector is tilted by the declination. The resulting day/night boundary therefore reflects season, UTC, and polar day/night without an ephemeris service.
 
-Rendering uses NASA Blue Marble imagery, city lights, clouds, and a specular ocean mask, combined in a custom GLSL shader with a soft terminator, twilight tint, cloud attenuation, specular highlight, and atmospheric rim. An additive glow shell, a star field, and ACES tone mapping complete the scene. The globe is large on an empty workspace and animates to a 104-pixel spinning orb at the top-left while a run is active; a new conversation expands it again with a 760 ms eased transition. Rendering is capped at 48 fps (large) and 32 fps (small), paused when the page is hidden, and reduced-motion aware.
+Rendering uses NASA Blue Marble imagery, city lights, clouds, and a specular ocean mask, combined in a custom GLSL shader with a soft terminator, twilight tint, cloud attenuation, specular highlight, and atmospheric rim. The mesh is scaled to the WGS84 ellipsoid, preserving geodetic surface normals. An additive glow shell, a star field, and ACES tone mapping complete the scene. The globe is large beside the welcome copy and animates to a 34-pixel spinning logo at the top-left while a run is active; a new conversation expands it again with a 560 ms eased transition. The hero view supports drag, arrow-key rotation, and double-click/Home reset; the miniature orbits the camera without altering the physical solar clock. Rendering is frame-rate driven in the hero state, capped at 32 fps in the miniature, paused when hidden, and reduced-motion aware.
 
 ![Figure 3. The physical Earth visualization at 02:07 local time (18:07 UTC). The subsolar point is 19.4°S, 91.9°W; East Asia is at night and the Americas are in daylight.](figures/earth.png)
 
 ## 8. Implementation and Evaluation
 
-The implementation comprises approximately 320 tracked source and documentation files. The stack is Node.js 24, TypeScript strict mode, Fastify 5, React 19, Vite 7, and `node:sqlite`. The web bundle is approximately 955 kB (290 kB gzip) including the new typography and document rendering; Earth textures add 1.2 MB and are loaded only by the globe module.
+The implementation comprises approximately 350 tracked source and documentation files. The stack is Node.js 24, TypeScript strict mode, Fastify 5, React 19, Vite 7, and `node:sqlite`. The web bundle is approximately 955 kB (290 kB gzip) including the new typography and document rendering; Earth textures add 1.2 MB and are loaded only by the globe module.
 
 We evaluate functionally rather than through a user study:
 
-- **Tests.** 184 unit and integration tests pass, covering orchestration modes, per-model stopping, effort mapping, chat, file extraction/conversion, solar position, credentials, memory, budgets, and workflows.
+- **Tests.** 187 unit and integration tests pass, covering orchestration modes, per-model stopping, effort mapping, chat, file extraction/conversion, solar position, credentials, memory, budgets, and workflows.
 - **End-to-end.** In an isolated instance, a fake OpenAI-compatible model returned six file blocks; the system produced Markdown (212 B), CSV (101 B), DOCX (9.7 kB), XLSX (16.3 kB), PPTX (51.7 kB), and PDF (14 kB). ZIP containers, extracted XML, spreadsheet rows, slide text, and the `%PDF-` signature were verified. Chat, multi-round threads, and per-participant stopping were exercised through the HTTP API and the browser.
 - **Solar accuracy.** Four tests cover equinox, solstice declination, the 15°-per-hour westward drift, and longitude bounds. The rendered subsolar point matched an independent NOAA calculation at the evaluation time.
 - **Interface.** Headless-browser checks confirmed the file tab, download links, Unicode filenames, chat artifacts, globe hero/mini transitions, and the absence of console errors.
@@ -160,7 +160,7 @@ We especially welcome contributions to provider adapters, document rendering, We
 ## Appendix A. Reproducibility Checklist
 
 - Node.js 24 and pnpm 9; `pnpm install && pnpm build:all`.
-- `pnpm test` should report 184 passing tests (five additional file/solar tests may appear in later commits).
+- `pnpm test` should report 187 passing tests (five additional file/solar tests may appear in later commits).
 - Run with an isolated home: `SUPER_WORK_HOME=/tmp/sw-paper pnpm start`.
 - Open `http://127.0.0.1:7788`; use the built-in demo models without any API key.
 - Provider adapters are configured in Settings; credentials never leave `~/.super-work`.
@@ -221,7 +221,7 @@ Residual risks remain: malicious local plugins, compromised provider SDKs, and a
 3. **面向交付的产物层**：统一文件协议把模型文本转成 Office 文档与代码文件，并支持下载/预览；图片与 3D 走同一产物通道。
 4. **有物理依据的环境可视化**：WebGL 地球的晨昏线跟随真实日下点，运行工作时缩成左上角自转的状态球。
 
-我们做的是功能与工程评测：184 项自动化测试、隔离实例端到端、6 种文件格式的签名与内容校验、浏览器层交互检查。贡献不是新模型或新算法，而是一套可复现、可集成、可共同加固的系统。
+我们做的是功能与工程评测：187 项自动化测试、隔离实例端到端、6 种文件格式的签名与内容校验、浏览器层交互检查。贡献不是新模型或新算法，而是一套可复现、可集成、可共同加固的系统。
 
 ## 2. 相关工作
 
@@ -275,17 +275,17 @@ Super Work 是 TypeScript monorepo：React 19 Web 客户端、Fastify 5 服务�
 
 工作区包含实时 3D 地球。它不是装饰循环：晨昏线由真实太阳位置计算。我们实现 NOAA/Meeus 太阳位置近似：儒略日、平黄经与平近点角、中心差、视黄经、章动修正的黄赤交角、赤纬与均时差；日下点经度为 `180° − (UTC 分钟 + EoT)/4`。地球网格旋转使该经度朝向固定的太阳方向，太阳向量按赤纬倾斜，因此昼夜边界自然体现季节、UTC 与极昼极夜，且不依赖星历服务。
 
-渲染使用 NASA Blue Marble 日面、城市灯光、云层与海面高光，在自定义 GLSL 中完成软晨昏线、暖色暮光、云层衰减、镜面高光与大气边缘；叠加混合的大气辉光壳、星场与 ACES 色调映射。空工作区中地球放大，运行工作时以 760ms 缓动缩为左上角 104px 自转球，新建对话再放大。渲染在大/小状态分别限制 48/32fps，页面隐藏暂停，并尊重减少动态偏好。
+渲染使用 NASA Blue Marble 日面、城市灯光、云层与海面高光，在自定义 GLSL 中完成软晨昏线、暖色暮光、云层衰减、镜面高光与大气边缘；网格按 WGS84 扁率映射到椭球，保持地理法线。叠加混合的大气辉光壳、星场与 ACES 色调映射。空工作区中地球在欢迎文案右侧放大，运行时以 560ms 缓动缩为左上角 34px 品牌位自转球，新建对话再放大。hero 支持拖动/方向键旋转、双击或 Home 复位；mini 只环绕相机，不改变太阳物理时钟。hero 跟随屏幕刷新，mini 限制 32fps，页面隐藏暂停，并尊重减少动态偏好。
 
 图 3 展示 02:07（18:07 UTC）的实拍：日下点 19.4°S、91.9°W，东亚处于夜面，美洲处于日面。
 
 ## 8. 实现与评测
 
-实现约 320 个受版本管理的源码/文档文件；Node.js 24、TypeScript strict、Fastify 5、React 19、Vite 7、`node:sqlite`。Web 包约 955 kB（gzip 290 kB），地球贴图 1.2 MB 且仅由地球模块加载。
+实现约 350 个受版本管理的源码/文档文件；Node.js 24、TypeScript strict、Fastify 5、React 19、Vite 7、`node:sqlite`。Web 包约 955 kB（gzip 290 kB），地球贴图 1.2 MB 且仅由地球模块加载。
 
 评测以功能为主，而非用户研究：
 
-- **测试**：184 项单元/集成测试通过，覆盖编排模式、逐模型停止、档位映射、Chat、文件抽取/转换、太阳位置、凭证、记忆、预算与工作流。
+- **测试**：187 项单元/集成测试通过，覆盖编排模式、逐模型停止、档位映射、Chat、文件抽取/转换、太阳位置、凭证、记忆、预算与工作流。
 - **端到端**：隔离实例中，假 OpenAI 兼容模型返回 6 个文件块，系统产出 Markdown 212B、CSV 101B、DOCX 9.7KB、XLSX 16.3KB、PPTX 51.7KB、PDF 14KB；校验 ZIP 容器、解压 XML、表格行、幻灯片文本与 `%PDF-` 签名；Chat、多轮、逐模型停止经 HTTP 与浏览器实测。
 - **太阳精度**：4 项测试覆盖春分、至点赤纬、每小时西移 15° 与经度边界；渲染日下点与独立 NOAA 计算一致。
 - **界面**：无头浏览器确认文件页签、下载链接、中文文件名、Chat 产物、地球 hero↔mini 过渡且无控制台报错。
@@ -309,15 +309,3 @@ Super Work 以 Apache-2.0 开源。我们邀请模型厂商、基础设施工程
 5. **证据**：公开的多模型质量/成本/延迟基准与可复现提示词。
 
 我们尤其欢迎 Provider 适配、文档渲染、WebGL 性能、安全审计、中英文文档与评测方法的贡献。治理模型、贡献指南与 issue 模板都在仓库中；任何人都可以 fork、提出修改并参与讨论。
-
-## 附录：参与方式与复现
-
-- **仓库**：https://github.com/zengpu987-ctrl/super-work（Apache-2.0）。
-- **开始**：fork → 新建分支 → `pnpm install && pnpm build:all && pnpm test` → 提交 PR；文档改动可直接在 GitHub 网页完成。
-- **复现**：`SUPER_WORK_HOME=/tmp/sw-paper pnpm start`，打开 `http://127.0.0.1:7788`，无需 API Key 即可用演示模型跑通。
-- **数据**：运行记录与产物在 `~/.super-work/`；凭证 AES-256-GCM 加密，不随仓库分发。
-- **合作**：Provider 适配、DOCX/PPTX 模板、HTML→PDF、WebGL 性能、安全审计、基准评测与翻译。
-- **商标**：代码以 Apache-2.0 授权；「Super Work」名称与 Logo 为项目商标，派生分发不得暗示官方背书。
-- **引用**：`CITATION.cff` 与 `paper/super-work-paper.pdf`。
-
-> 中文部分引用同英文参考文献（1–12），不重复列出。

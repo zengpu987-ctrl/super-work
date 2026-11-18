@@ -73,7 +73,7 @@ DeepSeek 模型可通过统一文件协议交付成品（不需要函数调用�
 
 - 开发环境：**DeepSeek Harness（DSH）** + `deepseek-flash` 智能体；模型负责代码实现、测试、UI 走查与文档；
 - 工作方式：先用 `pnpm test`/隔离实例建立可复现证据，再改代码；每个功能配套截图或端到端验证；
-- 验证基线：184 项测试、`pnpm build:all`、隔离端口 + 假模型/演示模型 e2e；
+- 验证基线：187 项测试、`pnpm build:all`、隔离端口 + 假模型/演示模型 e2e；
 - 代码风格：TypeScript strict、ESM、无原生依赖；提交信息采用 `feat/fix/docs(scope)`；
 - 可复现：`SUPER_WORK_HOME=/tmp/sw-dev pnpm dev`，不触碰真实用户数据；
 - 安全：不在日志/截图/issue 中出现 Key；真实凭证只存本机加密库。

@@ -6,7 +6,7 @@
 
 - [ ] `pnpm typecheck`
 - [ ] `pnpm build:all`
-- [ ] `pnpm test`（184+ 项）
+- [ ] `pnpm test`（187+ 项）
 - [ ] UI 变更附截图/录屏
 - [ ] 无真实密钥、token、用户数据
 

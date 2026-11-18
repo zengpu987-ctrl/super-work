@@ -12,10 +12,10 @@ Super Work 是一个**跑在你自己电脑上的独立网站**：启动后浏�
 [![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
 ![modes](https://img.shields.io/badge/modes-8-6d5efc)
 ![providers](https://img.shields.io/badge/providers-14-22d3ee)
-![tests](https://img.shields.io/badge/tests-184-10b981)
+![tests](https://img.shields.io/badge/tests-187-10b981)
 [![Paper](https://img.shields.io/badge/paper-中英双语-1f6b55)](paper/super-work-paper.pdf)
 
-> **开源仓库**：https://github.com/zengpu987-ctrl/super-work · **许可证**：Apache-2.0  
+> **开源仓库**：https://github.com/zengpu987-ctrl/super-work · **文档站**：https://zengpu987-ctrl.github.io/super-work/ · **许可证**：Apache-2.0  
 > **使用说明**：[docs/USER-GUIDE.md](docs/USER-GUIDE.md) · **DeepSeek 细节**：[docs/DEEPSEEK.md](docs/DEEPSEEK.md)  
 > **中英双语论文**：[paper/super-work-paper.pdf](paper/super-work-paper.pdf) · **评测报告**：[docs/SOFTWARE-EVALUATION.md](docs/SOFTWARE-EVALUATION.md)  
 > **共建**：欢迎 Provider、文档排版、3D、安全、评测与翻译贡献，见 [CONTRIBUTING.md](CONTRIBUTING.md)、[ROADMAP.md](ROADMAP.md)、[COMMUNITY](docs/COMMUNITY.md)。
@@ -192,7 +192,7 @@ Claude Opus/Sonnet 5.5、GLM-5.3、Qwen4-Max、Gemini 3.1 Pro、Grok 4.7、MiniM
                     ┌───────────────────────┼────────────────────────┐
                     ▼                       ▼                        ▼
             packages/orchestrator   packages/providers        node:sqlite 存储
-            (5 种协作模式)          (14 家适配器)             凭证 AES-256-GCM 加密
+            (8 种协作模式)          (14 家适配器)             凭证 AES-256-GCM 加密
 ```
 
 - `packages/core`：唯一契约（类型、模型目录、事件、DTO）。
@@ -267,7 +267,7 @@ http://127.0.0.1:12334
 ```bash
 pnpm build        # tsc -b（core → providers/orchestrator/memory/workflow → server）
 pnpm build:web    # 前端产物 apps/web/dist（含离线 three.js 预置）
-pnpm test         # 各包单元测试（184 项）
+pnpm test         # 各包单元测试（187 项）
 pnpm smoke        # v0.0.1 冒烟：隔离实例 + 演示模型跑一次议会
 pnpm smoke:v2     # v0.0.2 冒烟：中转站预设/强度/并行/配合严格性/记忆/工作流/计费
 pnpm build:mac    # 构建 apps/mac/build/Super Work.app
@@ -282,7 +282,7 @@ pnpm build:mac    # 构建 apps/mac/build/Super Work.app
 
 已实现：并行/配合两种模式、8 角色分工、5 档强度（运行中可调）、14 家 + 3 款中转站、
 中转站自助导入、计费/上下文/记忆/工作流四个系统、生图与 3D 代码产物、原生 Mac 应用、
-184 个单元测试 + 三套端到端冒烟。
+187 个单元测试 + 三套端到端冒烟。
 
 尚未实现：多用户与云端部署、工具调用（联网/表格）、对话式多轮上下文、文件输入、
 Gemini/Claude 官方 CLI 登录流、WorkBuddy token 自动刷新（过期需重新导入）、

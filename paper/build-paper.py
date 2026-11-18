@@ -85,9 +85,9 @@ def add_inline(p, text, size=10.5, color=INK, italic=False):
             set_font(r, size, False, color, italic)
 
 
-def body(text, size=10.2, first_indent=True, space_after=2):
+def body(text, size=10.0, first_indent=True, space_after=2):
     p = doc.add_paragraph()
-    p.paragraph_format.line_spacing = 1.3
+    p.paragraph_format.line_spacing = 1.27
     p.paragraph_format.space_after = Pt(space_after)
     if first_indent:
         p.paragraph_format.first_line_indent = Cm(0.55)
