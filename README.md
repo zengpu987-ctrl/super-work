@@ -129,7 +129,7 @@ v0.0.2（本版，界面由 Kimi K3.1 Pro 评审驱动）：
 | 中转站 | 接入方式 | 说明 |
 |---|---|---|
 | **WorkBuddy** | 自动读取本机登录态（国内 / 国际） | 上游目录 30+ 模型（Kimi-K3.1-Pro、GLM-5.3、DeepSeek-V4-Pro、Hunyuan Image…），按积分倍率计费，生图可用 |
-| **贾维斯官网** | 设置 → 中转站 → 填 Base URL + API Key | 自动 `GET /models` 拉取，勾选导入 |
+| **贾维斯官网（我的贾维斯）** | 设置 → 中转站 → Base URL 已预填 `https://api.aijws.com/v1`，填 API Key | 自动 `GET /models`；本机 DSH 的 JWS/JWS1 Key 可复用，见 [docs/JARVIS.md](docs/JARVIS.md) |
 | **Devin** | 同上 | 任意 OpenAI 兼容端点；也能接自定义 one-api / OpenRouter / 自建网关 |
 
 导入后的模型会出现在模型池（按站点分组），可直接用于并行或配合模式。

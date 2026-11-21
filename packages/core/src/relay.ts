@@ -21,10 +21,11 @@ export interface RelayPreset {
 export const RELAY_PRESETS: RelayPreset[] = [
   {
     id: "jarvis",
-    name: "贾维斯官网",
+    name: "贾维斯官网（我的贾维斯）",
     kind: "openai-compat",
-    baseUrl: "",
-    note: "OpenAI 兼容中转站。填入站点 Base URL（通常以 /v1 结尾）与 API Key，即可自动拉取模型列表。",
+    baseUrl: "https://api.aijws.com/v1",
+    docsUrl: "https://api.aijws.com",
+    note: "OpenAI 兼容中转站。默认 Base URL 已填 https://api.aijws.com/v1；填入 API Key 后自动拉取 Claude / GPT 模型。本机 DSH 的 JWS_API_KEY / JWS1_API_KEY 可直接复用（见 docs/JARVIS.md）。",
     requiresKey: true,
   },
   {
