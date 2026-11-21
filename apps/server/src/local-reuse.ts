@@ -145,6 +145,31 @@ function materialize(settings: AppSettings): Materialized[] {
       }
     }
 
+    const dsAccountToken = str(
+      (dsh.records?.["deepseek-account-platform/default"]?.payload as Record<string, unknown> | undefined)?.token,
+    );
+    if (dsAccountToken) {
+      out.push({
+        account: {
+          id: "dsh:deepseek-account",
+          provider: "deepseek-account",
+          mode: "token",
+          label: "DeepSeek V4.1 Flash（DSH 账户）",
+          source: "dsh-credentials",
+          usable: true,
+          detail: "复用 DSH 的 DeepSeek Account 登录态（x-dsh-auth-token）",
+        },
+        credential: {
+          provider: "deepseek-account",
+          mode: "token",
+          source: "local",
+          baseUrl: "https://api.deepseek.com/anthropic/v1",
+          pasted: { access: dsAccountToken, kind: "bearer" },
+          label: "DeepSeek 账户（DSH）",
+        },
+      });
+    }
+
     const deepseekKey = str(dsh.refs?.["DEEPSEEK_API_KEY"]);
     if (deepseekKey) {
       out.push({

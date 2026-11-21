@@ -64,6 +64,37 @@ export const PROVIDERS: ProviderMeta[] = [
     ],
   },
   {
+    id: "deepseek-account",
+    name: "DeepSeek 账户（DSH）",
+    short: "DA",
+    color: "#4d6bfe",
+    kind: "anthropic",
+    defaultBaseUrl: "https://api.deepseek.com/anthropic/v1",
+    docsUrl: "https://platform.deepseek.com/",
+    authModes: ["local", "token"],
+    subscription: {
+      kind: "token",
+      label: "DSH DeepSeek 账户",
+      note: "复用 DSH 的 DeepSeek Account 登录态（x-dsh-auth-token），不经过 API Key；在 DSH 登录后于“本机登录”导入。",
+    },
+    defaultPool: false,
+    note: "账户通道：V4.1 Flash 的模型 ID 是 deepseek-flash（1M 上下文 / 原生多模态）；与 DeepSeek API Key 通道分开。",
+    models: [
+      m("deepseek-account", "deepseek-flash", "DeepSeek V4.1 Flash（DSH 账户）", {
+        contextWindow: 1000000,
+        maxOutputTokens: 128000,
+        reasoning: true,
+        vision: true,
+      }),
+      m("deepseek-account", "deepseek-v4-pro", "DeepSeek V4 Pro（DSH 账户）", {
+        contextWindow: 1000000,
+        maxOutputTokens: 128000,
+        reasoning: true,
+        vision: true,
+      }),
+    ],
+  },
+  {
     id: "kimi",
     name: "KIMI",
     short: "KM",

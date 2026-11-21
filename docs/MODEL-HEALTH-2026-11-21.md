@@ -2,6 +2,8 @@
 
 > 检查时间：2026-11-21 22:30–22:56（Asia/Shanghai）  
 > 方式：隔离实例（复制本机数据）+ 逐模型真实 chat 调用；修复后对剩余可选项全量复测  
+> **2026-11-21 23:10 追加**：新增 `deepseek-account`（DSH 账户）通道；V4.1 Flash 与 V4 Pro 各一次真实调用通过。当前文本健康池 **60/60**，可见模型 91、可用 62。详见 [DEEPSEEK-ACCOUNT.md](DEEPSEEK-ACCOUNT.md)。
+
 > 证据：`docs/model-health-2026-11-21.json`
 
 ## 1. 最终结论

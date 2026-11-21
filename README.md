@@ -11,12 +11,12 @@ Super Work 是一个**跑在你自己电脑上的独立网站**：启动后浏�
 [![CI](https://github.com/zengpu987-ctrl/super-work/actions/workflows/ci.yml/badge.svg)](https://github.com/zengpu987-ctrl/super-work/actions/workflows/ci.yml)
 [![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
 ![modes](https://img.shields.io/badge/modes-8-6d5efc)
-![providers](https://img.shields.io/badge/providers-14-22d3ee)
-![tests](https://img.shields.io/badge/tests-187-10b981)
+![providers](https://img.shields.io/badge/providers-15-22d3ee)
+![tests](https://img.shields.io/badge/tests-190-10b981)
 [![Paper](https://img.shields.io/badge/paper-中英双语-1f6b55)](paper/super-work-paper.pdf)
 
 > **开源仓库**：https://github.com/zengpu987-ctrl/super-work · **文档站**：https://zengpu987-ctrl.github.io/super-work/ · **许可证**：Apache-2.0  
-> **使用说明**：[docs/USER-GUIDE.md](docs/USER-GUIDE.md) · **DeepSeek 细节**：[docs/DEEPSEEK.md](docs/DEEPSEEK.md)  
+> **使用说明**：[docs/USER-GUIDE.md](docs/USER-GUIDE.md) · **DeepSeek 细节**：[docs/DEEPSEEK.md](docs/DEEPSEEK.md) · **DSH 账户 V4.1 Flash**：[docs/DEEPSEEK-ACCOUNT.md](docs/DEEPSEEK-ACCOUNT.md)  
 > **中英双语论文**：[paper/super-work-paper.pdf](paper/super-work-paper.pdf) · **评测报告**：[docs/SOFTWARE-EVALUATION.md](docs/SOFTWARE-EVALUATION.md)  
 > **共建**：欢迎 Provider、文档排版、3D、安全、评测与翻译贡献，见 [CONTRIBUTING.md](CONTRIBUTING.md)、[ROADMAP.md](ROADMAP.md)、[COMMUNITY](docs/COMMUNITY.md)。
 
@@ -151,7 +151,7 @@ Claude Opus/Sonnet 5.5、GLM-5.3、Qwen4-Max、Gemini 3.1 Pro、Grok 4.7、MiniM
 连接平台后，点顶部工具条的 **「同步模型」**（或 `POST /api/models/refresh`）即可从各家上游拉取最新目录，
 合并进模型池（中转站 / WorkBuddy 也会一起刷新）。
 
-### 14 家模型，三种凭证
+### 15 家模型，三种凭证
 
 | 平台 | API Key | 订阅账户 | 说明 |
 |---|---|---|---|
@@ -200,7 +200,7 @@ Claude Opus/Sonnet 5.5、GLM-5.3、Qwen4-Max、Gemini 3.1 Pro、Grok 4.7、MiniM
                     ┌───────────────────────┼────────────────────────┐
                     ▼                       ▼                        ▼
             packages/orchestrator   packages/providers        node:sqlite 存储
-            (8 种协作模式)          (14 家适配器)             凭证 AES-256-GCM 加密
+            (8 种协作模式)          (15 家适配器)             凭证 AES-256-GCM 加密
 ```
 
 - `packages/core`：唯一契约（类型、模型目录、事件、DTO）。
@@ -229,7 +229,7 @@ Claude Opus/Sonnet 5.5、GLM-5.3、Qwen4-Max、Gemini 3.1 Pro、Grok 4.7、MiniM
 
 - **许可证**：Apache-2.0；第三方组件与素材见 [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md)。
 - **论文**：中英双语 12 页，[PDF](paper/super-work-paper.pdf) / [源文](paper/super-work-paper.md)。
-- **模型健康**：[2026-11-21 全模型逐项自检](docs/MODEL-HEALTH-2026-11-21.md)（修复后 58/58 文本模型通过；14 个不可用项已下架/禁用；2 图片模型未测；29 未连接）。
+- **模型健康**：[2026-11-21 全模型逐项自检](docs/MODEL-HEALTH-2026-11-21.md)（修复后 60/60 文本模型通过；14 个不可用项已下架/禁用；2 图片模型未测；29 未连接）。
 - **使用说明**：[全功能手册](docs/USER-GUIDE.md)；**评测报告**：[SOFTWARE-EVALUATION.md](docs/SOFTWARE-EVALUATION.md)。
 - **DeepSeek**：[接入、参数、计费与开发工作细节](docs/DEEPSEEK.md)。
 - **如何参与**：fork + PR（文档可在 GitHub 网页直接改）；讨论区、Wiki、Codespaces 与维护者路径见 [docs/COMMUNITY.md](docs/COMMUNITY.md)。
@@ -289,7 +289,7 @@ pnpm build:mac    # 构建 apps/mac/build/Super Work.app
 
 ## v0.0.2 边界
 
-已实现：并行/配合两种模式、8 角色分工、5 档强度（运行中可调）、14 家 + 3 款中转站、
+已实现：并行/配合两种模式、8 角色分工、5 档强度（运行中可调）、15 家 + 3 款中转站、
 中转站自助导入、计费/上下文/记忆/工作流四个系统、生图与 3D 代码产物、原生 Mac 应用、
 187 个单元测试 + 三套端到端冒烟。
 

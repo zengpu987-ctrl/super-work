@@ -10,6 +10,7 @@
  */
 import type { Credential, ModelInfo, ProviderAdapter, ProviderId } from "@super-work/core";
 import { AnthropicAdapter } from "./anthropic.js";
+import { DeepSeekAccountAdapter } from "./deepseek-account.js";
 import { ProviderConfigError } from "./errors.js";
 import { GeminiAdapter } from "./gemini.js";
 import { KimiHybridAdapter, KimiSubscriptionAdapter } from "./kimi-subscription.js";
@@ -115,6 +116,11 @@ export {
 export type { AnthropicAdapterOptions } from "./anthropic.js";
 
 export {
+  DeepSeekAccountAdapter,
+  createDeepSeekAccountAdapter,
+} from "./deepseek-account.js";
+
+export {
   GeminiAdapter,
   createGeminiAdapter,
   geminiInlinePart,
@@ -199,6 +205,8 @@ export function createAdapter(id: ProviderId, opts: AdapterOptions = {}): Provid
       return new MockAdapter({ models: opts.models, timeoutMs: opts.timeoutMs });
     case "anthropic":
       return new AnthropicAdapter(opts);
+    case "deepseek-account":
+      return new DeepSeekAccountAdapter(opts);
     case "gemini":
       return new GeminiAdapter(opts);
     case "kimi":
@@ -263,6 +271,8 @@ export function adapterForCall(
       return new MockAdapter();
     case "anthropic":
       return new AnthropicAdapter();
+    case "deepseek-account":
+      return new DeepSeekAccountAdapter();
     case "gemini":
       return new GeminiAdapter();
     case "openai":

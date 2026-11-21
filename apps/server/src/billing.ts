@@ -18,6 +18,8 @@ import type { Logger } from "./log.js";
 export const DEFAULT_PRICES: ModelPrice[] = [
   { provider: "deepseek", model: "deepseek-v4-pro", currency: "CNY", inputPerMTokens: 4, outputPerMTokens: 16 },
   { provider: "deepseek", model: "deepseek-v4.1-flash", currency: "CNY", inputPerMTokens: 1, outputPerMTokens: 4 },
+  { provider: "deepseek-account", model: "deepseek-flash", currency: "CNY", inputPerMTokens: 0.5, outputPerMTokens: 2 },
+  { provider: "deepseek-account", model: "deepseek-v4-pro", currency: "CNY", inputPerMTokens: 4, outputPerMTokens: 16 },
   { provider: "deepseek", model: "deepseek-flash", currency: "CNY", inputPerMTokens: 0.5, outputPerMTokens: 2 },
   { provider: "kimi", model: "kimi-k3.1-pro", currency: "CNY", inputPerMTokens: 4, outputPerMTokens: 16 },
   { provider: "kimi", model: "k3.1-pro", currency: "CNY", inputPerMTokens: 4, outputPerMTokens: 16 },

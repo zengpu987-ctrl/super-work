@@ -122,6 +122,7 @@ const VIEWPOINTS: Record<ViewpointKey, Viewpoint> = {
 /** 没有显式角色时，按 provider 选默认视角（让不同模型说不同话）。 */
 const PROVIDER_VIEWPOINT: Record<ProviderId, ViewpointKey> = {
   deepseek: "verify",
+  "deepseek-account": "verify",
   kimi: "code",
   openai: "synthesis",
   anthropic: "analysis",
@@ -140,6 +141,7 @@ const PROVIDER_VIEWPOINT: Record<ProviderId, ViewpointKey> = {
 /** provider 的口头禅，用来进一步区分措辞。 */
 const PROVIDER_FLAVOR: Record<ProviderId, string> = {
   deepseek: "先把每一步前提到台面上：",
+  "deepseek-account": "先把每一步前提到台面上：",
   kimi: "按工程落地顺序说：",
   openai: "综合各方之后：",
   anthropic: "从风险与边界看：",

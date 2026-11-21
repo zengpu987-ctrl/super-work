@@ -17,6 +17,7 @@ export interface BrandIconMeta {
 
 export const BRAND_ICONS: Partial<Record<ProviderId, BrandIconMeta>> = {
   deepseek: { src: "/brand/deepseek.svg", tint: "#4d6bfe" },
+  "deepseek-account": { src: "/brand/deepseek.svg", tint: "#4d6bfe" },
   kimi: { src: "/brand/kimi.svg", tint: "#1783ff" },
   openai: { src: "/brand/openai.svg", tint: "#10a37f" },
   anthropic: { src: "/brand/claude.svg", tint: "#d97757" },

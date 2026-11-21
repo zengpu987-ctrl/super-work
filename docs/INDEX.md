@@ -16,6 +16,7 @@
 
 ## 模型与平台
 - [DeepSeek 工作细节](DEEPSEEK.md)
+- [DeepSeek 账户（DSH）V4.1 Flash](DEEPSEEK-ACCOUNT.md)
 - [贾维斯（我的贾维斯）接入](JARVIS.md)
 - [模型目录](MODELS.md)
 

@@ -6,6 +6,7 @@
 
 export type ProviderId =
   | "deepseek"
+  | "deepseek-account"
   | "kimi"
   | "openai"
   | "anthropic"
