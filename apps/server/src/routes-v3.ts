@@ -10,6 +10,7 @@ import {
   type PluginInfo,
 } from "@super-work/core";
 import { applyKeywords, type PluginService, type UploadStore } from "./v3.js";
+import { executePluginAction } from "./pluginActions.js";
 import type { BillingService } from "./billing.js";
 import type { CredentialManager } from "./credentials.js";
 import type { Storage } from "./storage.js";
@@ -167,6 +168,50 @@ export async function registerV3Routes(app: FastifyInstance, deps: RoutesV3Deps)
     } catch (error) {
       return reply.code(400).send({ error: { code: "plugin_test_failed", message: safeErrorMessage(error) } });
     }
+  });
+
+  app.post("/api/plugins/:id/action", async (req, reply) => {
+    const { id } = req.params as { id: string };
+    const body = (req.body ?? {}) as { actionId?: string; inputs?: Record<string, string> };
+    if (!body.actionId) return bad(reply, "缺少 actionId");
+    const settings = deps.getSettings();
+    const list = await plugins.list(settings, false);
+    const plugin = list.find((item) => item.id === id);
+    if (!plugin) return reply.code(404).send({ error: { code: "not_found", message: "插件不存在" } });
+    const action = (plugin.actions ?? []).find((item) => item.id === body.actionId);
+    if (!action) return bad(reply, `插件 ${plugin.name} 没有动作 ${body.actionId}`);
+    const inputs = Object.fromEntries(
+      Object.entries(body.inputs ?? {}).map(([key, value]) => [key, typeof value === "string" ? value : String(value ?? "")]),
+    );
+    const result = await executePluginAction(plugin, action, inputs, {
+      paths: deps.paths,
+      uploads,
+      log: deps.log,
+    });
+    return { plugin, action, result };
+  });
+
+  app.get("/api/plugins/files/:name", async (req, reply) => {
+    const { name } = req.params as { name: string };
+    if (!/^[A-Za-z0-9_.-]+$/.test(name) || name.includes("..")) return bad(reply, "非法文件名");
+    const full = path.join(deps.paths.home, "plugin-output", name);
+    if (!fs.existsSync(full)) return reply.code(404).send({ error: { code: "not_found", message: "插件产物不存在" } });
+    const ext = path.extname(name).toLowerCase();
+    const type =
+      ext === ".mp4"
+        ? "video/mp4"
+        : ext === ".webm"
+          ? "video/webm"
+          : ext === ".png"
+            ? "image/png"
+            : ext === ".jpg"
+              ? "image/jpeg"
+              : ext === ".html"
+                ? "text/html; charset=utf-8"
+                : ext === ".md"
+                  ? "text/markdown; charset=utf-8"
+                  : "application/octet-stream";
+    return reply.type(type).send(fs.readFileSync(full));
   });
 
   app.get("/api/plugins/:id/logs", async (req, reply) => {

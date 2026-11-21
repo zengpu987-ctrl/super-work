@@ -259,33 +259,33 @@ export function defaultActionFor(type: KeywordAction["type"], fallback?: Partici
 /* ---------------------------------------------------------------- 插件 */
 
 export const PLUGIN_KIND_LABEL: Record<PluginKind, string> = {
-  native: "已原生迁移",
-  bridge: "桥接可运行",
-  "ui-only": "仅 DSH UI",
-  unsupported: "暂不支持",
+  native: "原生",
+  bridge: "桥接",
+  "ui-only": "原生适配",
+  unsupported: "宿主适配",
 };
 
 export const PLUGIN_STATUS_LABEL: Record<PluginStatus, string> = {
   migrated: "已迁移",
   "bridge-ready": "桥接就绪",
+  adapted: "已适配",
+  linked: "可跳转",
   pending: "待迁移",
   failed: "失败",
 };
 
 export function pluginStatusTone(plugin: PluginInfo): "ok" | "warn" | "err" | "muted" {
-  if (plugin.kind === "unsupported") return "muted";
-  if (plugin.kind === "ui-only") return "warn";
   if (plugin.lastTest) return plugin.lastTest.ok ? "ok" : "err";
   if (plugin.status === "failed") return "err";
-  if (plugin.status === "migrated" || plugin.status === "bridge-ready") return "ok";
+  if (plugin.status === "migrated" || plugin.status === "bridge-ready" || plugin.status === "adapted") return "ok";
+  if (plugin.status === "linked") return "warn";
   if (plugin.status === "pending") return "warn";
-  return "muted";
+  return plugin.kind === "unsupported" ? "muted" : "ok";
 }
 
 /** unsupported / ui-only 不应显示成「失败」，用迁移口径展示。 */
 export function pluginStatusLabel(plugin: PluginInfo): string {
-  if (plugin.kind === "unsupported") return "不适用";
-  if (plugin.kind === "ui-only" && plugin.status !== "failed") return "仅 DSH";
+  if (plugin.status === "failed") return "失败";
   return PLUGIN_STATUS_LABEL[plugin.status] ?? plugin.status;
 }
 

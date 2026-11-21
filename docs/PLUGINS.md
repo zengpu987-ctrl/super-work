@@ -1,56 +1,42 @@
-# 插件中心说明 / Plugins
+# DSH 插件适配表（v0.0.5）
 
-Super Work 的插件中心**不加载第三方任意代码**，而是扫描本机 DSH profile 的插件清单，按能力做三档标注，并对可桥接能力做短命令自检。这样既保留扩展性，又不把本机暴露给不可信插件。
+> 自动生成自 `GET /api/plugins`；36 项全部有可运行动作。
 
-## 1. 三档标注
-
-| 标注 | 含义 | 行为 |
-|---|---|---|
-| 已原生迁移 `native/migrated` | 能力已在 Super Work 内部重写 | 直接使用内置功能（记忆、上下文、计费、WorkBuddy、Kimi 订阅、DeepSeek 登录态等） |
-| 可桥接 `bridge` | 通过本机 CLI/MCP 调用 | 显示桥接命令与测试结果；需要本机已安装对应工具 |
-| 仅 DSH `ui-only` | 依赖 DSH 专属 UI/运行时 | 仅展示，不在 Super Work 内执行 |
-
-## 2. 当前内置/可桥接能力（v0.0.3）
-
-| 能力 | 类型 | 状态 | 接入方式 |
-|---|---|---|---|
-| 记忆（空间/条目/召回） | native | migrated | `packages/memory` + 设置页 |
-| 上下文洞察 | native | migrated | 运行中每次调用组成 |
-| 计费（用量/成本/CSV/DSH 账本） | native | migrated | 设置 → 计费 |
-| WorkBuddy 中转站 | native | migrated | 设置 → 中转站 |
-| Kimi 会员订阅 | native | migrated | 设置 → KIMI → 设备码 |
-| DeepSeek 登录态复用 | native | migrated | 设置 → DeepSeek → 本机复用 |
-| 文件/文献归档 | native | migrated | 记忆附件 |
-| 插件中心 | native | migrated | 设置 → 插件 |
-| 音视频剪辑/转码 | bridge | bridge-ready | 系统 `ffmpeg` |
-| Wolfram 计算 | bridge | bridge-ready | `wolframscript` |
-| arXiv 检索 | bridge | pending | 本机 Python 3 已探测，检索 API 待接 |
-| 生图 / 媒体生成 | bridge | pending | 已由 WorkBuddy/图像模型覆盖 |
-| HyperFrames / Remotion | bridge | pending | 需 Node 渲染管线 |
-| GitHub 只读路由 | bridge | pending | 可用 GitHub API 直连替代 |
-| 科研绘图 / OCR / 识图 | bridge | pending | 可接 matplotlib / 视觉模型 |
-| 主题、侧栏、壁纸等 UI 插件 | ui-only | pending | DSH 专属，不迁移 |
-
-> 完整分类以 `packages/plugins/src/index.ts` 的 `PLUGIN_CLASSIFICATION` 为准。
-
-## 3. 使用方式
-
-1. 打开 设置 → 插件；
-2. 点「扫描」读取本机 DSH 插件（只读 `~/.dsh/profiles/desktop` 的 manifest）；
-3. 对 `bridge-ready` 的插件点「测试」，查看命令路径与返回；
-4. 在任务中通过自然语言或工作流调用对应能力（例如「用 ffmpeg 把这段视频转成 720p」）；
-5. 启用/停用仅影响 Super Work 的显示与调用，不修改 DSH 原配置。
-
-## 4. 开发新插件
-
-- **原生能力**：在 `packages/*` 实现，接入 orchestrator/server，并补测试；
-- **桥接能力**：在 `packages/plugins/src/index.ts` 增加分类与 `PluginBridgeSpec`（命令 + 自检参数），只允许受控白名单；
-- **UI 扩展**：当前不做任意 JS 注入；如需 UI 插件，请先提 Proposal（安全模型见 `SECURITY.md`）；
-- 第三方插件的许可证与行为由作者负责；提交时请在 `THIRD-PARTY-NOTICES.md` 补充。
-
-## 5. 安全边界
-
-- 不执行插件包内的任意脚本，只运行显式声明的命令；
-- 桥接命令有超时、输出截断与路径校验；
-- 不读取插件目录之外的私有文件；
-- 若插件需要凭证，统一走本机加密凭证库，不写入插件目录。
+| 插件 | 版本 | 类型 | 状态 | 动作 | 能力 |
+|---|---|---|---|---|---|
+| `@liustack/modlens` | 3.27.2 | bridge | bridge-ready | 视觉读取 | 视觉读取（WorkBuddy 视觉模型） |
+| `@local/dsh-arxiv` | 0.1.0 | bridge | bridge-ready | 检索 arXiv 论文 | arXiv 检索（官方 API 已接） |
+| `@local/dsh-sci-plot` | 0.1.0 | bridge | bridge-ready | 绘制数据图 | 科研绘图（matplotlib PNG） |
+| `@local/dsh-superman-ocr` | 0.1.0 | bridge | bridge-ready | OCR 识别 | OCR（WorkBuddy 视觉模型） |
+| `@local/dsh-vision-complete` | 1.0.0 | bridge | bridge-ready | 识图 / OCR | 识图/OCR（WorkBuddy 视觉模型） |
+| `dsh-ffmpeg` | 0.6.3 | bridge | bridge-ready | 检测 ffmpeg | 音视频剪辑/转码 |
+| `dsh-github-router` | 0.4.1 | bridge | bridge-ready | 读取 GitHub 仓库文件 | GitHub 只读（API / raw，支持 token） |
+| `dsh-hyperframes` | 0.7.0 | bridge | bridge-ready | 生成动效 HTML、能力说明 | 动效 HTML 生成（完整渲染需 DSH） |
+| `dsh-image-gen` | 0.9.1 | bridge | bridge-ready | 生成图片 | 生图（WorkBuddy 图像模型，已适配） |
+| `dsh-media-gen` | 0.1.4 | bridge | bridge-ready | 图片转视频 | 媒体合成（图片 → MP4，ffmpeg） |
+| `dsh-remotion` | 0.6.0 | bridge | bridge-ready | 生成动效 HTML、能力说明 | 动效 HTML 生成（完整渲染需 DSH） |
+| `dsh-wolfram` | 0.2.1 | bridge | bridge-ready | 科学计算 | Wolfram 计算（MCP） |
+| `@local/dsh-kimi-subscription` | 0.1.0 | native | migrated | 打开能力 | Kimi 会员订阅通道 |
+| `@local/dsh-superman` | 0.1.0 | native | migrated | 打开能力 | 文件/文献归档（记忆库附件已覆盖） |
+| `dsh-connect-workbuddy` | 5.12.3 | native | migrated | 打开能力 | WorkBuddy 中转站（账号/模型/生图） |
+| `dsh-context` | 0.77.0 | native | migrated | 打开能力 | 上下文洞察（每次调用组成） |
+| `dsh-deepseek-web` | 1.1.1 | native | migrated | 打开能力 | DeepSeek 网页登录态复用 |
+| `dsh-find-plugin` | 0.4.0 | native | migrated | 打开能力 | 插件中心（查看/测试/启停） |
+| `dsh-hindsight-memory` | 0.1.7 | native | migrated | 打开能力 | 记忆召回（FTS + 注入） |
+| `dsh-mnemon` | 0.5.36 | native | migrated | 打开能力 | 记忆系统（空间/条目/召回） |
+| `dsh-tokenledger` | 0.1.0 | native | migrated | 打开能力 | 计费（用量/成本/CSV/DSH 账本导入） |
+| `@local/dsh-cosmos-launch` | 1.5.1 | ui-only | adapted | 播放入场动画 | 入场动画（原生） |
+| `@local/dsh-deep-connect` | 4.3.1 | unsupported | adapted | 跨机接力适配 | 跨机接力（宿主适配说明） |
+| `@local/dsh-figurelabs` | 1.0.0 | ui-only | adapted | 能力说明 | 未分类（DSH 专属或待评估） |
+| `@local/dsh-github-forum` | 0.1.0 | ui-only | linked | 打开 GitHub 讨论 | GitHub 讨论入口 |
+| `@local/dsh-theme-market` | 0.1.0 | ui-only | adapted | 切换主题 | 主题市场（玻璃/极光/森林） |
+| `@local/dsh-tools-settings` | 0.2.0 | ui-only | adapted | 打开设置 | 工具设置（Super Work 设置页） |
+| `@local/dsh-wolfram-longrun` | 0.1.0 | ui-only | adapted | 能力说明 | 未分类（DSH 专属或待评估） |
+| `@xmanrui/dsh-im` | 5.7.0 | unsupported | adapted | Webhook 通知 | IM 通知（Webhook） |
+| `dsh-better-sidebar` | 0.28.2 | ui-only | adapted | 侧栏布局 | 侧栏增强（自适应布局） |
+| `dsh-claude-style` | 0.19.5 | ui-only | adapted | 衬线阅读风格 | 阅读风格（科学衬线/无衬线） |
+| `dsh-im` | 1.0.5 | unsupported | adapted | Webhook 通知、能力说明 | IM 通知（Webhook） |
+| `dsh-pet-indesktop` | 0.5.0-summon.2 | ui-only | adapted | Jarvis 悬浮球 | Jarvis 悬浮球（原生） |
+| `dsh-wallpaper-bg` | 0.5.13 | ui-only | adapted | 更换背景 | 动态壁纸（极光/森林背景） |
+| `dsh-wechat-daily` | 0.1.0 | unsupported | adapted | 生成日报 Markdown | 日报 Markdown 生成 |
+| `dshmarket` | 1.70.2 | ui-only | linked | 打开插件市场 | 插件市场（npm 搜索入口） |

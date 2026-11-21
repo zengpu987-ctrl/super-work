@@ -290,6 +290,8 @@ export interface StartRunOverrides {
   newThread?: boolean;
 }
 
+type CommandDraft = { text: string };
+
 export interface Workbench {
   /* data */
   providers: ProviderStatus[];
@@ -382,7 +384,13 @@ export interface Workbench {
   budgetLoading: boolean;
   refreshBudget: () => Promise<void>;
   /* v0.0.3 高成本确认 */
-  pendingConfirm: { message: string; detail?: string; payload: CreateRunRequest; source: "budget" } | null;
+  pendingConfirm: {
+    message: string;
+    detail?: string;
+    payload: CreateRunRequest;
+    source: "budget";
+    draft?: CommandDraft;
+  } | null;
   confirmRun: () => Promise<void>;
   cancelConfirm: () => void;
   saveSettingsPatch: (patch: Partial<AppSettings>) => Promise<void>;
@@ -462,7 +470,9 @@ export function useWorkbench(): Workbench {
   const [mode, setModeState] = useState<RunMode>(() => loadMode() ?? "parallel");
   const [chatModel, setChatModelState] = useState<ParticipantSpec | null>(() => loadChatModel());
   const chatModelRef = useRef<ParticipantSpec | null>(chatModel);
-  const [command, setCommand] = useState("");
+  const [commandDraft, setCommandDraft] = useState<CommandDraft>({ text: "" });
+  const command = commandDraft.text;
+  const setCommand = useCallback((text: string) => setCommandDraft({ text }), []);
   const [options, setOptions] = useState(() => loadOptions());
   const [participants, setParticipants] = useState<ParticipantSpec[]>(() => loadParticipants() ?? []);
   const [coordination, setCoordination] = useState<CoordinationState>(() => loadCoordination());
@@ -1548,10 +1558,12 @@ export function useWorkbench(): Workbench {
   );
 
   const launchRun = useCallback(
-    async (payload: CreateRunRequest, force: boolean) => {
+    async (payload: CreateRunRequest, force: boolean, draft?: CommandDraft) => {
       const body = force ? ({ ...payload, force: true } as CreateRunRequest) : payload;
       const created = await api.createRun(body);
       if (!mountedRef.current) return;
+      // An accepted run consumes the submitted draft. Edits made during the request belong to the next run.
+      if (draft) setCommandDraft((current) => (current === draft ? { text: "" } : current));
       completeStart(created.id, payload, {
         threadId: created.run?.threadId ?? payload.threadId ?? created.id,
         round: created.run?.round ?? 1,
@@ -1562,7 +1574,8 @@ export function useWorkbench(): Workbench {
 
   const startRun = useCallback(
     async (overrides?: StartRunOverrides) => {
-      const text = (overrides?.command ?? command).trim();
+      const draft = overrides?.command === undefined ? commandDraft : undefined;
+      const text = (overrides?.command ?? commandDraft.text).trim();
       const runMode = overrides?.mode ?? mode;
       const chat = runMode === "chat";
       const chatSpec = chat ? chatModelRef.current ?? ensureChatModel() : null;
@@ -1668,7 +1681,7 @@ export function useWorkbench(): Workbench {
       if (overrides?.newThread || !runRef.current?.threadId) setPastRounds([]);
       setBusy(true);
       try {
-        await launchRun(payload, false);
+        await launchRun(payload, false, draft);
       } catch (err) {
         if (err instanceof ApiError && err.status === 409) {
           setPendingConfirm({
@@ -1676,6 +1689,7 @@ export function useWorkbench(): Workbench {
             detail: err.detail,
             payload,
             source: "budget",
+            draft,
           });
           return;
         }
@@ -1685,7 +1699,7 @@ export function useWorkbench(): Workbench {
       }
     },
     [
-      command,
+      commandDraft,
       coordinationAssignments,
       followUp,
       judgeSpec,
@@ -1705,7 +1719,7 @@ export function useWorkbench(): Workbench {
     setPendingConfirm(null);
     setBusy(true);
     try {
-      await launchRun(pending.payload, true);
+      await launchRun(pending.payload, true, pending.draft);
     } catch (err) {
       pushToast("error", "确认后仍无法开始运行", errorMessage(err));
     } finally {
@@ -1999,7 +2013,6 @@ export function useWorkbench(): Workbench {
     const demo = demoParticipants();
     setParticipants(demo);
     setModeState("parallel");
-    setCommand(DEMO_COMMAND);
     setPastRounds([]);
     await startRun({ command: DEMO_COMMAND, mode: "parallel", participants: demo, newThread: true });
   }, [startRun]);

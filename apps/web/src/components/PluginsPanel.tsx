@@ -1,6 +1,6 @@
 /** 设置 → 插件：DSH 插件表格（名称/版本/类型/状态/启用/测试/日志）。 */
 import { useCallback, useEffect, useMemo, useState } from "react";
-import type { PluginInfo, PluginKind } from "@super-work/core";
+import type { PluginAction, PluginInfo, PluginKind } from "@super-work/core";
 import { api, errorMessage, isApiError } from "../lib/api";
 import { formatRelative } from "../lib/format";
 import {
@@ -16,9 +16,11 @@ import {
   IconPlug,
   IconRefresh,
   IconSearch,
+  IconTerminal,
   IconX,
 } from "./Icons";
 import { PaddleSwitch } from "./PaddleSwitch";
+import { RichText } from "./RichText";
 
 export interface PluginsPanelProps {
   pushToast: (kind: "info" | "success" | "error" | "warn", message: string, detail?: string) => void;
@@ -28,8 +30,8 @@ const KIND_FILTERS: Array<{ value: PluginKind | "all"; label: string }> = [
   { value: "all", label: "全部类型" },
   { value: "native", label: "已迁移" },
   { value: "bridge", label: "桥接可运行" },
-  { value: "ui-only", label: "仅 DSH UI" },
-  { value: "unsupported", label: "暂不支持" },
+  { value: "ui-only", label: "原生适配" },
+  { value: "unsupported", label: "宿主适配" },
 ];
 
 export function PluginsPanel({ pushToast }: PluginsPanelProps) {
@@ -42,6 +44,10 @@ export function PluginsPanel({ pushToast }: PluginsPanelProps) {
   const [testingId, setTestingId] = useState<string | null>(null);
   const [togglingId, setTogglingId] = useState<string | null>(null);
   const [testOutputs, setTestOutputs] = useState<Record<string, string>>({});
+  const [runner, setRunner] = useState<{ plugin: PluginInfo; action: PluginAction } | null>(null);
+  const [actionInputs, setActionInputs] = useState<Record<string, string>>({});
+  const [actionBusy, setActionBusy] = useState(false);
+  const [actionResult, setActionResult] = useState<import("@super-work/core").PluginActionResponse | null>(null);
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -83,8 +89,8 @@ export function PluginsPanel({ pushToast }: PluginsPanelProps) {
       total: list.length,
       native: list.filter((item) => item.kind === "native").length,
       bridge: list.filter((item) => item.kind === "bridge").length,
-      uiOnly: list.filter((item) => item.kind === "ui-only").length,
-      unsupported: list.filter((item) => item.kind === "unsupported").length,
+      adapted: list.filter((item) => item.status === "adapted").length,
+      linked: list.filter((item) => item.status === "linked").length,
       failed: list.filter((item) => item.lastTest?.ok === false).length,
       enabled: list.filter((item) => item.enabled).length,
     };
@@ -140,6 +146,91 @@ export function PluginsPanel({ pushToast }: PluginsPanelProps) {
     }
   };
 
+  const openRunner = (plugin: PluginInfo): void => {
+    const action = plugin.actions?.[0];
+    if (!action) {
+      pushToast("warn", `${plugin.name} 没有可运行动作`);
+      return;
+    }
+    const defaults: Record<string, string> = {};
+    for (const field of action.fields ?? []) defaults[field.name] = field.defaultValue ?? "";
+    setActionInputs(defaults);
+    setActionResult(null);
+    setRunner({ plugin, action });
+  };
+
+  const selectAction = (action: PluginAction): void => {
+    if (!runner) return;
+    const defaults: Record<string, string> = {};
+    for (const field of action.fields ?? []) defaults[field.name] = field.defaultValue ?? "";
+    setActionInputs(defaults);
+    setActionResult(null);
+    setRunner({ ...runner, action });
+  };
+
+  const applyNative = (result: import("@super-work/core").PluginActionResponse): void => {
+    const data = (result.data ?? {}) as { theme?: string; font?: string; on?: boolean };
+    if (result.native === "appearance") {
+      if (data.theme) {
+        document.documentElement.dataset.swTheme = data.theme;
+        window.localStorage.setItem("superwork.theme", data.theme);
+      }
+      if (data.font) {
+        document.documentElement.dataset.swFont = data.font;
+        window.localStorage.setItem("superwork.font", data.font);
+      }
+    }
+    if (result.native === "pet") {
+      const existing = document.querySelector(".jarvis-orb");
+      if (data.on === false) {
+        existing?.remove();
+      } else if (!existing) {
+        const orb = document.createElement("div");
+        orb.className = "jarvis-orb";
+        orb.setAttribute("aria-hidden", "true");
+        document.body.appendChild(orb);
+      }
+      window.localStorage.setItem("superwork.pet", data.on === false ? "off" : "on");
+    }
+    if (result.native === "launch") {
+      const shell = document.querySelector(".app-shell");
+      if (shell) {
+        shell.classList.remove("is-launching");
+        void (shell as HTMLElement).offsetWidth;
+        shell.classList.add("is-launching");
+        window.setTimeout(() => shell.classList.remove("is-launching"), 1600);
+      }
+    }
+    if (result.native === "settings") {
+      pushToast("info", "工具设置已并入设置页", result.message);
+    }
+  };
+
+  const runAction = async (): Promise<void> => {
+    if (!runner) return;
+    setActionBusy(true);
+    try {
+      const envelope = await api.runPluginAction(runner.plugin.id, runner.action.id, actionInputs);
+      setActionResult(envelope.result);
+      if (envelope.result.native) applyNative(envelope.result);
+      if (envelope.result.data && (envelope.result.data as { url?: string }).url) {
+        window.open((envelope.result.data as { url: string }).url, "_blank", "noopener,noreferrer");
+      }
+      pushToast(envelope.result.ok ? "success" : "warn", `${runner.action.label}${envelope.result.ok ? "完成" : "失败"}`, envelope.result.message);
+      setPlugins((prev) =>
+        (prev ?? []).map((item) =>
+          item.id === runner.plugin.id
+            ? { ...item, lastTest: { ok: envelope.result.ok, message: envelope.result.message, latencyMs: envelope.result.latencyMs, at: Date.now() } }
+            : item,
+        ),
+      );
+    } catch (err) {
+      pushToast("error", `${runner.action.label}失败`, errorMessage(err));
+    } finally {
+      setActionBusy(false);
+    }
+  };
+
   if (error) {
     return (
       <div className="settings-panel">
@@ -186,7 +277,7 @@ export function PluginsPanel({ pushToast }: PluginsPanelProps) {
         <div>
           <h3>插件中心</h3>
           <p>
-            能桥接的提供可运行入口，已原生的标注迁移，DSH 专属 UI 插件标注仅 DSH。测试只执行版本/帮助命令，不跑真实任务。
+            36 项插件均已适配：原生能力直接迁移，桥接插件可运行真实动作，DSH 专属 UI 以原生主题/背景/悬浮球等价实现。测试只执行版本命令，运行执行具体能力。
           </p>
         </div>
       </div>
@@ -195,10 +286,10 @@ export function PluginsPanel({ pushToast }: PluginsPanelProps) {
         <span>
           <b className="mono">{loading ? "…" : summary.total}</b> 项
         </span>
-        <span className="is-ok">已迁移 {summary.native}</span>
+        <span className="is-ok">已原生 {summary.native}</span>
         <span className="is-accent">桥接 {summary.bridge}</span>
-        <span>仅 DSH {summary.uiOnly}</span>
-        <span className="is-muted">不适用 {summary.unsupported}</span>
+        <span>已适配 {summary.adapted}</span>
+        <span className="is-muted">可跳转 {summary.linked}</span>
         <span className={summary.failed > 0 ? "is-err" : ""}>测试失败 {summary.failed}</span>
         <span className="is-muted">启用 {summary.enabled}</span>
       </div>
@@ -245,6 +336,7 @@ export function PluginsPanel({ pushToast }: PluginsPanelProps) {
               <th>类型</th>
               <th>状态</th>
               <th aria-label="启用" />
+              <th>运行</th>
               <th>测试</th>
               <th>日志</th>
             </tr>
@@ -252,7 +344,7 @@ export function PluginsPanel({ pushToast }: PluginsPanelProps) {
           <tbody>
             {loading ? (
               <tr>
-                <td colSpan={7} className="data-table__empty">
+                <td colSpan={8} className="data-table__empty">
                   <span className="mini-spin">
                     <IconLoader size={13} />
                   </span>{" "}
@@ -261,7 +353,7 @@ export function PluginsPanel({ pushToast }: PluginsPanelProps) {
               </tr>
             ) : filtered.length === 0 ? (
               <tr>
-                <td colSpan={7} className="data-table__empty">
+                <td colSpan={8} className="data-table__empty">
                   没有匹配的插件。
                 </td>
               </tr>
@@ -279,6 +371,7 @@ export function PluginsPanel({ pushToast }: PluginsPanelProps) {
                     toggling={togglingId === plugin.id}
                     onToggle={() => void toggle(plugin)}
                     onTest={() => void test(plugin)}
+                    onRun={() => openRunner(plugin)}
                     onToggleLog={() => setExpandedId(expanded ? null : plugin.id)}
                     testOutput={testOutputs[plugin.id]}
                   />
@@ -289,11 +382,100 @@ export function PluginsPanel({ pushToast }: PluginsPanelProps) {
         </table>
       </div>
 
-      {plugins && plugins.some((plugin) => plugin.kind === "ui-only") ? (
+      {plugins && plugins.some((plugin) => plugin.kind !== "native") ? (
         <p className="settings-panel__note">
-          <IconAlert size={11} /> 「仅 DSH UI」插件无法直接迁移到 Super Work；建议在 DSH 中保留，或使用 Super Work
-          原生的工作台 / 主题替代。
+          <IconAlert size={11} /> 所有插件均已适配：能桥接的直接运行，原生能力标注迁移，DSH 专属 UI 提供等价主题/跳转。
         </p>
+      ) : null}
+
+      {runner ? (
+        <div className="plugin-runner" role="dialog" aria-modal="true" aria-label={`${runner.plugin.name} 运行`}>
+          <div className="plugin-runner__backdrop" onClick={() => setRunner(null)} />
+          <div className="plugin-runner__panel">
+            <header className="plugin-runner__head">
+              <div>
+                <h3>{runner.plugin.name}</h3>
+                <p>{runner.plugin.capability ?? runner.plugin.description}</p>
+              </div>
+              <button type="button" className="icon-btn" onClick={() => setRunner(null)} aria-label="关闭运行面板">
+                <IconX size={13} />
+              </button>
+            </header>
+            {(runner.plugin.actions?.length ?? 0) > 1 ? (
+              <div className="plugin-runner__actions">
+                {(runner.plugin.actions ?? []).map((action) => (
+                  <button
+                    key={action.id}
+                    type="button"
+                    className={`btn btn-sm${action.id === runner.action.id ? " btn-primary" : " btn-ghost"}`}
+                    onClick={() => selectAction(action)}
+                  >
+                    {action.label}
+                  </button>
+                ))}
+              </div>
+            ) : null}
+            {runner.action.description ? <p className="plugin-runner__desc">{runner.action.description}</p> : null}
+            <div className="plugin-runner__form">
+              {(runner.action.fields ?? []).map((field) => (
+                <label className="plugin-runner__field" key={field.name}>
+                  <span>{field.label}{field.required ? " *" : ""}</span>
+                  {field.type === "textarea" ? (
+                    <textarea
+                      className="input"
+                      rows={5}
+                      value={actionInputs[field.name] ?? ""}
+                      placeholder={field.placeholder}
+                      onChange={(event) => setActionInputs((prev) => ({ ...prev, [field.name]: event.target.value }))}
+                    />
+                  ) : field.type === "select" ? (
+                    <select
+                      className="select"
+                      value={actionInputs[field.name] ?? field.defaultValue ?? ""}
+                      onChange={(event) => setActionInputs((prev) => ({ ...prev, [field.name]: event.target.value }))}
+                    >
+                      {field.options?.map((option) => (
+                        <option key={option.value} value={option.value}>{option.label}</option>
+                      ))}
+                    </select>
+                  ) : (
+                    <input
+                      className="input"
+                      type={field.type === "number" ? "number" : "text"}
+                      value={actionInputs[field.name] ?? ""}
+                      placeholder={field.placeholder}
+                      onChange={(event) => setActionInputs((prev) => ({ ...prev, [field.name]: event.target.value }))}
+                    />
+                  )}
+                </label>
+              ))}
+              <div className="plugin-runner__foot">
+                <button type="button" className="btn btn-primary" onClick={() => void runAction()} disabled={actionBusy}>
+                  {actionBusy ? <IconLoader size={12} className="spin" /> : <IconTerminal size={12} />}
+                  {actionBusy ? "运行中…" : "运行"}
+                </button>
+                <span className="mono">{runner.action.kind} · {runner.action.handler}</span>
+              </div>
+              {actionResult ? (
+                <div className={`plugin-runner__result${actionResult.ok ? "" : " is-error"}`}>
+                  <strong>{actionResult.message}</strong>
+                  {actionResult.text ? <RichText text={actionResult.text} className="plugin-runner__text" /> : null}
+                  {actionResult.imageUrl ? (
+                    <img className="plugin-runner__image" src={actionResult.imageUrl} alt="插件产物" />
+                  ) : null}
+                  {actionResult.fileUrl && /\.(mp4|webm|mov)$/i.test(actionResult.fileUrl) ? (
+                    <video className="plugin-runner__video" controls src={actionResult.fileUrl} />
+                  ) : null}
+                  {actionResult.fileUrl ? (
+                    <a className="btn btn-sm" href={actionResult.fileUrl} target="_blank" rel="noopener noreferrer">
+                      {/\.(mp4|webm|mov)$/i.test(actionResult.fileUrl) ? "打开视频" : "打开 / 下载产物"}
+                    </a>
+                  ) : null}
+                </div>
+              ) : null}
+            </div>
+          </div>
+        </div>
       ) : null}
     </div>
   );
@@ -307,6 +489,7 @@ interface PluginRowProps {
   toggling: boolean;
   onToggle: () => void;
   onTest: () => void;
+  onRun: () => void;
   onToggleLog: () => void;
   testOutput?: string;
 }
@@ -319,6 +502,7 @@ function PluginRow({
   toggling,
   onToggle,
   onTest,
+  onRun,
   onToggleLog,
   testOutput,
 }: PluginRowProps) {
@@ -360,10 +544,19 @@ function PluginRow({
           />
         </td>
         <td>
-          <button type="button" className="btn btn-sm" onClick={onTest} disabled={testing}>
-            {testing ? <IconLoader size={11} className="spin" /> : <IconCheck size={11} />}
-            {testing ? "测试中" : "测试"}
+          <button type="button" className="btn btn-sm btn-ghost" onClick={onRun} disabled={!plugin.actions?.length}>
+            <IconTerminal size={11} /> 运行
           </button>
+        </td>
+        <td>
+          {plugin.bridge ? (
+            <button type="button" className="btn btn-sm" onClick={onTest} disabled={testing}>
+              {testing ? <IconLoader size={11} className="spin" /> : <IconCheck size={11} />}
+              {testing ? "测试中" : "测试"}
+            </button>
+          ) : (
+            <span className="muted" title="该插件通过「运行」执行适配动作">—</span>
+          )}
         </td>
         <td>
           <button
@@ -378,7 +571,7 @@ function PluginRow({
       </tr>
       {expanded ? (
         <tr className="plugin-log-row">
-          <td colSpan={7}>
+          <td colSpan={8}>
             <div className="plugin-log">
               <div className="plugin-log__meta">
                 <span>

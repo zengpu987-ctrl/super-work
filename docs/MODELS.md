@@ -1,4 +1,4 @@
-# 模型目录（2026-11-19 更新）
+# 模型目录（2026-11-21 更新）
 
 > 本文件记录 Super Work 内置模型池的当前版本与来源。内置目录只在发版时更新；
 > 运行期可用顶栏「同步模型」按钮（`POST /api/models/refresh`）从各家上游拉最新目录并合并进模型池。
@@ -7,7 +7,8 @@
 
 | 平台 | 当前模型 | 依据 |
 |---|---|---|
-| DeepSeek | `deepseek-v4-pro`、`deepseek-v4.1-flash`、`deepseek-flash`、`deepseek-v3.2`（兼容） | 本机 key 实测 `GET /v1/models` 返回 `deepseek-flash`、`deepseek-v4-pro`；QwenCloud 变更日志确认 V4.1-Flash（2026-09-13 / 10-18 迭代） |
+| DeepSeek（API Key） | `deepseek-v4-pro`、`deepseek-flash` | 本机 key 实测 `GET /v1/models` 仅返回这两项；V4.1-Flash / V3.2 已从该通道目录移除 |
+| DeepSeek 账户（DSH） | `deepseek-flash`（V4.1 Flash）、`deepseek-v4-pro` | DSH Account token（`x-dsh-auth-token`）+ `https://api.deepseek.com/anthropic/v1/messages`；2026-11-21 实测 V4 / VP 均通过 |
 | KIMI | API：`kimi-k3.1-pro`、`kimi-k3`、`kimi-k2.7-code`、`kimi-k2.6`；会员：`k3.1-pro`、`k3`、`k3-256k`、`kimi-for-coding`（K2.8）、`kimi-for-coding-highspeed`（K2.7 2x）、`k3.1-pro-highspeed` | 会员实时接口 `GET https://api.kimi.com/coding/v1/models`（2026-11-19 实测，6 条）；API 侧本机 key 实测 Moonshot `/v1/models` |
 | GPT / OpenAI | 订阅：`gpt-6.2-sol`（500K）、`gpt-6.2-astra`（272K）、`gpt-6.1-terra/sol`、`gpt-6-astra/luna/sol`、`gpt-5.6-luna/sol/terra`；API 与订阅同名模型按 `via=any` 处理 | Codex 实时目录 `GET https://chatgpt.com/backend-api/codex/models?client_version=…`（2026-11-19 实测，10 条 `visibility=list`） |
 | Claude | `claude-opus-5-5`、`claude-sonnet-5-5`、`claude-haiku-4-5` | 官方文档 Opus/Sonnet 5.5 页面 |
@@ -17,7 +18,7 @@
 | MiniMax | `MiniMax-M3`、`MiniMax-M3.1-Flash`、`MiniMax-M2.7`、`MiniMax-M2.5` | MiniMax 官方 release notes（M3 2026-06-01、M3.1 Flash 2026-10-19） |
 | Gemini | `gemini-3.1-pro`、`gemini-3.1-flash`、`gemini-3-pro`（兼容） | Google AI 文档 Gemini 3.1 Pro / 3.1 Flash |
 | Grok / xAI | `grok-4.7`、`grok-4.1`（兼容）、`grok-code-fast-1` | AWS Bedrock Grok 4.7 模型卡 |
-| WorkBuddy | 上游实时目录（30 个）：`kimi-k3.1-pro`、`glm-5.3(flash)`、`deepseek-v4-pro`、`hunyuan-image-alpha` 等 | 本机登录态实测 `/v2/enterprises/personal/models`（2026-11-18） |
+| WorkBuddy | 当前启用 18 个：`kimi-k3.1-pro`、`glm-5.3(flash)`、`deepseek-v4-pro`、`hunyuan-image-alpha` 等；12 个上游不可用项已禁用 | 本机登录态实测 `/v2/enterprises/personal/models`（2026-11-18）；2026-11-21 健康检查后禁用不可用项 |
 | 中转站 | 用户导入的上游模型 | 设置 → 中转站，「测试并拉取模型」 |
 
 ## 模型池同步

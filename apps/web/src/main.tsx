@@ -11,7 +11,6 @@ import "@fontsource/jetbrains-mono/latin-400.css";
 import "@fontsource/jetbrains-mono/latin-500.css";
 import "katex/dist/katex.min.css";
 import "./styles.css";
-import "./styles/earth.css";
 
 const container = document.getElementById("root");
 if (!container) throw new Error("找不到 #root 挂载点");

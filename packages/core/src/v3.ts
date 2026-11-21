@@ -132,7 +132,52 @@ export interface KeywordTestResult {
 /* ------------------------------- 插件 -------------------------------- */
 
 export type PluginKind = "native" | "bridge" | "ui-only" | "unsupported";
-export type PluginStatus = "migrated" | "bridge-ready" | "pending" | "failed";
+export type PluginStatus = "migrated" | "bridge-ready" | "adapted" | "linked" | "pending" | "failed";
+
+export type PluginActionKind = "native" | "http" | "command" | "link";
+
+export interface PluginActionField {
+  name: string;
+  label: string;
+  type: "text" | "textarea" | "number" | "select";
+  placeholder?: string;
+  required?: boolean;
+  defaultValue?: string;
+  options?: Array<{ value: string; label: string }>;
+}
+
+export interface PluginAction {
+  id: string;
+  label: string;
+  kind: PluginActionKind;
+  /** 服务端处理器，如 arxiv.search / vision.ocr / image.generate */
+  handler?: string;
+  description?: string;
+  fields?: PluginActionField[];
+  /** link 动作的跳转地址 */
+  url?: string;
+}
+
+export interface PluginActionRequest {
+  actionId: string;
+  inputs?: Record<string, string>;
+}
+
+export interface PluginActionResponse {
+  ok: boolean;
+  message: string;
+  /** 文本结果 / Markdown */
+  text?: string;
+  /** 图片 data URL 或可下载 URL */
+  imageUrl?: string;
+  /** 文件下载地址 */
+  fileUrl?: string;
+  /** 结构化结果（列表等） */
+  data?: unknown;
+  /** UI 原生动作目标（appearance / pet / launch 等） */
+  native?: string;
+  latencyMs?: number;
+}
 
 export interface PluginBridgeSpec {
   /** 可执行文件绝对路径或 PATH 命令 */
@@ -155,6 +200,10 @@ export interface PluginInfo {
   /** 迁移到 Super Work 后对应的能力入口（native） */
   capability?: string;
   bridge?: PluginBridgeSpec;
+  /** 已适配的动作（每个插件至少一个；UI 可运行） */
+  actions?: PluginAction[];
+  /** 适配说明 */
+  adaptation?: string;
   enabled: boolean;
   /** 测试/最近一次运行 */
   lastTest?: {

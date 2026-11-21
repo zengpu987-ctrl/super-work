@@ -716,14 +716,15 @@ body,
 }
 
 .plugin-runner__text {
-  margin: 0;
-  max-height: 260px;
+  max-height: 300px;
   overflow: auto;
-  font-family: var(--font-mono);
-  font-size: 11px;
-  line-height: 1.6;
-  white-space: pre-wrap;
+  font-size: 12px;
+  line-height: 1.7;
   color: var(--text-1);
+}
+
+.plugin-runner__text .rich-text__body {
+  white-space: normal;
 }
 
 .plugin-runner__image {

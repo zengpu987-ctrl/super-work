@@ -651,6 +651,7 @@ export const api = {
   listPlugins,
   updatePlugin,
   testPlugin,
+  runPluginAction,
   getBudgetUsage,
 };
 
@@ -1289,6 +1290,25 @@ export interface PluginTestEnvelope extends PluginTestResult {
 }
 
 /** POST /api/plugins/:id/test —— 执行桥接测试命令（超时 10s，只读）。 */
+export interface PluginActionEnvelope {
+  plugin: PluginInfo;
+  action: import("@super-work/core").PluginAction;
+  result: import("@super-work/core").PluginActionResponse;
+}
+
+/** POST /api/plugins/:id/action —— 执行插件适配动作。 */
+export async function runPluginAction(
+  id: string,
+  actionId: string,
+  inputs: Record<string, string>,
+): Promise<PluginActionEnvelope> {
+  return request<PluginActionEnvelope>(`/api/plugins/${encodeURIComponent(id)}/action`, {
+    method: "POST",
+    body: jsonBody({ actionId, inputs }),
+    timeoutMs: 180_000,
+  });
+}
+
 export async function testPlugin(id: string): Promise<PluginTestEnvelope> {
   const raw = await request<PluginTestResult | { result?: PluginTestResult; plugin?: PluginInfo }>(
     `/api/plugins/${encodeURIComponent(id)}/test`,
