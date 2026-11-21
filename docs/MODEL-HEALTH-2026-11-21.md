@@ -32,7 +32,86 @@
 | 贾维斯 · 我的贾维斯 | 15 | 15 | 0 | 15 个 Claude 模型全部可用（修复后） |
 | WorkBuddy · 茉莉雨 | 28 | 16 | 12 | 8 个上游无此模型 + 4 个返回空正文；2 个图片模型未测 |
 
-## 4. 失败明细
+## 4. 逐项结果
+
+### 4.1 全部实测结果（逐项）
+
+| 结果 | 平台 | 模型 | 耗时 | 备注 |
+|---|---|---|---:|---|
+| 失败 | WorkBuddy · 茉莉雨 | `balanced-model` | 9048ms | WorkBuddy 返回空正文 |
+| 失败 | WorkBuddy · 茉莉雨 | `deep-model` | 8050ms | WorkBuddy 返回空正文 |
+| 通过 | WorkBuddy · 茉莉雨 | `deepseek-v3-2-volc` | 4023ms | ### WorkBuddy · DeepSeek-V3.2  OK |
+| 通过 | WorkBuddy · 茉莉雨 | `deepseek-v4-flash` | 2015ms | ### WorkBuddy · Deepseek-V4-Flash  OK |
+| 通过 | WorkBuddy · 茉莉雨 | `deepseek-v4-pro` | 7045ms | ### WorkBuddy · DeepSeek-V4-Pro  OK |
+| 通过 | WorkBuddy · 茉莉雨 | `deepseek-v4.1-flash` | 4028ms | ### WorkBuddy · DeepSeek-V4.1-Flash  OK |
+| 通过 | WorkBuddy · 茉莉雨 | `default` | 3021ms | ### WorkBuddy · Default  OK |
+| 失败 | WorkBuddy · 茉莉雨 | `glm-4.6` | 1007ms | WorkBuddy 上游无此模型/服务 |
+| 失败 | WorkBuddy · 茉莉雨 | `glm-4.6v` | 2009ms | WorkBuddy 上游无此模型/服务 |
+| 失败 | WorkBuddy · 茉莉雨 | `glm-4.7` | 1008ms | WorkBuddy 上游无此模型/服务 |
+| 失败 | WorkBuddy · 茉莉雨 | `glm-5.0` | 2015ms | WorkBuddy 上游无此模型/服务 |
+| 通过 | WorkBuddy · 茉莉雨 | `glm-5.2` | 4030ms | ### WorkBuddy · GLM-5.2  OK |
+| 通过 | WorkBuddy · 茉莉雨 | `glm-5.3` | 5029ms | ### WorkBuddy · GLM-5.3  OK |
+| 通过 | WorkBuddy · 茉莉雨 | `glm-5.3-flash` | 4026ms | ### WorkBuddy · GLM-5.3-Flash  OK |
+| 失败 | WorkBuddy · 茉莉雨 | `hunyuan-2.0-thinking` | 2008ms | WorkBuddy 上游无此模型/服务 |
+| 通过 | WorkBuddy · 茉莉雨 | `hunyuan-chat` | 3020ms | ### WorkBuddy · Hunyuan-Turbos  OK |
+| 失败 | WorkBuddy · 茉莉雨 | `hy4-preview-x` | 3024ms | WorkBuddy 上游无此模型/服务 |
+| 失败 | WorkBuddy · 茉莉雨 | `hy4std` | 6036ms | WorkBuddy 返回空正文 |
+| 失败 | WorkBuddy · 茉莉雨 | `kimi-k2-thinking` | 2012ms | WorkBuddy 上游无此模型/服务 |
+| 失败 | WorkBuddy · 茉莉雨 | `kimi-k2.5` | 11076ms | WorkBuddy 返回空正文 |
+| 通过 | WorkBuddy · 茉莉雨 | `kimi-k2.8-preview` | 12068ms | ### WorkBuddy · Kimi-K2.8-Preview  OK |
+| 通过 | WorkBuddy · 茉莉雨 | `kimi-k3-1` | 4024ms | ### WorkBuddy · Kimi-K3  OK |
+| 通过 | WorkBuddy · 茉莉雨 | `kimi-k3.1-pro` | 6031ms | ### WorkBuddy · Kimi-K3.1-Pro  OK |
+| 通过 | WorkBuddy · 茉莉雨 | `mimo-v2.6-pro` | 4024ms | ### WorkBuddy · Xiaomi MiMo-V2.6-Pro  OK |
+| 失败 | WorkBuddy · 茉莉雨 | `minimax-m2.5` | 1004ms | WorkBuddy 上游无此模型/服务 |
+| 通过 | WorkBuddy · 茉莉雨 | `minimax-m3.1-flash` | 3013ms | ### WorkBuddy · MiniMax-M3.1-Flash  OK |
+| 通过 | WorkBuddy · 茉莉雨 | `space-bunny` | 3015ms | ### WorkBuddy · Space-Bunny  OK |
+| 通过 | WorkBuddy · 茉莉雨 | `step-5-preview` | 6032ms | ### WorkBuddy · Step-5-Preview  OK |
+| 通过 | deepseek | `deepseek-flash` | 1010ms | ### DeepSeek · DeepSeek Flash  OK |
+| 失败 | deepseek | `deepseek-v3.2` | 1010ms | DeepSeek 当前 Key 不支持该模型名 |
+| 通过 | deepseek | `deepseek-v4-pro` | 2023ms | ### DeepSeek · DeepSeek V4 Pro  OK |
+| 失败 | deepseek | `deepseek-v4.1-flash` | 1008ms | DeepSeek 当前 Key 不支持该模型名 |
+| 通过 | kimi | `k3` | 3014ms | ### KIMI · Kimi K3（会员）  OK |
+| 通过 | kimi | `k3-256k` | 3015ms | ### KIMI · Kimi K3 256K  OK |
+| 通过 | kimi | `k3.1-pro` | 4024ms | ### KIMI · Kimi K3.1 Pro（会员）  OK |
+| 通过 | kimi | `k3.1-pro-highspeed` | 9062ms | ### KIMI · K3.1 Pro Highspeed（2x）  OK |
+| 通过 | kimi | `kimi-for-coding` | 3020ms | ### KIMI · Kimi For Coding（K2.8）  OK |
+| 通过 | kimi | `kimi-for-coding-highspeed` | 2018ms | ### KIMI · Kimi For Coding Highspeed（K2.7 2x）  OK |
+| 通过 | mock | `mock-fast` | 1004ms | ### 演示模型 · Demo Fast  结论（模型自检）：「Reply with exactly one wor…」 |
+| 通过 | mock | `mock-thinker` | 1008ms | ### 演示模型 · Demo Thinker  结论（模型自检 · 经推演）：经推演，「Reply with exac |
+| 通过 | openai | `gpt-5.6-luna` | 5030ms | ### GPT / OpenAI · GPT-5.6 Luna  OK |
+| 通过 | openai | `gpt-5.6-sol` | 6035ms | ### GPT / OpenAI · GPT-5.6 Sol  OK |
+| 通过 | openai | `gpt-5.6-terra` | 3021ms | ### GPT / OpenAI · GPT-5.6 Terra  OK |
+| 通过 | openai | `gpt-6-astra` | 4023ms | ### GPT / OpenAI · GPT-6 Astra  OK |
+| 通过 | openai | `gpt-6-luna` | 5027ms | ### GPT / OpenAI · GPT-6 Luna  OK |
+| 通过 | openai | `gpt-6-sol` | 3021ms | ### GPT / OpenAI · GPT-6 Sol  OK |
+| 通过 | openai | `gpt-6.1-sol` | 5026ms | ### GPT / OpenAI · GPT-6.1 Sol  OK |
+| 通过 | openai | `gpt-6.1-terra` | 3020ms | ### GPT / OpenAI · GPT-6.1 Terra  OK |
+| 通过 | openai | `gpt-6.2-astra` | 5030ms | ### GPT / OpenAI · GPT-6.2 Astra  OK |
+| 通过 | openai | `gpt-6.2-sol` | 3022ms | ### GPT / OpenAI · GPT-6.2 Sol  OK |
+| 通过 | 贾维斯 · jws1 | `relay_3c5b998780::codex-auto-review` | 5036ms | ### 中转站 · Codex Auto Review  OK |
+| 通过 | 贾维斯 · jws1 | `relay_3c5b998780::gpt-5.6-sol` | 4022ms | ### 中转站 · GPT-5.6 Sol  OK |
+| 通过 | 贾维斯 · jws1 | `relay_3c5b998780::gpt-6-astra` | 5033ms | ### 中转站 · GPT-6 Astra  OK |
+| 通过 | 贾维斯 · jws1 | `relay_3c5b998780::gpt-6-sol` | 4027ms | ### 中转站 · GPT-6 Sol  OK |
+| 通过 | 贾维斯 · jws1 | `relay_3c5b998780::gpt-6.1-sol` | 5025ms | ### 中转站 · GPT-6.1 Sol  OK |
+| 通过 | 贾维斯 · jws1 | `relay_3c5b998780::gpt-6.2-astra` | 7046ms | ### 中转站 · gpt-6.2-astra  OK |
+| 通过 | 贾维斯 · jws1 | `relay_3c5b998780::gpt-6.2-sol` | 6042ms | ### 中转站 · gpt-6.2-sol  OK |
+| 通过 | 贾维斯 · 我的贾维斯 | `relay_c1bb6d6cbd::claude-fable-5` | 5029ms | ### 中转站 · claude-fable-5  OK |
+| 通过 | 贾维斯 · 我的贾维斯 | `relay_c1bb6d6cbd::claude-fable-5-1` | 2010ms | ### 中转站 · claude-fable-5-1  OK |
+| 通过 | 贾维斯 · 我的贾维斯 | `relay_c1bb6d6cbd::claude-fable-5-2` | 3021ms | 修复 temperature 后通过 |
+| 通过 | 贾维斯 · 我的贾维斯 | `relay_c1bb6d6cbd::claude-haiku-4-5` | 3021ms | 修复 temperature + reasoning_effort 后通过 |
+| 通过 | 贾维斯 · 我的贾维斯 | `relay_c1bb6d6cbd::claude-haiku-5-5` | 1007ms | 修复 temperature 后通过 |
+| 通过 | 贾维斯 · 我的贾维斯 | `relay_c1bb6d6cbd::claude-opus-4-5` | 2014ms | ### 中转站 · claude-opus-4-5  OK |
+| 通过 | 贾维斯 · 我的贾维斯 | `relay_c1bb6d6cbd::claude-opus-4-6` | 6037ms | ### 中转站 · claude-opus-4-6  OK |
+| 通过 | 贾维斯 · 我的贾维斯 | `relay_c1bb6d6cbd::claude-opus-4-7` | 3020ms | ### 中转站 · claude-opus-4-7  OK |
+| 通过 | 贾维斯 · 我的贾维斯 | `relay_c1bb6d6cbd::claude-opus-4-8` | 2013ms | ### 中转站 · claude-opus-4-8  OK |
+| 通过 | 贾维斯 · 我的贾维斯 | `relay_c1bb6d6cbd::claude-opus-5` | 2008ms | ### 中转站 · claude-opus-5  OK |
+| 通过 | 贾维斯 · 我的贾维斯 | `relay_c1bb6d6cbd::claude-opus-5-5` | 2015ms | ### 中转站 · claude-opus-5-5  OK |
+| 通过 | 贾维斯 · 我的贾维斯 | `relay_c1bb6d6cbd::claude-sonnet-4-5` | 4030ms | ### 中转站 · claude-sonnet-4-5  OK |
+| 通过 | 贾维斯 · 我的贾维斯 | `relay_c1bb6d6cbd::claude-sonnet-4-6` | 5033ms | ### 中转站 · claude-sonnet-4-6  OK |
+| 通过 | 贾维斯 · 我的贾维斯 | `relay_c1bb6d6cbd::claude-sonnet-5` | 3019ms | ### 中转站 · claude-sonnet-5  OK |
+| 通过 | 贾维斯 · 我的贾维斯 | `relay_c1bb6d6cbd::claude-sonnet-5-5` | 4024ms | 修复 temperature 后通过 |
+
+### 4.2 失败明细
 
 | 平台 | 模型 | 类别 | 上游错误（截断） |
 |---|---|---|---|
