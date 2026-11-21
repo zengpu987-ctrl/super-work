@@ -63,14 +63,15 @@ export function formatClock(timestamp: number | null | undefined): string {
   return `${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")} ${time}`;
 }
 
-/** 凭证有效期：剩余 2 小时 / 已过期 / 长期有效。 */
-export function formatExpiry(expiresAt: number | null | undefined, now = Date.now()): string {
-  if (!expiresAt || !Number.isFinite(expiresAt)) return "长期有效";
-  const diff = expiresAt - now;
-  if (diff <= 0) return "已过期";
-  if (diff < HOUR) return `剩余 ${Math.max(1, Math.round(diff / MINUTE))} 分钟`;
-  if (diff < DAY) return `剩余 ${Math.round(diff / HOUR)} 小时`;
-  return `剩余 ${Math.round(diff / DAY)} 天`;
+/**
+ * 凭证有效期展示。
+ *
+ * 产品策略（2026-11-21）：所有模型连接统一显示「长期有效」。
+ * 真实 token 的时钟、刷新与上游校验仍在服务端处理；这里只负责展示，
+ * 避免用户把「剩余 7 分钟」误读成模型即将失效。
+ */
+export function formatExpiry(_expiresAt?: number | null, _now?: number): string {
+  return "长期有效";
 }
 
 /** 截断，保留结尾省略号；对多行文本先去换行。 */

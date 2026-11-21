@@ -396,7 +396,7 @@ export function RelaySettings({ pushToast, onChanged }: RelaySettingsProps) {
                         {wb.region ? <span className="tag">{wb.region}</span> : null}
                       </div>
                       <div className="workbuddy-box__meta">
-                        {wb.expiresAt ? `有效期：${formatExpiry(wb.expiresAt)}` : "有效期：未回传"}
+                        {`有效期：${formatExpiry(wb.expiresAt)}`}
                         {wb.models?.length ? ` · ${wb.models.length} 个模型` : ""}
                       </div>
                       {wb.detail ? <p className="workbuddy-box__detail">{wb.detail}</p> : null}

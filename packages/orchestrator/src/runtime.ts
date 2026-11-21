@@ -17,6 +17,7 @@ import type {
   OrchestratorDeps,
   Participant,
   ParticipantResult,
+  ProviderId,
   ParticipantStageResult,
   PerformanceSettings,
   ConversationTurn,
@@ -47,6 +48,19 @@ import {
   makeCallSignal,
   mergeUsage,
 } from "./util.js";
+
+/** KIMI 慢模型（尤其 highspeed / 会员通道）的调用超时下限。 */
+export const KIMI_MIN_CALL_TIMEOUT_MS = 180_000;
+
+/** 按平台/模型计算实际调用超时；KIMI 永远不短于 180s。 */
+export function effectiveCallTimeoutMs(
+  provider: ProviderId,
+  _model: string,
+  configured: number,
+): number {
+  const base = Math.max(1, Math.floor(configured));
+  return provider === "kimi" ? Math.max(base, KIMI_MIN_CALL_TIMEOUT_MS) : base;
+}
 
 export interface ModelCallRequest {
   system: string;
@@ -676,7 +690,12 @@ export class RunContext {
       return { ok: false, aborted: true, text: "", reasoning: "", latencyMs: 0 };
     }
 
-    const { signal: baseSignal, timeoutSignal } = makeCallSignal(this.signal, this.options.timeoutMs);
+    const callTimeoutMs = effectiveCallTimeoutMs(
+      participant.provider,
+      participant.model,
+      this.options.timeoutMs,
+    );
+    const { signal: baseSignal, timeoutSignal } = makeCallSignal(this.signal, callTimeoutMs);
     // 单独的模型停止沿用同一条调用链：stop.signal 只作用于这一个参与者。
     const stop = new AbortController();
     this.callStops.set(participant.id, stop);
@@ -739,9 +758,9 @@ export class RunContext {
       }
     } catch (error) {
       if (this.aborted) aborted = true;
-      else if (timeoutSignal.aborted) failure = `模型调用超时（${this.options.timeoutMs}ms）`;
+      else if (timeoutSignal.aborted) failure = `模型调用超时（${callTimeoutMs}ms）`;
       else if (isAbortLike(error) && timeoutSignal.aborted) {
-        failure = `模型调用超时（${this.options.timeoutMs}ms）`;
+        failure = `模型调用超时（${callTimeoutMs}ms）`;
       } else failure = errorMessage(error);
     } finally {
       this.callStops.delete(participant.id);
@@ -761,7 +780,7 @@ export class RunContext {
       return { ok: false, aborted: true, text, reasoning, latencyMs };
     }
     if (!failure && timeoutSignal.aborted) {
-      failure = `模型调用超时（${this.options.timeoutMs}ms）`;
+      failure = `模型调用超时（${callTimeoutMs}ms）`;
     }
     if (failure) {
       this.emit({
