@@ -68,7 +68,7 @@ Super Work 只在导入时读取并把 token 存进本地加密凭据库；**不
 - 2026-11-21 23:06：`deepseek-account` / `deepseek-flash` 运行「只回复两个字母：V4」→ 返回 `V4`（run `run_mwqje6xy6ec112`）
 - 2026-11-21 23:08：`deepseek-account` / `deepseek-v4-pro` 运行「只回复两个字母：VP」→ 返回 `VP`（run `run_mwqjend5f4ec6e`）
 - 本机导入返回 `healthy: true`，`modelCount: 2`
-- `pnpm test`：190 项全绿（新增适配器 2 项 + 本机凭证 1 项）
+- `pnpm test`：191 项全绿（新增适配器 2 项 + 本机凭证 1 项 + 超时下限 1 项）
 
 ## 6. 边界
 
