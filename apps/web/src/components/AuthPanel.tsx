@@ -46,7 +46,7 @@ async function copyPlain(text: string): Promise<boolean> {
 }
 
 const PROVIDER_LOGIN_LABEL: Record<string, string> = {
-  openai: "用 ChatGPT 订阅登录",
+  openai: "直接接入我的 OpenAI 账户",
   kimi: "用 Kimi 会员登录",
 };
 
@@ -235,10 +235,13 @@ function SubscriptionPanel({
         <div className="settings-section">
           <div className="field">
             <span className="field__label">
-              浏览器授权（OAuth PKCE）{provider.id === "openai" ? <span className="tag tag-accent">ChatGPT 订阅</span> : null}
+              {provider.id === "openai" ? "直接登录 OpenAI 账户（OAuth PKCE）" : "浏览器授权（OAuth PKCE）"}
+              {provider.id === "openai" ? <span className="tag tag-accent">ChatGPT 订阅</span> : null}
             </span>
             <span className="field__hint">
-              点击后生成授权链接，在浏览器完成登录；本页会自动轮询登录结果，凭证只保存在本机。
+              {provider.id === "openai"
+                ? "点击后在浏览器登录你的 OpenAI / ChatGPT 账户；凭证直接保存在本机，不经过 DSH 或中转站。"
+                : "点击后生成授权链接，在浏览器完成登录；本页会自动轮询登录结果，凭证只保存在本机。"}
             </span>
           </div>
           <div className="form-actions">

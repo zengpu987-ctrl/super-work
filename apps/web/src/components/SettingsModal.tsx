@@ -106,6 +106,21 @@ const SOURCE_LABEL: Record<string, string> = {
   env: "环境变量",
 };
 
+/** OpenAI 默认走账户直连；不要再把 DSH 本机复用放在首位。 */
+function defaultTabFor(provider: ProviderStatus | undefined): SettingsTab {
+  if (!provider) return "key";
+  if (provider.id === "openai") return "subscription";
+  if (provider.connections?.some((c) => c.mode === "oauth-browser" || c.mode === "device-code")) return "subscription";
+  return "key";
+}
+
+/** OpenAI 的「本机复用」入口隐藏；直接接入是主路径。 */
+function tabsFor(provider: ProviderStatus): SettingsTab[] {
+  return (Object.keys(TAB_LABEL) as SettingsTab[]).filter(
+    (item) => !(provider.id === "openai" && item === "local"),
+  );
+}
+
 export function SettingsModal({
   providers,
   initialProviderId,
@@ -135,7 +150,7 @@ export function SettingsModal({
   const [section, setSection] = useState<SettingsSection>(initialSection);
   const [activeId, setActiveId] = useState<ProviderId>(initialProvider?.id ?? "deepseek");
   const [pendingLink, setPendingLink] = useState<{ url: string; host: string } | null>(null);
-  const [tab, setTab] = useState<SettingsTab>("key");
+  const [tab, setTab] = useState<SettingsTab>(() => defaultTabFor(initialProvider));
   const [proxyValue, setProxyValue] = useState(settings.proxy ?? "");
   const [language, setLanguage] = useState<"zh" | "en">(settings.language);
   const [allowLocalReuse, setAllowLocalReuse] = useState(settings.allowLocalReuse);
@@ -151,6 +166,10 @@ export function SettingsModal({
   const [confirmId, setConfirmId] = useState<string | null>(null);
 
   const active = providers.find((provider) => provider.id === activeId) ?? initialProvider ?? providers[0];
+
+  useEffect(() => {
+    setTab(defaultTabFor(active));
+  }, [active.id]);
 
   useEffect(() => {
     setSection(initialSection);
@@ -392,7 +411,7 @@ export function SettingsModal({
             </div>
 
             <div className="settings-tabs" role="tablist" aria-label="凭证方式">
-              {(Object.keys(TAB_LABEL) as SettingsTab[]).map((item) => (
+              {tabsFor(active).map((item) => (
                 <button
                   key={item}
                   type="button"
@@ -403,7 +422,7 @@ export function SettingsModal({
                   className={`settings-tab${tab === item ? " is-active" : ""}`}
                   onClick={() => setTab(item)}
                 >
-                  {TAB_LABEL[item]}
+                  {active.id === "openai" && item === "subscription" ? "直接接入" : TAB_LABEL[item]}
                   {item === "local" && (active.localAccounts?.length ?? 0) > 0 ? (
                     <span className="settings-tab__badge">{active.localAccounts?.length}</span>
                   ) : null}

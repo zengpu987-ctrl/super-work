@@ -16,7 +16,7 @@ Super Work 是一个**跑在你自己电脑上的独立网站**：启动后浏�
 [![Paper](https://img.shields.io/badge/paper-中英双语-1f6b55)](paper/super-work-paper.pdf)
 
 > **开源仓库**：https://github.com/zengpu987-ctrl/super-work · **文档站**：https://zengpu987-ctrl.github.io/super-work/ · **许可证**：Apache-2.0  
-> **使用说明**：[docs/USER-GUIDE.md](docs/USER-GUIDE.md) · **DeepSeek 细节**：[docs/DEEPSEEK.md](docs/DEEPSEEK.md) · **DSH 账户 V4.1 Flash**：[docs/DEEPSEEK-ACCOUNT.md](docs/DEEPSEEK-ACCOUNT.md)  
+> **使用说明**：[docs/USER-GUIDE.md](docs/USER-GUIDE.md) · **DeepSeek 细节**：[docs/DEEPSEEK.md](docs/DEEPSEEK.md) · **DSH 账户 V4.1 Flash**：[docs/DEEPSEEK-ACCOUNT.md](docs/DEEPSEEK-ACCOUNT.md) · **OpenAI 直连**：[docs/OPENAI-DIRECT.md](docs/OPENAI-DIRECT.md)  
 > **中英双语论文**：[paper/super-work-paper.pdf](paper/super-work-paper.pdf) · **评测报告**：[docs/SOFTWARE-EVALUATION.md](docs/SOFTWARE-EVALUATION.md)  
 > **共建**：欢迎 Provider、文档排版、3D、安全、评测与翻译贡献，见 [CONTRIBUTING.md](CONTRIBUTING.md)、[ROADMAP.md](ROADMAP.md)、[COMMUNITY](docs/COMMUNITY.md)。
 
