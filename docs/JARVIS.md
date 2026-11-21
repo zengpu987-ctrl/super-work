@@ -2,6 +2,8 @@
 
 > 本机已通过 Super Work 的「中转站」能力接入 **我的贾维斯**（api.aijws.com）。本文记录接入方式、模型范围与验证方法；不包含任何 API Key。
 
+![模型池中的贾维斯分组](screenshots/jarvis-models.png)
+
 ## 1. 服务信息
 
 | 项 | 值 |
