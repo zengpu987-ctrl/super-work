@@ -221,6 +221,7 @@ Claude Opus/Sonnet 5.5、GLM-5.3、Qwen4-Max、Gemini 3.1 Pro、Grok 4.7、MiniM
 
 - **许可证**：Apache-2.0；第三方组件与素材见 [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md)。
 - **论文**：中英双语 12 页，[PDF](paper/super-work-paper.pdf) / [源文](paper/super-work-paper.md)。
+- **模型健康**：[2026-11-21 全模型逐项自检](docs/MODEL-HEALTH-2026-11-21.md)（58 通过 / 14 失败 / 2 图片模型未测 / 29 未连接）。
 - **使用说明**：[全功能手册](docs/USER-GUIDE.md)；**评测报告**：[SOFTWARE-EVALUATION.md](docs/SOFTWARE-EVALUATION.md)。
 - **DeepSeek**：[接入、参数、计费与开发工作细节](docs/DEEPSEEK.md)。
 - **如何参与**：fork + PR（文档可在 GitHub 网页直接改）；讨论区、Wiki、Codespaces 与维护者路径见 [docs/COMMUNITY.md](docs/COMMUNITY.md)。

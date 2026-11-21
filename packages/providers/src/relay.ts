@@ -11,6 +11,7 @@
  * 3. 401/403 给可读的鉴权错误（前端可直接提示用户检查 Key）。
  */
 import type {
+  ChatCallOptions,
   Credential,
   ModelInfo,
   ProviderAdapter,
@@ -153,6 +154,22 @@ export class RelayAdapter extends OpenAICompatAdapter implements ProviderAdapter
       cred?.baseUrl?.trim() || callBaseUrl?.trim() || this.configuredBaseUrl,
       undefined,
     );
+  }
+
+  /**
+   * 某些中转/Claude 网关拒绝非默认 temperature（HTTP 400
+   * "does not support non-default temperature"）。对 Claude 系模型不传 temperature，
+   * 保留档位对 maxTokens 与系统提示的影响；其余模型维持原行为。
+   */
+  override buildBody(opts: ChatCallOptions): Record<string, unknown> {
+    const body = super.buildBody(opts);
+    // Claude 严格网关：不传非默认 temperature，也不接受 reasoning_effort。
+    // 档位仍通过 maxTokens 与 system 强度提示生效。
+    if (/claude|anthropic|haiku|sonnet|opus|fable/i.test(opts.model)) {
+      delete body.temperature;
+      delete body.reasoning_effort;
+    }
+    return body;
   }
 
   override async listModels(cred: Credential | null): Promise<ModelInfo[]> {

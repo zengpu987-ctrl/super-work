@@ -20,6 +20,7 @@
 - [模型目录](MODELS.md)
 
 ## 工程与验证
+- [模型可用性自检 2026-11-21](MODEL-HEALTH-2026-11-21.md)
 - [验证记录](VERIFICATION.md) · [v0.0.2](VERIFICATION-v0.0.2.md) · [v0.0.3](VERIFICATION-v0.0.3.md)
 - [开源与社区](COMMUNITY.md) · [贡献指南](../CONTRIBUTING.md) · [治理](../GOVERNANCE.md) · [路线图](../ROADMAP.md)
 - [第三方声明](../THIRD-PARTY-NOTICES.md)

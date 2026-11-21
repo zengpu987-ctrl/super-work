@@ -1,0 +1,1490 @@
+{
+  "checkedAt": "2026-11-21T22:36:26+0800",
+  "totalModels": 103,
+  "available": 74,
+  "tested": 72,
+  "results": [
+    {
+      "provider": "deepseek",
+      "providerLabel": "deepseek",
+      "model": "deepseek-v4-pro",
+      "name": "DeepSeek V4 Pro",
+      "contextWindow": 1000000,
+      "imageGen": false,
+      "status": "ok",
+      "runStatus": "done",
+      "text": "### DeepSeek · DeepSeek V4 Pro\n\nOK",
+      "error": null,
+      "tokens": {
+        "inputTokens": 805,
+        "outputTokens": 10,
+        "totalTokens": 815,
+        "cachedInputTokens": 0,
+        "reasoningTokens": 8
+      },
+      "elapsedMs": 2023
+    },
+    {
+      "provider": "deepseek",
+      "providerLabel": "deepseek",
+      "model": "deepseek-v4.1-flash",
+      "name": "DeepSeek V4.1 Flash",
+      "contextWindow": 1000000,
+      "imageGen": false,
+      "status": "error",
+      "runStatus": "error",
+      "text": "",
+      "error": null,
+      "tokens": null,
+      "elapsedMs": 1008,
+      "errorDetail": "所有模型调用都失败了：deepseek 请求失败（HTTP 400）：{\"error\":{\"message\":\"The supported API model names are deepseek-flash, deepseek-v4-pro, but you passed deepseek-v4.1-flash. (request_id: 5e27c109-e666-4980-ba40-58dc8ecbadbe)\",\"type\":\"invalid_request_error\",\"param\":null,\"code\":\"invalid_request_error\"}}",
+      "category": "DeepSeek 当前 Key 不支持该模型名"
+    },
+    {
+      "provider": "deepseek",
+      "providerLabel": "deepseek",
+      "model": "deepseek-flash",
+      "name": "DeepSeek Flash",
+      "contextWindow": 1000000,
+      "imageGen": false,
+      "status": "ok",
+      "runStatus": "done",
+      "text": "### DeepSeek · DeepSeek Flash\n\nOK",
+      "error": null,
+      "tokens": {
+        "inputTokens": 831,
+        "outputTokens": 2,
+        "totalTokens": 833,
+        "cachedInputTokens": 0,
+        "reasoningTokens": 0
+      },
+      "elapsedMs": 1010
+    },
+    {
+      "provider": "deepseek",
+      "providerLabel": "deepseek",
+      "model": "deepseek-v3.2",
+      "name": "DeepSeek V3.2（兼容）",
+      "contextWindow": 131072,
+      "imageGen": false,
+      "status": "error",
+      "runStatus": "error",
+      "text": "",
+      "error": null,
+      "tokens": null,
+      "elapsedMs": 1010,
+      "errorDetail": "所有模型调用都失败了：deepseek 请求失败（HTTP 400）：{\"error\":{\"message\":\"The supported API model names are deepseek-flash, deepseek-v4-pro, but you passed deepseek-v3.2. (request_id: 02d6489f-490e-4703-af1d-8a66f1667542)\",\"type\":\"invalid_request_error\",\"param\":null,\"code\":\"invalid_request_error\"}}",
+      "category": "DeepSeek 当前 Key 不支持该模型名"
+    },
+    {
+      "provider": "kimi",
+      "providerLabel": "kimi",
+      "model": "k3.1-pro",
+      "name": "Kimi K3.1 Pro（会员）",
+      "contextWindow": 1048576,
+      "imageGen": false,
+      "status": "ok",
+      "runStatus": "done",
+      "text": "### KIMI · Kimi K3.1 Pro（会员）\n\nOK",
+      "error": null,
+      "tokens": {
+        "inputTokens": 871,
+        "outputTokens": 92,
+        "totalTokens": 963,
+        "cachedInputTokens": 0
+      },
+      "elapsedMs": 4024
+    },
+    {
+      "provider": "kimi",
+      "providerLabel": "kimi",
+      "model": "k3",
+      "name": "Kimi K3（会员）",
+      "contextWindow": 1048576,
+      "imageGen": false,
+      "status": "ok",
+      "runStatus": "done",
+      "text": "### KIMI · Kimi K3（会员）\n\nOK",
+      "error": null,
+      "tokens": {
+        "inputTokens": 872,
+        "outputTokens": 54,
+        "totalTokens": 926,
+        "cachedInputTokens": 0
+      },
+      "elapsedMs": 3014
+    },
+    {
+      "provider": "kimi",
+      "providerLabel": "kimi",
+      "model": "k3-256k",
+      "name": "Kimi K3 256K",
+      "contextWindow": 262144,
+      "imageGen": false,
+      "status": "ok",
+      "runStatus": "done",
+      "text": "### KIMI · Kimi K3 256K\n\nOK",
+      "error": null,
+      "tokens": {
+        "inputTokens": 0,
+        "outputTokens": 49,
+        "totalTokens": 49,
+        "cachedInputTokens": 872
+      },
+      "elapsedMs": 3015
+    },
+    {
+      "provider": "kimi",
+      "providerLabel": "kimi",
+      "model": "kimi-for-coding",
+      "name": "Kimi For Coding（K2.8）",
+      "contextWindow": 1048576,
+      "imageGen": false,
+      "status": "ok",
+      "runStatus": "done",
+      "text": "### KIMI · Kimi For Coding（K2.8）\n\nOK",
+      "error": null,
+      "tokens": {
+        "inputTokens": 872,
+        "outputTokens": 74,
+        "totalTokens": 946,
+        "cachedInputTokens": 0
+      },
+      "elapsedMs": 3020
+    },
+    {
+      "provider": "kimi",
+      "providerLabel": "kimi",
+      "model": "kimi-for-coding-highspeed",
+      "name": "Kimi For Coding Highspeed（K2.7 2x）",
+      "contextWindow": 262144,
+      "imageGen": false,
+      "status": "ok",
+      "runStatus": "done",
+      "text": "### KIMI · Kimi For Coding Highspeed（K2.7 2x）\n\nOK",
+      "error": null,
+      "tokens": {
+        "inputTokens": 786,
+        "outputTokens": 202,
+        "totalTokens": 988,
+        "cachedInputTokens": 0
+      },
+      "elapsedMs": 2018
+    },
+    {
+      "provider": "kimi",
+      "providerLabel": "kimi",
+      "model": "k3.1-pro-highspeed",
+      "name": "K3.1 Pro Highspeed（2x）",
+      "contextWindow": 1048576,
+      "imageGen": false,
+      "status": "ok",
+      "runStatus": "done",
+      "text": "### KIMI · K3.1 Pro Highspeed（2x）\n\nOK",
+      "error": null,
+      "tokens": {
+        "inputTokens": 871,
+        "outputTokens": 41,
+        "totalTokens": 912,
+        "cachedInputTokens": 0
+      },
+      "elapsedMs": 9062
+    },
+    {
+      "provider": "openai",
+      "providerLabel": "openai",
+      "model": "gpt-6.2-sol",
+      "name": "GPT-6.2 Sol",
+      "contextWindow": 500000,
+      "imageGen": false,
+      "status": "ok",
+      "runStatus": "done",
+      "text": "### GPT / OpenAI · GPT-6.2 Sol\n\nOK",
+      "error": null,
+      "tokens": {
+        "inputTokens": 905,
+        "outputTokens": 5,
+        "totalTokens": 910,
+        "cachedInputTokens": 0,
+        "reasoningTokens": 0
+      },
+      "elapsedMs": 3022
+    },
+    {
+      "provider": "openai",
+      "providerLabel": "openai",
+      "model": "gpt-6.2-astra",
+      "name": "GPT-6.2 Astra",
+      "contextWindow": 272000,
+      "imageGen": false,
+      "status": "ok",
+      "runStatus": "done",
+      "text": "### GPT / OpenAI · GPT-6.2 Astra\n\nOK",
+      "error": null,
+      "tokens": {
+        "inputTokens": 905,
+        "outputTokens": 5,
+        "totalTokens": 910,
+        "cachedInputTokens": 0,
+        "reasoningTokens": 0
+      },
+      "elapsedMs": 5030
+    },
+    {
+      "provider": "openai",
+      "providerLabel": "openai",
+      "model": "gpt-6.1-terra",
+      "name": "GPT-6.1 Terra",
+      "contextWindow": 500000,
+      "imageGen": false,
+      "status": "ok",
+      "runStatus": "done",
+      "text": "### GPT / OpenAI · GPT-6.1 Terra\n\nOK",
+      "error": null,
+      "tokens": {
+        "inputTokens": 905,
+        "outputTokens": 5,
+        "totalTokens": 910,
+        "cachedInputTokens": 0,
+        "reasoningTokens": 0
+      },
+      "elapsedMs": 3020
+    },
+    {
+      "provider": "openai",
+      "providerLabel": "openai",
+      "model": "gpt-6.1-sol",
+      "name": "GPT-6.1 Sol",
+      "contextWindow": 500000,
+      "imageGen": false,
+      "status": "ok",
+      "runStatus": "done",
+      "text": "### GPT / OpenAI · GPT-6.1 Sol\n\nOK",
+      "error": null,
+      "tokens": {
+        "inputTokens": 905,
+        "outputTokens": 5,
+        "totalTokens": 910,
+        "cachedInputTokens": 0,
+        "reasoningTokens": 0
+      },
+      "elapsedMs": 5026
+    },
+    {
+      "provider": "openai",
+      "providerLabel": "openai",
+      "model": "gpt-6-astra",
+      "name": "GPT-6 Astra",
+      "contextWindow": 272000,
+      "imageGen": false,
+      "status": "ok",
+      "runStatus": "done",
+      "text": "### GPT / OpenAI · GPT-6 Astra\n\nOK",
+      "error": null,
+      "tokens": {
+        "inputTokens": 905,
+        "outputTokens": 5,
+        "totalTokens": 910,
+        "cachedInputTokens": 0,
+        "reasoningTokens": 0
+      },
+      "elapsedMs": 4023
+    },
+    {
+      "provider": "openai",
+      "providerLabel": "openai",
+      "model": "gpt-6-luna",
+      "name": "GPT-6 Luna",
+      "contextWindow": 272000,
+      "imageGen": false,
+      "status": "ok",
+      "runStatus": "done",
+      "text": "### GPT / OpenAI · GPT-6 Luna\n\nOK",
+      "error": null,
+      "tokens": {
+        "inputTokens": 905,
+        "outputTokens": 5,
+        "totalTokens": 910,
+        "cachedInputTokens": 0,
+        "reasoningTokens": 0
+      },
+      "elapsedMs": 5027
+    },
+    {
+      "provider": "openai",
+      "providerLabel": "openai",
+      "model": "gpt-6-sol",
+      "name": "GPT-6 Sol",
+      "contextWindow": 272000,
+      "imageGen": false,
+      "status": "ok",
+      "runStatus": "done",
+      "text": "### GPT / OpenAI · GPT-6 Sol\n\nOK",
+      "error": null,
+      "tokens": {
+        "inputTokens": 905,
+        "outputTokens": 5,
+        "totalTokens": 910,
+        "cachedInputTokens": 0,
+        "reasoningTokens": 0
+      },
+      "elapsedMs": 3021
+    },
+    {
+      "provider": "openai",
+      "providerLabel": "openai",
+      "model": "gpt-5.6-terra",
+      "name": "GPT-5.6 Terra",
+      "contextWindow": 272000,
+      "imageGen": false,
+      "status": "ok",
+      "runStatus": "done",
+      "text": "### GPT / OpenAI · GPT-5.6 Terra\n\nOK",
+      "error": null,
+      "tokens": {
+        "inputTokens": 905,
+        "outputTokens": 5,
+        "totalTokens": 910,
+        "cachedInputTokens": 0,
+        "reasoningTokens": 0
+      },
+      "elapsedMs": 3021
+    },
+    {
+      "provider": "openai",
+      "providerLabel": "openai",
+      "model": "gpt-5.6-sol",
+      "name": "GPT-5.6 Sol",
+      "contextWindow": 272000,
+      "imageGen": false,
+      "status": "ok",
+      "runStatus": "done",
+      "text": "### GPT / OpenAI · GPT-5.6 Sol\n\nOK",
+      "error": null,
+      "tokens": {
+        "inputTokens": 905,
+        "outputTokens": 5,
+        "totalTokens": 910,
+        "cachedInputTokens": 0,
+        "reasoningTokens": 0
+      },
+      "elapsedMs": 6035
+    },
+    {
+      "provider": "openai",
+      "providerLabel": "openai",
+      "model": "gpt-5.6-luna",
+      "name": "GPT-5.6 Luna",
+      "contextWindow": 272000,
+      "imageGen": false,
+      "status": "ok",
+      "runStatus": "done",
+      "text": "### GPT / OpenAI · GPT-5.6 Luna\n\nOK",
+      "error": null,
+      "tokens": {
+        "inputTokens": 905,
+        "outputTokens": 5,
+        "totalTokens": 910,
+        "cachedInputTokens": 0,
+        "reasoningTokens": 0
+      },
+      "elapsedMs": 5030
+    },
+    {
+      "provider": "mock",
+      "providerLabel": "mock",
+      "model": "mock-fast",
+      "name": "Demo Fast",
+      "contextWindow": 32000,
+      "imageGen": false,
+      "status": "ok",
+      "runStatus": "done",
+      "text": "### 演示模型 · Demo Fast\n\n结论（模型自检）：「Reply with exactly one wor…」值得做，关键是把范围切小、把验收写清楚。\n建议：今天就定下第一个可交付的小目标，明天只扩范围、不改方向。",
+      "error": null,
+      "tokens": {
+        "inputTokens": 995,
+        "outputTokens": 60,
+        "totalTokens": 1055
+      },
+      "elapsedMs": 1004
+    },
+    {
+      "provider": "mock",
+      "providerLabel": "mock",
+      "model": "mock-thinker",
+      "name": "Demo Thinker",
+      "contextWindow": 32000,
+      "imageGen": false,
+      "status": "ok",
+      "runStatus": "done",
+      "text": "### 演示模型 · Demo Thinker\n\n结论（模型自检 · 经推演）：经推演，「Reply with exactly one wor…」值得做，关键是把范围切小、把验收写清楚。\n建议：今天就定下第一个可交付的小目标，明天只扩范围、不改方向。",
+      "error": null,
+      "tokens": {
+        "inputTokens": 995,
+        "outputTokens": 67,
+        "totalTokens": 1062
+      },
+      "elapsedMs": 1008
+    },
+    {
+      "provider": "relay",
+      "providerLabel": "贾维斯 · 我的贾维斯",
+      "model": "relay_c1bb6d6cbd::claude-fable-5",
+      "name": "claude-fable-5",
+      "contextWindow": null,
+      "imageGen": false,
+      "status": "ok",
+      "runStatus": "done",
+      "text": "### 中转站 · claude-fable-5\n\nOK",
+      "error": null,
+      "tokens": {
+        "inputTokens": 1421,
+        "outputTokens": 4,
+        "totalTokens": 1425
+      },
+      "elapsedMs": 5029
+    },
+    {
+      "provider": "relay",
+      "providerLabel": "贾维斯 · 我的贾维斯",
+      "model": "relay_c1bb6d6cbd::claude-fable-5-1",
+      "name": "claude-fable-5-1",
+      "contextWindow": null,
+      "imageGen": false,
+      "status": "ok",
+      "runStatus": "done",
+      "text": "### 中转站 · claude-fable-5-1\n\nOK",
+      "error": null,
+      "tokens": {
+        "inputTokens": 1423,
+        "outputTokens": 4,
+        "totalTokens": 1427
+      },
+      "elapsedMs": 2010
+    },
+    {
+      "provider": "relay",
+      "providerLabel": "贾维斯 · 我的贾维斯",
+      "model": "relay_c1bb6d6cbd::claude-fable-5-2",
+      "name": "claude-fable-5-2",
+      "contextWindow": null,
+      "imageGen": false,
+      "status": "ok",
+      "runStatus": "done",
+      "text": "OK",
+      "error": null,
+      "tokens": null,
+      "elapsedMs": 3021,
+      "recovered": "修复 temperature 后通过"
+    },
+    {
+      "provider": "relay",
+      "providerLabel": "贾维斯 · 我的贾维斯",
+      "model": "relay_c1bb6d6cbd::claude-haiku-4-5",
+      "name": "claude-haiku-4-5",
+      "contextWindow": null,
+      "imageGen": false,
+      "status": "ok",
+      "runStatus": "done",
+      "text": "OK",
+      "error": null,
+      "tokens": null,
+      "elapsedMs": 3021,
+      "recovered": "修复 temperature + reasoning_effort 后通过"
+    },
+    {
+      "provider": "relay",
+      "providerLabel": "贾维斯 · 我的贾维斯",
+      "model": "relay_c1bb6d6cbd::claude-haiku-5-5",
+      "name": "claude-haiku-5-5",
+      "contextWindow": null,
+      "imageGen": false,
+      "status": "ok",
+      "runStatus": "done",
+      "text": "OK",
+      "error": null,
+      "tokens": null,
+      "elapsedMs": 1007,
+      "recovered": "修复 temperature 后通过"
+    },
+    {
+      "provider": "relay",
+      "providerLabel": "贾维斯 · 我的贾维斯",
+      "model": "relay_c1bb6d6cbd::claude-opus-4-5",
+      "name": "claude-opus-4-5",
+      "contextWindow": null,
+      "imageGen": false,
+      "status": "ok",
+      "runStatus": "done",
+      "text": "### 中转站 · claude-opus-4-5\n\nOK",
+      "error": null,
+      "tokens": {
+        "inputTokens": 1476,
+        "outputTokens": 4,
+        "totalTokens": 1480
+      },
+      "elapsedMs": 2014
+    },
+    {
+      "provider": "relay",
+      "providerLabel": "贾维斯 · 我的贾维斯",
+      "model": "relay_c1bb6d6cbd::claude-opus-4-6",
+      "name": "claude-opus-4-6",
+      "contextWindow": null,
+      "imageGen": false,
+      "status": "ok",
+      "runStatus": "done",
+      "text": "### 中转站 · claude-opus-4-6\n\nOK",
+      "error": null,
+      "tokens": {
+        "inputTokens": 1367,
+        "outputTokens": 4,
+        "totalTokens": 1371
+      },
+      "elapsedMs": 6037
+    },
+    {
+      "provider": "relay",
+      "providerLabel": "贾维斯 · 我的贾维斯",
+      "model": "relay_c1bb6d6cbd::claude-opus-4-7",
+      "name": "claude-opus-4-7",
+      "contextWindow": null,
+      "imageGen": false,
+      "status": "ok",
+      "runStatus": "done",
+      "text": "### 中转站 · claude-opus-4-7\n\nOK",
+      "error": null,
+      "tokens": {
+        "inputTokens": 1426,
+        "outputTokens": 6,
+        "totalTokens": 1432
+      },
+      "elapsedMs": 3020
+    },
+    {
+      "provider": "relay",
+      "providerLabel": "贾维斯 · 我的贾维斯",
+      "model": "relay_c1bb6d6cbd::claude-opus-4-8",
+      "name": "claude-opus-4-8",
+      "contextWindow": null,
+      "imageGen": false,
+      "status": "ok",
+      "runStatus": "done",
+      "text": "### 中转站 · claude-opus-4-8\n\nOK",
+      "error": null,
+      "tokens": {
+        "inputTokens": 1421,
+        "outputTokens": 4,
+        "totalTokens": 1425
+      },
+      "elapsedMs": 2013
+    },
+    {
+      "provider": "relay",
+      "providerLabel": "贾维斯 · 我的贾维斯",
+      "model": "relay_c1bb6d6cbd::claude-opus-5",
+      "name": "claude-opus-5",
+      "contextWindow": null,
+      "imageGen": false,
+      "status": "ok",
+      "runStatus": "done",
+      "text": "### 中转站 · claude-opus-5\n\nOK",
+      "error": null,
+      "tokens": {
+        "inputTokens": 1421,
+        "outputTokens": 4,
+        "totalTokens": 1425
+      },
+      "elapsedMs": 2008
+    },
+    {
+      "provider": "relay",
+      "providerLabel": "贾维斯 · 我的贾维斯",
+      "model": "relay_c1bb6d6cbd::claude-opus-5-5",
+      "name": "claude-opus-5-5",
+      "contextWindow": null,
+      "imageGen": false,
+      "status": "ok",
+      "runStatus": "done",
+      "text": "### 中转站 · claude-opus-5-5\n\nOK",
+      "error": null,
+      "tokens": {
+        "inputTokens": 1423,
+        "outputTokens": 4,
+        "totalTokens": 1427
+      },
+      "elapsedMs": 2015
+    },
+    {
+      "provider": "relay",
+      "providerLabel": "贾维斯 · 我的贾维斯",
+      "model": "relay_c1bb6d6cbd::claude-sonnet-4-5",
+      "name": "claude-sonnet-4-5",
+      "contextWindow": null,
+      "imageGen": false,
+      "status": "ok",
+      "runStatus": "done",
+      "text": "### 中转站 · claude-sonnet-4-5\n\nOK",
+      "error": null,
+      "tokens": {
+        "inputTokens": 849,
+        "outputTokens": 1,
+        "totalTokens": 850
+      },
+      "elapsedMs": 4030
+    },
+    {
+      "provider": "relay",
+      "providerLabel": "贾维斯 · 我的贾维斯",
+      "model": "relay_c1bb6d6cbd::claude-sonnet-4-6",
+      "name": "claude-sonnet-4-6",
+      "contextWindow": null,
+      "imageGen": false,
+      "status": "ok",
+      "runStatus": "done",
+      "text": "### 中转站 · claude-sonnet-4-6\n\nOK",
+      "error": null,
+      "tokens": {
+        "inputTokens": 1367,
+        "outputTokens": 4,
+        "totalTokens": 1371
+      },
+      "elapsedMs": 5033
+    },
+    {
+      "provider": "relay",
+      "providerLabel": "贾维斯 · 我的贾维斯",
+      "model": "relay_c1bb6d6cbd::claude-sonnet-5",
+      "name": "claude-sonnet-5",
+      "contextWindow": null,
+      "imageGen": false,
+      "status": "ok",
+      "runStatus": "done",
+      "text": "### 中转站 · claude-sonnet-5\n\nOK",
+      "error": null,
+      "tokens": {
+        "inputTokens": 1208,
+        "outputTokens": 64,
+        "totalTokens": 1272
+      },
+      "elapsedMs": 3019
+    },
+    {
+      "provider": "relay",
+      "providerLabel": "贾维斯 · 我的贾维斯",
+      "model": "relay_c1bb6d6cbd::claude-sonnet-5-5",
+      "name": "claude-sonnet-5-5",
+      "contextWindow": null,
+      "imageGen": false,
+      "status": "ok",
+      "runStatus": "done",
+      "text": "OK",
+      "error": null,
+      "tokens": null,
+      "elapsedMs": 4024,
+      "recovered": "修复 temperature 后通过"
+    },
+    {
+      "provider": "relay",
+      "providerLabel": "贾维斯 · jws1",
+      "model": "relay_3c5b998780::codex-auto-review",
+      "name": "Codex Auto Review",
+      "contextWindow": null,
+      "imageGen": false,
+      "status": "ok",
+      "runStatus": "done",
+      "text": "### 中转站 · Codex Auto Review\n\nOK",
+      "error": null,
+      "tokens": {
+        "inputTokens": 2340,
+        "outputTokens": 5,
+        "totalTokens": 2345
+      },
+      "elapsedMs": 5036
+    },
+    {
+      "provider": "relay",
+      "providerLabel": "贾维斯 · jws1",
+      "model": "relay_3c5b998780::gpt-5.6-sol",
+      "name": "GPT-5.6 Sol",
+      "contextWindow": null,
+      "imageGen": false,
+      "status": "ok",
+      "runStatus": "done",
+      "text": "### 中转站 · GPT-5.6 Sol\n\nOK",
+      "error": null,
+      "tokens": {
+        "inputTokens": 6658,
+        "outputTokens": 38,
+        "totalTokens": 6696,
+        "reasoningTokens": 37
+      },
+      "elapsedMs": 4022
+    },
+    {
+      "provider": "relay",
+      "providerLabel": "贾维斯 · jws1",
+      "model": "relay_3c5b998780::gpt-6-astra",
+      "name": "GPT-6 Astra",
+      "contextWindow": null,
+      "imageGen": false,
+      "status": "ok",
+      "runStatus": "done",
+      "text": "### 中转站 · GPT-6 Astra\n\nOK",
+      "error": null,
+      "tokens": {
+        "inputTokens": 5015,
+        "outputTokens": 5,
+        "totalTokens": 5020
+      },
+      "elapsedMs": 5033
+    },
+    {
+      "provider": "relay",
+      "providerLabel": "贾维斯 · jws1",
+      "model": "relay_3c5b998780::gpt-6-sol",
+      "name": "GPT-6 Sol",
+      "contextWindow": null,
+      "imageGen": false,
+      "status": "ok",
+      "runStatus": "done",
+      "text": "### 中转站 · GPT-6 Sol\n\nOK",
+      "error": null,
+      "tokens": {
+        "inputTokens": 5281,
+        "outputTokens": 5,
+        "totalTokens": 5286
+      },
+      "elapsedMs": 4027
+    },
+    {
+      "provider": "relay",
+      "providerLabel": "贾维斯 · jws1",
+      "model": "relay_3c5b998780::gpt-6.1-sol",
+      "name": "GPT-6.1 Sol",
+      "contextWindow": null,
+      "imageGen": false,
+      "status": "ok",
+      "runStatus": "done",
+      "text": "### 中转站 · GPT-6.1 Sol\n\nOK",
+      "error": null,
+      "tokens": {
+        "inputTokens": 5117,
+        "outputTokens": 18,
+        "totalTokens": 5135,
+        "reasoningTokens": 11
+      },
+      "elapsedMs": 5025
+    },
+    {
+      "provider": "relay",
+      "providerLabel": "贾维斯 · jws1",
+      "model": "relay_3c5b998780::gpt-6.2-astra",
+      "name": "gpt-6.2-astra",
+      "contextWindow": null,
+      "imageGen": false,
+      "status": "ok",
+      "runStatus": "done",
+      "text": "### 中转站 · gpt-6.2-astra\n\nOK",
+      "error": null,
+      "tokens": {
+        "inputTokens": 8083,
+        "outputTokens": 51,
+        "totalTokens": 8134,
+        "reasoningTokens": 50
+      },
+      "elapsedMs": 7046
+    },
+    {
+      "provider": "relay",
+      "providerLabel": "贾维斯 · jws1",
+      "model": "relay_3c5b998780::gpt-6.2-sol",
+      "name": "gpt-6.2-sol",
+      "contextWindow": null,
+      "imageGen": false,
+      "status": "ok",
+      "runStatus": "done",
+      "text": "### 中转站 · gpt-6.2-sol\n\nOK",
+      "error": null,
+      "tokens": {
+        "inputTokens": 8188,
+        "outputTokens": 51,
+        "totalTokens": 8239,
+        "reasoningTokens": 50
+      },
+      "elapsedMs": 6042
+    },
+    {
+      "provider": "workbuddy",
+      "providerLabel": "WorkBuddy · 茉莉雨",
+      "model": "hy4std",
+      "name": "Hy4",
+      "contextWindow": 960000,
+      "imageGen": false,
+      "status": "error",
+      "runStatus": "error",
+      "text": "",
+      "error": null,
+      "tokens": null,
+      "elapsedMs": 6036,
+      "errorDetail": "所有模型都没有产出内容（检查连接状态或提高 maxTokens）",
+      "category": "WorkBuddy 返回空正文"
+    },
+    {
+      "provider": "workbuddy",
+      "providerLabel": "WorkBuddy · 茉莉雨",
+      "model": "balanced-model",
+      "name": "均衡",
+      "contextWindow": 300000,
+      "imageGen": false,
+      "status": "error",
+      "runStatus": "error",
+      "text": "",
+      "error": null,
+      "tokens": null,
+      "elapsedMs": 9048,
+      "errorDetail": "所有模型都没有产出内容（检查连接状态或提高 maxTokens）",
+      "category": "WorkBuddy 返回空正文"
+    },
+    {
+      "provider": "workbuddy",
+      "providerLabel": "WorkBuddy · 茉莉雨",
+      "model": "deep-model",
+      "name": "极致",
+      "contextWindow": 300000,
+      "imageGen": false,
+      "status": "error",
+      "runStatus": "error",
+      "text": "",
+      "error": null,
+      "tokens": null,
+      "elapsedMs": 8050,
+      "errorDetail": "所有模型都没有产出内容（检查连接状态或提高 maxTokens）",
+      "category": "WorkBuddy 返回空正文"
+    },
+    {
+      "provider": "workbuddy",
+      "providerLabel": "WorkBuddy · 茉莉雨",
+      "model": "hy4-preview-x",
+      "name": "Hy4 preview",
+      "contextWindow": 960000,
+      "imageGen": false,
+      "status": "error",
+      "runStatus": "error",
+      "text": "",
+      "error": null,
+      "tokens": null,
+      "elapsedMs": 3024,
+      "errorDetail": "所有模型调用都失败了：workbuddy 请求失败（HTTP 400）：{\"code\":11102,\"msg\":\"model [hy4-preview-x] service info not found\",\"requestId\":\"31403a2c-e951-4745-8122-c4b6518009ae\",\"retry_policy\":{\"retry\":false},\"displayMsg\":{\"en\":\"Model unavailable. Please switch models\",\"zh\":\"当前模型不可用，请切换模型\",\"zh-hant\":\"目前模型無法使用，請切換模型\"},\"displayTips\":{\"en\":\"This model is not c…",
+      "category": "WorkBuddy 上游无此模型/服务"
+    },
+    {
+      "provider": "workbuddy",
+      "providerLabel": "WorkBuddy · 茉莉雨",
+      "model": "default",
+      "name": "Default",
+      "contextWindow": 200000,
+      "imageGen": false,
+      "status": "ok",
+      "runStatus": "done",
+      "text": "### WorkBuddy · Default\n\nOK",
+      "error": null,
+      "tokens": {
+        "inputTokens": 824,
+        "outputTokens": 3,
+        "totalTokens": 827,
+        "cachedInputTokens": 0,
+        "reasoningTokens": 0
+      },
+      "elapsedMs": 3021
+    },
+    {
+      "provider": "workbuddy",
+      "providerLabel": "WorkBuddy · 茉莉雨",
+      "model": "glm-5.3",
+      "name": "GLM-5.3",
+      "contextWindow": 1000000,
+      "imageGen": false,
+      "status": "ok",
+      "runStatus": "done",
+      "text": "### WorkBuddy · GLM-5.3\n\nOK",
+      "error": null,
+      "tokens": {
+        "inputTokens": 825,
+        "outputTokens": 2,
+        "totalTokens": 827,
+        "cachedInputTokens": 0,
+        "reasoningTokens": 0
+      },
+      "elapsedMs": 5029
+    },
+    {
+      "provider": "workbuddy",
+      "providerLabel": "WorkBuddy · 茉莉雨",
+      "model": "glm-5.3-flash",
+      "name": "GLM-5.3-Flash",
+      "contextWindow": 1000000,
+      "imageGen": false,
+      "status": "ok",
+      "runStatus": "done",
+      "text": "### WorkBuddy · GLM-5.3-Flash\n\nOK",
+      "error": null,
+      "tokens": {
+        "inputTokens": 824,
+        "outputTokens": 3,
+        "totalTokens": 827,
+        "cachedInputTokens": 0,
+        "reasoningTokens": 0
+      },
+      "elapsedMs": 4026
+    },
+    {
+      "provider": "workbuddy",
+      "providerLabel": "WorkBuddy · 茉莉雨",
+      "model": "glm-5.2",
+      "name": "GLM-5.2",
+      "contextWindow": 1000000,
+      "imageGen": false,
+      "status": "ok",
+      "runStatus": "done",
+      "text": "### WorkBuddy · GLM-5.2\n\nOK",
+      "error": null,
+      "tokens": {
+        "inputTokens": 824,
+        "outputTokens": 46,
+        "totalTokens": 870,
+        "cachedInputTokens": 0,
+        "reasoningTokens": 44
+      },
+      "elapsedMs": 4030
+    },
+    {
+      "provider": "workbuddy",
+      "providerLabel": "WorkBuddy · 茉莉雨",
+      "model": "glm-5.0",
+      "name": "GLM-5.0",
+      "contextWindow": 200000,
+      "imageGen": false,
+      "status": "error",
+      "runStatus": "error",
+      "text": "",
+      "error": null,
+      "tokens": null,
+      "elapsedMs": 2015,
+      "errorDetail": "所有模型调用都失败了：workbuddy 请求失败（HTTP 400）：{\"code\":11102,\"msg\":\"model [glm-5.0] service info not found\",\"requestId\":\"98b59eb9-5477-480b-aa6b-3a7acdb1ec51\",\"retry_policy\":{\"retry\":false},\"displayMsg\":{\"en\":\"Model unavailable. Please switch models\",\"zh\":\"当前模型不可用，请切换模型\",\"zh-hant\":\"目前模型無法使用，請切換模型\"},\"displayTips\":{\"en\":\"This model is not connect…",
+      "category": "WorkBuddy 上游无此模型/服务"
+    },
+    {
+      "provider": "workbuddy",
+      "providerLabel": "WorkBuddy · 茉莉雨",
+      "model": "glm-4.7",
+      "name": "GLM-4.7",
+      "contextWindow": 200000,
+      "imageGen": false,
+      "status": "error",
+      "runStatus": "error",
+      "text": "",
+      "error": null,
+      "tokens": null,
+      "elapsedMs": 1008,
+      "errorDetail": "所有模型调用都失败了：workbuddy 请求失败（HTTP 400）：{\"code\":11102,\"msg\":\"model [glm-4.7] service info not found\",\"requestId\":\"18a10f05-d90d-4c6f-a795-f0ae0e785c46\",\"retry_policy\":{\"retry\":false},\"displayMsg\":{\"en\":\"Model unavailable. Please switch models\",\"zh\":\"当前模型不可用，请切换模型\",\"zh-hant\":\"目前模型無法使用，請切換模型\"},\"displayTips\":{\"en\":\"This model is not connect…",
+      "category": "WorkBuddy 上游无此模型/服务"
+    },
+    {
+      "provider": "workbuddy",
+      "providerLabel": "WorkBuddy · 茉莉雨",
+      "model": "glm-4.6",
+      "name": "GLM-4.6",
+      "contextWindow": 168000,
+      "imageGen": false,
+      "status": "error",
+      "runStatus": "error",
+      "text": "",
+      "error": null,
+      "tokens": null,
+      "elapsedMs": 1007,
+      "errorDetail": "所有模型调用都失败了：workbuddy 请求失败（HTTP 400）：{\"code\":11102,\"msg\":\"model [glm-4.6] service info not found\",\"requestId\":\"919ecdc9-69e3-4f70-8d3d-957e160b9b58\",\"retry_policy\":{\"retry\":false},\"displayMsg\":{\"en\":\"Model unavailable. Please switch models\",\"zh\":\"当前模型不可用，请切换模型\",\"zh-hant\":\"目前模型無法使用，請切換模型\"},\"displayTips\":{\"en\":\"This model is not connect…",
+      "category": "WorkBuddy 上游无此模型/服务"
+    },
+    {
+      "provider": "workbuddy",
+      "providerLabel": "WorkBuddy · 茉莉雨",
+      "model": "glm-4.6v",
+      "name": "GLM-4.6V",
+      "contextWindow": 128000,
+      "imageGen": false,
+      "status": "error",
+      "runStatus": "error",
+      "text": "",
+      "error": null,
+      "tokens": null,
+      "elapsedMs": 2009,
+      "errorDetail": "所有模型调用都失败了：workbuddy 请求失败（HTTP 400）：{\"code\":11102,\"msg\":\"model [glm-4.6v] service info not found\",\"requestId\":\"a5e16cc7-6ebe-438b-a76c-51d0376d0c93\",\"retry_policy\":{\"retry\":false},\"displayMsg\":{\"en\":\"Model unavailable. Please switch models\",\"zh\":\"当前模型不可用，请切换模型\",\"zh-hant\":\"目前模型無法使用，請切換模型\"},\"displayTips\":{\"en\":\"This model is not connec…",
+      "category": "WorkBuddy 上游无此模型/服务"
+    },
+    {
+      "provider": "workbuddy",
+      "providerLabel": "WorkBuddy · 茉莉雨",
+      "model": "minimax-m2.5",
+      "name": "MiniMax-M2.5",
+      "contextWindow": 200000,
+      "imageGen": false,
+      "status": "error",
+      "runStatus": "error",
+      "text": "",
+      "error": null,
+      "tokens": null,
+      "elapsedMs": 1004,
+      "errorDetail": "所有模型调用都失败了：workbuddy 请求失败（HTTP 400）：{\"code\":11102,\"msg\":\"model [minimax-m2.5] service info not found\",\"requestId\":\"3c22731c-772a-4410-88e9-207a09fb7550\",\"retry_policy\":{\"retry\":false},\"displayMsg\":{\"en\":\"Model unavailable. Please switch models\",\"zh\":\"当前模型不可用，请切换模型\",\"zh-hant\":\"目前模型無法使用，請切換模型\"},\"displayTips\":{\"en\":\"This model is not co…",
+      "category": "WorkBuddy 上游无此模型/服务"
+    },
+    {
+      "provider": "workbuddy",
+      "providerLabel": "WorkBuddy · 茉莉雨",
+      "model": "kimi-k3-1",
+      "name": "Kimi-K3",
+      "contextWindow": 1000000,
+      "imageGen": false,
+      "status": "ok",
+      "runStatus": "done",
+      "text": "### WorkBuddy · Kimi-K3\n\nOK",
+      "error": null,
+      "tokens": {
+        "inputTokens": 872,
+        "outputTokens": 51,
+        "totalTokens": 923,
+        "cachedInputTokens": 0,
+        "reasoningTokens": 40
+      },
+      "elapsedMs": 4024
+    },
+    {
+      "provider": "workbuddy",
+      "providerLabel": "WorkBuddy · 茉莉雨",
+      "model": "kimi-k2.8-preview",
+      "name": "Kimi-K2.8-Preview",
+      "contextWindow": 1000000,
+      "imageGen": false,
+      "status": "ok",
+      "runStatus": "done",
+      "text": "### WorkBuddy · Kimi-K2.8-Preview\n\nOK",
+      "error": null,
+      "tokens": {
+        "inputTokens": 872,
+        "outputTokens": 58,
+        "totalTokens": 930,
+        "cachedInputTokens": 0,
+        "reasoningTokens": 42
+      },
+      "elapsedMs": 12068
+    },
+    {
+      "provider": "workbuddy",
+      "providerLabel": "WorkBuddy · 茉莉雨",
+      "model": "kimi-k2.5",
+      "name": "Kimi-K2.5",
+      "contextWindow": 164000,
+      "imageGen": false,
+      "status": "error",
+      "runStatus": "error",
+      "text": "",
+      "error": null,
+      "tokens": null,
+      "elapsedMs": 11076,
+      "errorDetail": "所有模型都没有产出内容（检查连接状态或提高 maxTokens）",
+      "category": "WorkBuddy 返回空正文"
+    },
+    {
+      "provider": "workbuddy",
+      "providerLabel": "WorkBuddy · 茉莉雨",
+      "model": "kimi-k2-thinking",
+      "name": "Kimi-K2-Thinking",
+      "contextWindow": 164000,
+      "imageGen": false,
+      "status": "error",
+      "runStatus": "error",
+      "text": "",
+      "error": null,
+      "tokens": null,
+      "elapsedMs": 2012,
+      "errorDetail": "所有模型调用都失败了：workbuddy 请求失败（HTTP 400）：{\"code\":11102,\"msg\":\"model [kimi-k2-thinking] service info not found\",\"requestId\":\"ed744c87-acfc-44c6-a68a-83477f6aa455\",\"retry_policy\":{\"retry\":false},\"displayMsg\":{\"en\":\"Model unavailable. Please switch models\",\"zh\":\"当前模型不可用，请切换模型\",\"zh-hant\":\"目前模型無法使用，請切換模型\"},\"displayTips\":{\"en\":\"This model is no…",
+      "category": "WorkBuddy 上游无此模型/服务"
+    },
+    {
+      "provider": "workbuddy",
+      "providerLabel": "WorkBuddy · 茉莉雨",
+      "model": "deepseek-v4-flash",
+      "name": "Deepseek-V4-Flash",
+      "contextWindow": 1000000,
+      "imageGen": false,
+      "status": "ok",
+      "runStatus": "done",
+      "text": "### WorkBuddy · Deepseek-V4-Flash\n\nOK",
+      "error": null,
+      "tokens": {
+        "inputTokens": 831,
+        "outputTokens": 2,
+        "totalTokens": 833,
+        "cachedInputTokens": 0,
+        "reasoningTokens": 0
+      },
+      "elapsedMs": 2015
+    },
+    {
+      "provider": "workbuddy",
+      "providerLabel": "WorkBuddy · 茉莉雨",
+      "model": "deepseek-v4.1-flash",
+      "name": "DeepSeek-V4.1-Flash",
+      "contextWindow": 1000000,
+      "imageGen": false,
+      "status": "ok",
+      "runStatus": "done",
+      "text": "### WorkBuddy · DeepSeek-V4.1-Flash\n\nOK",
+      "error": null,
+      "tokens": {
+        "inputTokens": 831,
+        "outputTokens": 2,
+        "totalTokens": 833,
+        "cachedInputTokens": 640,
+        "reasoningTokens": 0
+      },
+      "elapsedMs": 4028
+    },
+    {
+      "provider": "workbuddy",
+      "providerLabel": "WorkBuddy · 茉莉雨",
+      "model": "deepseek-v4-pro",
+      "name": "DeepSeek-V4-Pro",
+      "contextWindow": 1000000,
+      "imageGen": false,
+      "status": "ok",
+      "runStatus": "done",
+      "text": "### WorkBuddy · DeepSeek-V4-Pro\n\nOK",
+      "error": null,
+      "tokens": {
+        "inputTokens": 805,
+        "outputTokens": 9,
+        "totalTokens": 814,
+        "cachedInputTokens": 0,
+        "reasoningTokens": 7
+      },
+      "elapsedMs": 7045
+    },
+    {
+      "provider": "workbuddy",
+      "providerLabel": "WorkBuddy · 茉莉雨",
+      "model": "deepseek-v3-2-volc",
+      "name": "DeepSeek-V3.2",
+      "contextWindow": 96000,
+      "imageGen": false,
+      "status": "ok",
+      "runStatus": "done",
+      "text": "### WorkBuddy · DeepSeek-V3.2\n\nOK",
+      "error": null,
+      "tokens": {
+        "inputTokens": 831,
+        "outputTokens": 2,
+        "totalTokens": 833,
+        "cachedInputTokens": 0,
+        "reasoningTokens": 0
+      },
+      "elapsedMs": 4023
+    },
+    {
+      "provider": "workbuddy",
+      "providerLabel": "WorkBuddy · 茉莉雨",
+      "model": "hunyuan-2.0-thinking",
+      "name": "Hunyuan-2.0-Thinking",
+      "contextWindow": 128000,
+      "imageGen": false,
+      "status": "error",
+      "runStatus": "error",
+      "text": "",
+      "error": null,
+      "tokens": null,
+      "elapsedMs": 2008,
+      "errorDetail": "所有模型调用都失败了：workbuddy 请求失败（HTTP 400）：{\"code\":11102,\"msg\":\"model [hunyuan-2.0-thinking] service info not found\",\"requestId\":\"88d693bb-3470-43a8-b7ba-535bd9d8dcb8\",\"retry_policy\":{\"retry\":false},\"displayMsg\":{\"en\":\"Model unavailable. Please switch models\",\"zh\":\"当前模型不可用，请切换模型\",\"zh-hant\":\"目前模型無法使用，請切換模型\"},\"displayTips\":{\"en\":\"This model i…",
+      "category": "WorkBuddy 上游无此模型/服务"
+    },
+    {
+      "provider": "workbuddy",
+      "providerLabel": "WorkBuddy · 茉莉雨",
+      "model": "hunyuan-chat",
+      "name": "Hunyuan-Turbos",
+      "contextWindow": 200000,
+      "imageGen": false,
+      "status": "ok",
+      "runStatus": "done",
+      "text": "### WorkBuddy · Hunyuan-Turbos\n\nOK",
+      "error": null,
+      "tokens": {
+        "inputTokens": 880,
+        "outputTokens": 2,
+        "totalTokens": 882,
+        "cachedInputTokens": 0
+      },
+      "elapsedMs": 3020
+    },
+    {
+      "provider": "workbuddy",
+      "providerLabel": "WorkBuddy · 茉莉雨",
+      "model": "space-bunny",
+      "name": "Space-Bunny",
+      "contextWindow": 1000000,
+      "imageGen": false,
+      "status": "ok",
+      "runStatus": "done",
+      "text": "### WorkBuddy · Space-Bunny\n\nOK",
+      "error": null,
+      "tokens": {
+        "inputTokens": 901,
+        "outputTokens": 3,
+        "totalTokens": 904,
+        "cachedInputTokens": 140,
+        "reasoningTokens": 0
+      },
+      "elapsedMs": 3015
+    },
+    {
+      "provider": "workbuddy",
+      "providerLabel": "WorkBuddy · 茉莉雨",
+      "model": "step-5-preview",
+      "name": "Step-5-Preview",
+      "contextWindow": 1000000,
+      "imageGen": false,
+      "status": "ok",
+      "runStatus": "done",
+      "text": "### WorkBuddy · Step-5-Preview\n\nOK",
+      "error": null,
+      "tokens": {
+        "inputTokens": 822,
+        "outputTokens": 68,
+        "totalTokens": 890,
+        "cachedInputTokens": 0,
+        "reasoningTokens": 0
+      },
+      "elapsedMs": 6032
+    },
+    {
+      "provider": "workbuddy",
+      "providerLabel": "WorkBuddy · 茉莉雨",
+      "model": "mimo-v2.6-pro",
+      "name": "Xiaomi MiMo-V2.6-Pro",
+      "contextWindow": 1000000,
+      "imageGen": false,
+      "status": "ok",
+      "runStatus": "done",
+      "text": "### WorkBuddy · Xiaomi MiMo-V2.6-Pro\n\nOK",
+      "error": null,
+      "tokens": {
+        "inputTokens": 866,
+        "outputTokens": 13,
+        "totalTokens": 879,
+        "cachedInputTokens": 0,
+        "reasoningTokens": 10
+      },
+      "elapsedMs": 4024
+    },
+    {
+      "provider": "workbuddy",
+      "providerLabel": "WorkBuddy · 茉莉雨",
+      "model": "minimax-m3.1-flash",
+      "name": "MiniMax-M3.1-Flash",
+      "contextWindow": 1000000,
+      "imageGen": false,
+      "status": "ok",
+      "runStatus": "done",
+      "text": "### WorkBuddy · MiniMax-M3.1-Flash\n\nOK",
+      "error": null,
+      "tokens": {
+        "inputTokens": 947,
+        "outputTokens": 3,
+        "totalTokens": 950,
+        "cachedInputTokens": 128,
+        "reasoningTokens": 0
+      },
+      "elapsedMs": 3013
+    },
+    {
+      "provider": "workbuddy",
+      "providerLabel": "WorkBuddy · 茉莉雨",
+      "model": "kimi-k3.1-pro",
+      "name": "Kimi-K3.1-Pro",
+      "contextWindow": 1000000,
+      "imageGen": false,
+      "status": "ok",
+      "runStatus": "done",
+      "text": "### WorkBuddy · Kimi-K3.1-Pro\n\nOK",
+      "error": null,
+      "tokens": {
+        "inputTokens": 872,
+        "outputTokens": 34,
+        "totalTokens": 906,
+        "cachedInputTokens": 0,
+        "reasoningTokens": 20
+      },
+      "elapsedMs": 6031
+    }
+  ],
+  "skippedImage": [
+    {
+      "provider": "workbuddy",
+      "model": "hunyuan-image-alpha",
+      "name": "Hunyuan Image Alpha",
+      "imageGen": true
+    },
+    {
+      "provider": "workbuddy",
+      "model": "hunyuan-image-alpha-edit",
+      "name": "Hunyuan Image Alpha Edit",
+      "imageGen": true
+    }
+  ],
+  "skippedUnavailable": [
+    {
+      "provider": "kimi",
+      "model": "kimi-k3.1-pro",
+      "name": "Kimi K3.1 Pro（API）"
+    },
+    {
+      "provider": "kimi",
+      "model": "kimi-k3",
+      "name": "Kimi K3（API）"
+    },
+    {
+      "provider": "kimi",
+      "model": "kimi-k2.7-code",
+      "name": "Kimi K2.7 Code"
+    },
+    {
+      "provider": "kimi",
+      "model": "kimi-k2.6",
+      "name": "Kimi K2.6"
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-opus-5-5",
+      "name": "Claude Opus 5.5"
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-sonnet-5-5",
+      "name": "Claude Sonnet 5.5"
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-haiku-4-5",
+      "name": "Claude Haiku 4.5"
+    },
+    {
+      "provider": "zhipu",
+      "model": "glm-5.3",
+      "name": "GLM-5.3"
+    },
+    {
+      "provider": "zhipu",
+      "model": "glm-5.3-flash",
+      "name": "GLM-5.3 Flash"
+    },
+    {
+      "provider": "zhipu",
+      "model": "glm-5.2",
+      "name": "GLM-5.2"
+    },
+    {
+      "provider": "zhipu",
+      "model": "glm-4.7",
+      "name": "GLM-4.7"
+    },
+    {
+      "provider": "zhipu",
+      "model": "glm-4.6v",
+      "name": "GLM-4.6V（视觉）"
+    },
+    {
+      "provider": "qwen",
+      "model": "qwen4-max",
+      "name": "Qwen4 Max"
+    },
+    {
+      "provider": "qwen",
+      "model": "qwen3.8-max",
+      "name": "Qwen3.8 Max"
+    },
+    {
+      "provider": "qwen",
+      "model": "qwen3.8-flash",
+      "name": "Qwen3.8 Flash"
+    },
+    {
+      "provider": "qwen",
+      "model": "qwen3.8-omni-flash",
+      "name": "Qwen3.8 Omni Flash"
+    },
+    {
+      "provider": "volcengine",
+      "model": "doubao-seed-evolving",
+      "name": "豆包 Seed-Evolving"
+    },
+    {
+      "provider": "volcengine",
+      "model": "doubao-seed-2.1",
+      "name": "豆包 Seed 2.1"
+    },
+    {
+      "provider": "volcengine",
+      "model": "deepseek-v4.1-flash",
+      "name": "DeepSeek V4.1 Flash（方舟）"
+    },
+    {
+      "provider": "minimax",
+      "model": "MiniMax-M3",
+      "name": "MiniMax M3"
+    },
+    {
+      "provider": "minimax",
+      "model": "MiniMax-M3.1-Flash",
+      "name": "MiniMax M3.1 Flash"
+    },
+    {
+      "provider": "minimax",
+      "model": "MiniMax-M2.7",
+      "name": "MiniMax M2.7"
+    },
+    {
+      "provider": "minimax",
+      "model": "MiniMax-M2.5",
+      "name": "MiniMax M2.5"
+    },
+    {
+      "provider": "gemini",
+      "model": "gemini-3.1-pro",
+      "name": "Gemini 3.1 Pro"
+    },
+    {
+      "provider": "gemini",
+      "model": "gemini-3.1-flash",
+      "name": "Gemini 3.1 Flash"
+    },
+    {
+      "provider": "gemini",
+      "model": "gemini-3-pro",
+      "name": "Gemini 3 Pro（兼容）"
+    },
+    {
+      "provider": "xai",
+      "model": "grok-4.7",
+      "name": "Grok 4.7"
+    },
+    {
+      "provider": "xai",
+      "model": "grok-4.1",
+      "name": "Grok 4.1（兼容）"
+    },
+    {
+      "provider": "xai",
+      "model": "grok-code-fast-1",
+      "name": "Grok Code Fast"
+    }
+  ]
+}
