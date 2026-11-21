@@ -303,14 +303,41 @@ export function getRun(runId: string, signal?: AbortSignal): Promise<RunDetail> 
   return request<RunDetail>(`/api/runs/${encodeURIComponent(runId)}`, { signal });
 }
 
-/** 多轮对话：一个工作（线程）的列表。 */
-export function listThreads(limit = 30, signal?: AbortSignal): Promise<ThreadSummary[]> {
-  return request<ThreadSummary[]>(`/api/threads?limit=${encodeURIComponent(String(limit))}`, { signal });
+/** 多轮对话：一个工作（线程）的列表。archived=true 时包含归档。 */
+export function listThreads(limit = 30, archived = false, signal?: AbortSignal): Promise<ThreadSummary[]> {
+  const q = new URLSearchParams({ limit: String(limit) });
+  if (archived) q.set("archived", "1");
+  return request<ThreadSummary[]>(`/api/threads?${q.toString()}`, { signal });
 }
 
 /** 多轮对话：一个工作的全部轮次。 */
 export function getThread(threadId: string, signal?: AbortSignal): Promise<ThreadDetail> {
   return request<ThreadDetail>(`/api/threads/${encodeURIComponent(threadId)}`, { signal });
+}
+
+export function archiveThread(threadId: string, archived = true): Promise<{ thread: ThreadSummary }> {
+  return request<{ thread: ThreadSummary }>(`/api/threads/${encodeURIComponent(threadId)}/archive`, {
+    method: "POST",
+    body: jsonBody({ archived }),
+  });
+}
+
+export function deleteThread(threadId: string): Promise<{ ok: boolean }> {
+  return request<{ ok: boolean }>(`/api/threads/${encodeURIComponent(threadId)}`, { method: "DELETE" });
+}
+
+export function saveThreadMemory(threadId: string, memory: string): Promise<{ thread: ThreadSummary }> {
+  return request<{ thread: ThreadSummary }>(`/api/threads/${encodeURIComponent(threadId)}/memory`, {
+    method: "PUT",
+    body: jsonBody({ memory }),
+  });
+}
+
+export function branchThread(threadId: string, fromRunId?: string): Promise<ThreadDetail> {
+  return request<ThreadDetail>(`/api/threads/${encodeURIComponent(threadId)}/branch`, {
+    method: "POST",
+    body: jsonBody({ fromRunId }),
+  });
 }
 
 export function cancelRun(runId: string): Promise<void> {
@@ -604,6 +631,10 @@ export const api = {
   getRun,
   listThreads,
   getThread,
+  archiveThread,
+  deleteThread,
+  saveThreadMemory,
+  branchThread,
   cancelRun,
   openRunStream,
   /* v0.0.2 */

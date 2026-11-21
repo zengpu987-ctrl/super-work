@@ -241,8 +241,10 @@ export async function registerRoutes(app: FastifyInstance, deps: RouteDeps): Pro
   /* ------------------------------- threads -------------------------------- */
 
   app.get("/api/threads", async (req) => {
-    const limit = Number((req.query as { limit?: string }).limit ?? 30);
-    return runs.listThreads(Number.isFinite(limit) ? limit : 30);
+    const query = req.query as { limit?: string; archived?: string };
+    const limit = Number(query.limit ?? 30);
+    const archived = query.archived === "1" || query.archived === "true";
+    return runs.listThreads(Number.isFinite(limit) ? limit : 30, archived);
   });
 
   app.get("/api/threads/:id", async (req, reply) => {
@@ -250,6 +252,41 @@ export async function registerRoutes(app: FastifyInstance, deps: RouteDeps): Pro
     const detail = runs.threadDetail(id);
     if (!detail) return reply.code(404).send({ error: { code: "not_found", message: "工作不存在" } });
     return detail;
+  });
+
+  app.post("/api/threads/:id/archive", async (req, reply) => {
+    const { id } = req.params as { id: string };
+    const body = (req.body ?? {}) as { archived?: boolean };
+    const thread = runs.setThreadArchived(id, body.archived !== false);
+    if (!thread) return reply.code(404).send({ error: { code: "not_found", message: "工作不存在" } });
+    return { thread };
+  });
+
+  app.delete("/api/threads/:id", async (req, reply) => {
+    const { id } = req.params as { id: string };
+    if (!runs.deleteThread(id)) return reply.code(404).send({ error: { code: "not_found", message: "工作不存在" } });
+    return { ok: true };
+  });
+
+  app.put("/api/threads/:id/memory", async (req, reply) => {
+    const { id } = req.params as { id: string };
+    const body = (req.body ?? {}) as { memory?: string };
+    if (typeof body.memory !== "string") return badRequest(reply, "memory 必须是字符串");
+    const thread = runs.saveThreadMemory(id, body.memory);
+    if (!thread) return reply.code(404).send({ error: { code: "not_found", message: "工作不存在" } });
+    return { thread };
+  });
+
+  app.post("/api/threads/:id/branch", async (req, reply) => {
+    const { id } = req.params as { id: string };
+    const body = (req.body ?? {}) as { fromRunId?: string };
+    try {
+      const detail = runs.branchThread(id, body.fromRunId?.trim() || undefined);
+      if (!detail) return reply.code(404).send({ error: { code: "not_found", message: "工作不存在" } });
+      return detail;
+    } catch (error) {
+      return reply.code(400).send({ error: { code: "branch_failed", message: (error as Error).message } });
+    }
   });
 
   app.post("/api/runs/:id/cancel", async (req, reply) => {

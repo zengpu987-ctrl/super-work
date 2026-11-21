@@ -3,7 +3,7 @@ import type { ProviderId, ProviderStatus, ThreadSummary } from "@super-work/core
 import { MODE_META } from "../lib/types";
 import { formatRelative, formatTokens, truncate } from "../lib/format";
 import { ProviderRow } from "./ProviderRow";
-import { IconPlus, IconRefresh, IconSearch } from "./Icons";
+import { IconBrain, IconClock, IconLayers, IconPlus, IconRefresh, IconSearch, IconTrash } from "./Icons";
 
 export interface HistoryRailProps {
   /** 多轮对话：一个工作 = 一条对话线（左栏按工作展示） */
@@ -18,6 +18,11 @@ export interface HistoryRailProps {
   onRefresh: () => void;
   onRefreshProviders: () => void;
   onNew: () => void;
+  showArchived?: boolean;
+  onToggleArchived?: () => void;
+  onArchive?: (threadId: string, archived: boolean) => void;
+  onDelete?: (threadId: string) => void;
+  onOpenMemory?: (thread: ThreadSummary) => void;
   open?: boolean;
 }
 
@@ -39,6 +44,11 @@ export function HistoryRail({
   onRefresh,
   onRefreshProviders,
   onNew,
+  showArchived = false,
+  onToggleArchived,
+  onArchive,
+  onDelete,
+  onOpenMemory,
   open,
 }: HistoryRailProps) {
   const [search, setSearch] = useState("");
@@ -53,6 +63,24 @@ export function HistoryRail({
         <IconSearch size={15} aria-hidden="true" />
         <input type="search" aria-label="搜索工作记录" placeholder="搜索对话" value={search} onChange={(event) => setSearch(event.target.value)} />
       </label>
+      <div className="history-view-toggle" role="group" aria-label="对话范围">
+        <button
+          type="button"
+          className={`history-view-toggle__btn${showArchived ? "" : " is-active"}`}
+          onClick={() => { if (showArchived) onToggleArchived?.(); }}
+        >
+          当前
+        </button>
+        <button
+          type="button"
+          className={`history-view-toggle__btn${showArchived ? " is-active" : ""}`}
+          onClick={() => { if (!showArchived) onToggleArchived?.(); }}
+          title="显示已归档的对话"
+        >
+          归档
+        </button>
+      </div>
+
       <div className="rail-head">
         <h2 className="rail-head__title rail-label">工作记录</h2>
         <span className="rail-head__count mono">{threads.length}</span>
@@ -85,37 +113,86 @@ export function HistoryRail({
             const active = thread.id === activeThreadId;
             const modeName = MODE_META[thread.mode]?.name ?? thread.mode;
             return (
-              <button
-                type="button"
+              <div
                 key={thread.id}
                 role="listitem"
-                className={`history-item${active ? " is-active" : ""}`}
-                onClick={() => onSelectThread(thread.id)}
-                aria-current={active ? "true" : undefined}
-                title={`${modeName} · ${thread.title}`}
-                aria-label={`${modeName}工作，${thread.rounds} 轮，${truncate(thread.title, 40)}，${status.label}`}
+                className={`history-item${active ? " is-active" : ""}${thread.archived ? " is-archived" : ""}`}
               >
-                <span className="history-item__top">
-                  <span className="history-item__mode">{modeName}</span>
-                  {thread.rounds > 1 ? (
-                    <span className="history-item__round mono">{thread.rounds} 轮</span>
+                <button
+                  type="button"
+                  className="history-item__open"
+                  onClick={() => onSelectThread(thread.id)}
+                  aria-current={active ? "true" : undefined}
+                  title={`${modeName} · ${thread.title}`}
+                  aria-label={`${modeName}工作，${thread.rounds} 轮，${truncate(thread.title, 40)}，${status.label}`}
+                >
+                  <span className="history-item__top">
+                    <span className="history-item__mode">{modeName}</span>
+                    {thread.parentThreadId ? <span className="history-item__branch"><IconLayers size={10} /> 分支</span> : null}
+                    {thread.rounds > 1 ? (
+                      <span className="history-item__round mono">{thread.rounds} 轮</span>
+                    ) : null}
+                    <span className="history-item__time">{formatRelative(thread.updatedAt)}</span>
+                  </span>
+                  <span className="history-item__command clamp-2">{thread.title}</span>
+                  <span className="history-item__meta">
+                    <span className={`dot ${thread.status === "running" ? "dot-warn" : status.dot}`} aria-hidden="true" />
+                    {status.label}
+                    <span aria-hidden="true">·</span>
+                    <span className="mono">{thread.participantCount} 模型</span>
+                    {thread.usage?.totalTokens ? (
+                      <>
+                        <span aria-hidden="true">·</span>
+                        <span className="mono">{formatTokens(thread.usage.totalTokens)} tok</span>
+                      </>
+                    ) : null}
+                    {thread.memory ? (
+                      <>
+                        <span aria-hidden="true">·</span>
+                        <span className="history-item__memory" title="已保存对话记忆"><IconBrain size={10} /> 记忆</span>
+                      </>
+                    ) : null}
+                  </span>
+                </button>
+                <div className="history-item__actions">
+                  {onOpenMemory ? (
+                    <button
+                      type="button"
+                      className="icon-btn"
+                      onClick={(event) => { event.stopPropagation(); onOpenMemory(thread); }}
+                      aria-label={`编辑对话记忆 ${thread.title}`}
+                      title="对话记忆"
+                    >
+                      <IconBrain size={12} />
+                    </button>
                   ) : null}
-                  <span className="history-item__time">{formatRelative(thread.updatedAt)}</span>
-                </span>
-                <span className="history-item__command clamp-2">{thread.title}</span>
-                <span className="history-item__meta">
-                  <span className={`dot ${thread.status === "running" ? "dot-warn" : status.dot}`} aria-hidden="true" />
-                  {status.label}
-                  <span aria-hidden="true">·</span>
-                  <span className="mono">{thread.participantCount} 模型</span>
-                  {thread.usage?.totalTokens ? (
-                    <>
-                      <span aria-hidden="true">·</span>
-                      <span className="mono">{formatTokens(thread.usage.totalTokens)} tok</span>
-                    </>
+                  {onArchive ? (
+                    <button
+                      type="button"
+                      className="icon-btn"
+                      onClick={(event) => { event.stopPropagation(); onArchive(thread.id, !thread.archived); }}
+                      aria-label={`${thread.archived ? "取消归档" : "归档"}对话 ${thread.title}`}
+                      title={thread.archived ? "取消归档" : "归档"}
+                    >
+                      <IconClock size={12} />
+                    </button>
                   ) : null}
-                </span>
-              </button>
+                  {onDelete ? (
+                    <button
+                      type="button"
+                      className="icon-btn history-item__delete"
+                      onClick={(event) => {
+                        event.stopPropagation();
+                        if (window.confirm(`删除对话「${truncate(thread.title, 40)}」？运行记录与产物仍保留在本机，只是不再显示。`)) onDelete(thread.id);
+                      }}
+                      aria-label={`删除对话 ${thread.title}`}
+                      title="删除对话"
+                    >
+                      <IconTrash size={12} />
+                    </button>
+                  ) : null}
+                </div>
+              </div>
             );
           })
         )}

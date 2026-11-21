@@ -292,3 +292,26 @@ test("openai-responses：discoverModels 从 Codex /models 拉取实时订阅目�
   assert.equal(sol.via, "subscription");
   assert.equal(models[1]!.vision, false);
 });
+
+test("openai-responses：assistant 历史消息用 output_text（Codex 后端不接受 input_text）", () => {
+  const adapter = new OpenAIResponsesAdapter({ baseUrl: "http://127.0.0.1:1" });
+  const body = adapter.buildBody({
+    provider: "openai",
+    model: "gpt-6.1-terra",
+    system: "sys",
+    messages: [
+      { role: "user", content: "你好" },
+      { role: "assistant", content: "上一轮回答" },
+      { role: "user", content: "继续" },
+    ],
+    maxTokens: 100,
+  });
+  const input = body.input as Array<Record<string, unknown>>;
+  const assistant = input.find((item) => item.role === "assistant") as {
+    content: Array<{ type: string; text?: string }>;
+  };
+  assert.equal(assistant.content[0]?.type, "output_text");
+  assert.equal(assistant.content[0]?.text, "上一轮回答");
+  const user = input.find((item) => item.role === "user") as { content: Array<{ type: string }> };
+  assert.equal(user.content[0]?.type, "input_text");
+});

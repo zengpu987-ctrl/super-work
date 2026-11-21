@@ -202,6 +202,14 @@ export interface ThreadSummary {
   participantCount: number;
   usage?: Usage;
   cost?: number;
+  /** 已归档；默认列表不返回 */
+  archived?: boolean;
+  /** 若由另一条对话分支而来，记录来源 */
+  parentThreadId?: string;
+  branchedFromRunId?: string;
+  /** 本对话的长期记忆（手动维护，注入下一次调用） */
+  memory?: string;
+  memoryUpdatedAt?: number;
 }
 
 export interface ThreadDetail {

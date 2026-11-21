@@ -73,6 +73,26 @@ export interface RunRowShape {
   round?: number;
 }
 
+export interface ThreadMetaRow {
+  thread_id: string;
+  archived: number;
+  deleted_at: number | null;
+  parent_thread_id: string | null;
+  branched_from_run_id: string | null;
+  memory: string | null;
+  memory_updated_at: number | null;
+  created_at: number;
+  updated_at: number;
+}
+
+export interface ThreadMetaPatch {
+  archived?: boolean;
+  deletedAt?: number | null;
+  parentThreadId?: string | null;
+  branchedFromRunId?: string | null;
+  memory?: string | null;
+}
+
 export class Storage {
   readonly db: DatabaseSync;
 
@@ -118,6 +138,17 @@ export class Storage {
         payload TEXT NOT NULL
       );
       CREATE INDEX IF NOT EXISTS idx_run_events_run ON run_events(run_id, seq);
+      CREATE TABLE IF NOT EXISTS thread_meta (
+        thread_id TEXT PRIMARY KEY,
+        archived INTEGER NOT NULL DEFAULT 0,
+        deleted_at INTEGER,
+        parent_thread_id TEXT,
+        branched_from_run_id TEXT,
+        memory TEXT,
+        memory_updated_at INTEGER,
+        created_at INTEGER NOT NULL,
+        updated_at INTEGER NOT NULL
+      );
     `);
     this.ensureColumn("runs", "artifacts_json", "TEXT");
     this.ensureColumn("runs", "cost_json", "TEXT");
@@ -387,6 +418,89 @@ export class Storage {
     this.db
       .prepare("UPDATE runs SET thread_id = ?, round_index = ? WHERE id = ? AND (thread_id IS NULL OR round_index IS NULL)")
       .run(threadId, round, runId);
+  }
+
+  /* ------------------------------ thread metadata ------------------------- */
+
+  getThreadMeta(threadId: string): ThreadMetaRow | undefined {
+    return this.db.prepare("SELECT * FROM thread_meta WHERE thread_id = ?").get(threadId) as unknown as
+      | ThreadMetaRow
+      | undefined;
+  }
+
+  listThreadMetas(): ThreadMetaRow[] {
+    return this.db.prepare("SELECT * FROM thread_meta").all() as unknown as ThreadMetaRow[];
+  }
+
+  ensureThreadMeta(threadId: string, at = Date.now()): void {
+    this.db
+      .prepare(
+        `INSERT INTO thread_meta (thread_id, archived, deleted_at, parent_thread_id, branched_from_run_id, memory,
+           memory_updated_at, created_at, updated_at)
+         VALUES (?, 0, NULL, NULL, NULL, NULL, NULL, ?, ?)
+         ON CONFLICT(thread_id) DO NOTHING`,
+      )
+      .run(threadId, at, at);
+  }
+
+  updateThreadMeta(threadId: string, patch: ThreadMetaPatch): void {
+    this.ensureThreadMeta(threadId);
+    const sets: string[] = ["updated_at = ?"];
+    const values: Array<string | number | null> = [Date.now()];
+    if (patch.archived !== undefined) {
+      sets.push("archived = ?");
+      values.push(patch.archived ? 1 : 0);
+    }
+    if (patch.deletedAt !== undefined) {
+      sets.push("deleted_at = ?");
+      values.push(patch.deletedAt);
+    }
+    if (patch.parentThreadId !== undefined) {
+      sets.push("parent_thread_id = ?");
+      values.push(patch.parentThreadId);
+    }
+    if (patch.branchedFromRunId !== undefined) {
+      sets.push("branched_from_run_id = ?");
+      values.push(patch.branchedFromRunId);
+    }
+    if (patch.memory !== undefined) {
+      sets.push("memory = ?", "memory_updated_at = ?");
+      values.push(patch.memory, patch.memory ? Date.now() : null);
+    }
+    values.push(threadId);
+    this.db.prepare(`UPDATE thread_meta SET ${sets.join(", ")} WHERE thread_id = ?`).run(...values);
+  }
+
+  /** 复制一条运行到新工作（分支）；保留内容/结果/usage/产物等。 */
+  copyRunRow(row: RunRow, newId: string, newThreadId: string, artifactsJson?: string | null): void {
+    this.db
+      .prepare(
+        `INSERT INTO runs (id, command, mode, status, created_at, finished_at, final_text, error,
+           options_json, participants_json, results_json, usage_json, artifacts_json, cost_json,
+           coordination_json, guard_json, attachments_json, thread_id, round_index)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      )
+      .run(
+        newId,
+        row.command,
+        row.mode,
+        row.status,
+        row.created_at,
+        row.finished_at,
+        row.final_text,
+        row.error,
+        row.options_json,
+        row.participants_json,
+        row.results_json,
+        row.usage_json,
+        artifactsJson === undefined ? row.artifacts_json : artifactsJson,
+        row.cost_json,
+        row.coordination_json,
+        row.guard_json,
+        row.attachments_json,
+        newThreadId,
+        row.round_index ?? 1,
+      );
   }
 
   countRuns(): number {

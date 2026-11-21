@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import type { EffortLevel, RunMode } from "@super-work/core";
+import type { EffortLevel, RunMode, ThreadSummary } from "@super-work/core";
 import { useWorkbench } from "./lib/useWorkbench";
 import { refreshModelCatalog } from "./lib/api";
 import { estimateCoordCalls, specFromModel, specKey } from "./lib/types";
@@ -24,6 +24,7 @@ import { WorkflowPage } from "./components/WorkflowPage";
 import { SaveRunWorkflowDialog } from "./components/SaveRunWorkflowDialog";
 import { Toast } from "./components/Toast";
 import { ConfirmRunDialog } from "./components/ConfirmRunDialog";
+import { ThreadMemoryDialog } from "./components/ThreadMemoryDialog";
 import { IconAlert } from "./components/Icons";
 
 const sidebarDocked = (): boolean => window.matchMedia("(min-width: 820px)").matches;
@@ -37,6 +38,7 @@ export default function App() {
   const [saveRunOpen, setSaveRunOpen] = useState(false);
   const [demoBusy, setDemoBusy] = useState(false);
   const [teamOpen, setTeamOpen] = useState(false);
+  const [memoryThread, setMemoryThread] = useState<ThreadSummary | null>(null);
 
   const running = wb.run?.state === "running";
   const earthMode = wb.run ? "mini" : "hero";
@@ -151,6 +153,11 @@ export default function App() {
             void wb.loadThread(threadId);
             if (!sidebarDocked()) setLeftOpen(false);
           }}
+          showArchived={wb.showArchived}
+          onToggleArchived={() => wb.setShowArchived(!wb.showArchived)}
+          onArchive={(threadId, archived) => void wb.archiveThread(threadId, archived)}
+          onDelete={(threadId) => void wb.deleteThread(threadId)}
+          onOpenMemory={setMemoryThread}
           providers={wb.providers}
           onOpenSettings={(provider) => {
             wb.openSettings(provider);
@@ -263,6 +270,7 @@ export default function App() {
               judgeKey={wb.judgeKey}
               onStop={() => void wb.stopRun()}
               onRerun={() => void wb.rerun()}
+              onBranch={() => { if (wb.run) void wb.branchThread(wb.run.id); }}
               onReSynthesize={() => void wb.resynthesize()}
               onFollowUp={() => wb.beginFollowUp()}
               onOpenSettings={() => wb.openSettings()}
@@ -477,6 +485,16 @@ export default function App() {
           onOpenBudget={() => {
             wb.cancelConfirm();
             wb.openSettings(null, "budget");
+          }}
+        />
+      ) : null}
+
+      {memoryThread ? (
+        <ThreadMemoryDialog
+          thread={memoryThread}
+          onClose={() => setMemoryThread(null)}
+          onSave={async (memory) => {
+            await wb.saveThreadMemory(memoryThread.id, memory);
           }}
         />
       ) : null}

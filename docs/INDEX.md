@@ -8,6 +8,7 @@
 ## 架构与设计
 - [总体设计](DESIGN.md) · [v0.0.2](DESIGN-v0.0.2.md) · [v0.0.3](DESIGN-v0.0.3.md)
 - [Chat 模式](CHAT-MODE.md)
+- [对话、分支、记忆与文件预览](CONVERSATIONS.md)
 - [多轮与品牌图标](MULTI-ROUND-AND-BRAND-ICONS.md)
 - [档位 UI 规格](EFFORT-UI-SPEC.md)
 - [模型目录](MODELS.md)

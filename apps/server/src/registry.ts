@@ -174,20 +174,43 @@ export class ModelRegistry {
       throw new ProviderCallError(safeErrorMessage(error), spec.provider, spec.model, error);
     }
 
-    const adapter = adapterForCall(spec.provider, credential);
-    try {
-      yield* adapter.chat(this.toOptions(spec, credential.baseUrl), credential);
-    } catch (error) {
-      if ((error as Error)?.name === "AbortError") throw error;
-      const message = safeErrorMessage(error);
-      const looksExpired = /401|403|unauthor|invalid[_ ]?token|refresh token|expired/i.test(message);
-      const hint =
-        looksExpired && resolved.row.source !== "user"
-          ? "（本机复用的登录可能已过期：先在 DSH 里用一次让它刷新，或在本应用里用订阅登录重新授权）"
-          : "";
-      this.log.warn("模型调用失败", { provider: spec.provider, model: spec.model, message });
-      throw new ProviderCallError(message + hint, spec.provider, spec.model, error);
+    let adapter = adapterForCall(spec.provider, credential);
+    let credentialNow = credential;
+    let lastError: unknown;
+    for (let attempt = 0; attempt < 2; attempt += 1) {
+      try {
+        yield* adapter.chat(this.toOptions(spec, credentialNow.baseUrl), credentialNow);
+        return;
+      } catch (error) {
+        lastError = error;
+        if ((error as Error)?.name === "AbortError") throw error;
+        const message = safeErrorMessage(error);
+        const looksExpired = /401|403|unauthor|invalid[_ ]?token|refresh token|expired/i.test(message);
+        const status = Number((error as { status?: number }).status ?? 0);
+        const transient = status === 429 || (status >= 500 && status < 600);
+        if (looksExpired && attempt === 0) {
+          const refreshed = await this.creds.forceRefresh(resolved);
+          if (refreshed) {
+            credentialNow = refreshed;
+            adapter = adapterForCall(spec.provider, refreshed);
+            this.log.info("凭证已刷新，重试模型调用", { provider: spec.provider, model: spec.model });
+            continue;
+          }
+        }
+        if (transient && attempt === 0) {
+          this.log.warn("上游临时错误，1.2s 后重试一次", { provider: spec.provider, model: spec.model, status });
+          await new Promise((resolve) => setTimeout(resolve, 1200));
+          continue;
+        }
+        const hint =
+          looksExpired && resolved.row.source !== "user"
+            ? "（本机复用的登录可能已过期：先在 DSH 里用一次让它刷新，或在本应用里用订阅登录重新授权）"
+            : "";
+        this.log.warn("模型调用失败", { provider: spec.provider, model: spec.model, message });
+        throw new ProviderCallError(message + hint, spec.provider, spec.model, error);
+      }
     }
+    throw new ProviderCallError(safeErrorMessage(lastError), spec.provider, spec.model, lastError);
   }
 
   async generateImage(spec: {

@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { Artifact } from "@super-work/core";
 import { outputExt } from "@super-work/core";
+import { ArtifactPreviewPanel } from "./ArtifactPreviewPanel";
 import { artifactUrl } from "../lib/api";
 import {
   IconAlert,
@@ -37,6 +38,15 @@ function iconFor(ext: string) {
 /** 模型产出的文件列表：下载 + 文本预览 + 转换失败提示。 */
 export function FileArtifacts({ files, runId, compact }: FileArtifactsProps) {
   const [openId, setOpenId] = useState<string | null>(null);
+  const previousCount = useRef(0);
+
+  // 新交付文件时自动在右侧打开；打开历史记录时不打扰。
+  useEffect(() => {
+    if (files.length > previousCount.current && files.length > 0) {
+      setOpenId(files[files.length - 1]!.id);
+    }
+    previousCount.current = files.length;
+  }, [files]);
 
   if (files.length === 0) {
     return <div className="artifact-empty">还没有文件产物。模型按文件协议输出后会实时出现在这里。</div>;
@@ -52,6 +62,7 @@ export function FileArtifacts({ files, runId, compact }: FileArtifactsProps) {
         const error = typeof file.meta?.error === "string" ? file.meta.error : undefined;
         const converted = file.meta?.converted === true;
         const previewable = typeof file.text === "string" && file.text.length > 0;
+        const canPreview = previewable || Boolean(url);
         const open = openId === file.id;
         return (
           <div className="file-item" key={file.id} role="listitem">
@@ -82,7 +93,7 @@ export function FileArtifacts({ files, runId, compact }: FileArtifactsProps) {
                   <IconDownload size={11} /> 下载
                 </a>
               ) : null}
-              {previewable ? (
+              {canPreview ? (
                 <button
                   type="button"
                   className="btn btn-sm btn-ghost"
@@ -98,12 +109,18 @@ export function FileArtifacts({ files, runId, compact }: FileArtifactsProps) {
                 <IconAlert size={11} /> {error}
               </div>
             ) : null}
-            {open && previewable ? (
-              <pre className="file-preview">{file.text!.slice(0, 60_000)}</pre>
-            ) : null}
+
           </div>
         );
       })}
+      {openId ? (
+        <ArtifactPreviewPanel
+          files={files}
+          runId={runId}
+          initialId={openId}
+          onClose={() => setOpenId(null)}
+        />
+      ) : null}
     </div>
   );
 }

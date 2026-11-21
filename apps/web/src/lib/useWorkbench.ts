@@ -98,7 +98,7 @@ const DEFAULT_BUDGETS: BudgetSettings = {
 
 const DEFAULT_PERFORMANCE: PerformanceSettings = {
   concurrency: 3,
-  timeoutMs: 90_000,
+  timeoutMs: 180_000,
   defaultMaxTokens: 4096,
   streamChunkThrottleMs: 120,
 };
@@ -300,6 +300,9 @@ export interface Workbench {
   history: RunListItem[];
   /** 多轮对话：工作列表（左栏按工作展示） */
   threads: ThreadSummary[];
+  /** 历史栏显示归档对话 */
+  showArchived: boolean;
+  setShowArchived: (value: boolean) => void;
   /** 当前工作里已完成的轮次（对话历史，按轮次升序） */
   pastRounds: RunView[];
   settings: AppSettings;
@@ -420,6 +423,10 @@ export interface Workbench {
   loadRun: (id: string) => Promise<void>;
   /** 打开一个工作（多轮对话），还原全部轮次 */
   loadThread: (threadId: string) => Promise<void>;
+  archiveThread: (threadId: string, archived?: boolean) => Promise<void>;
+  deleteThread: (threadId: string) => Promise<void>;
+  branchThread: (runId: string) => Promise<void>;
+  saveThreadMemory: (threadId: string, memory: string) => Promise<void>;
   resetRun: () => void;
   runDemo: () => Promise<void>;
   addParticipant: (provider: ProviderId, model: string) => void;
@@ -446,6 +453,7 @@ export function useWorkbench(): Workbench {
   const [history, setHistory] = useState<RunListItem[]>([]);
   /** 多轮对话：工作列表（左栏） */
   const [threads, setThreads] = useState<ThreadSummary[]>([]);
+  const [showArchived, setShowArchivedState] = useState(false);
   /** 多轮对话：当前工作里已完成的轮次（按轮次升序） */
   const [pastRounds, setPastRounds] = useState<RunView[]>([]);
   const [settings, setSettings] = useState<AppSettings>(() => ({
@@ -610,7 +618,7 @@ export function useWorkbench(): Workbench {
     try {
       const [list, threadList] = await Promise.all([
         api.listRuns(30).catch(() => [] as RunListItem[]),
-        api.listThreads(30).catch(() => [] as ThreadSummary[]),
+        api.listThreads(30, showArchived).catch(() => [] as ThreadSummary[]),
       ]);
       if (!mountedRef.current) return;
       setHistory(list);
@@ -620,7 +628,7 @@ export function useWorkbench(): Workbench {
     } finally {
       if (mountedRef.current) setLoading((prev) => ({ ...prev, history: false }));
     }
-  }, []);
+  }, [showArchived]);
 
   const loadSettings = useCallback(async () => {
     try {
@@ -884,20 +892,52 @@ export function useWorkbench(): Workbench {
     [ensureChatModel, pushToast, setChatModel],
   );
 
+  const startRunRef = useRef<((overrides?: StartRunOverrides) => Promise<void>) | null>(null);
+
   const handoffToTeam = useCallback(
     (target: RunMode = "parallel") => {
-      setModeState(target === "coordinate" ? "coordinate" : "parallel");
-      document.getElementById("command-input")?.focus();
+      const current = runRef.current;
+      if (current?.state === "running") {
+        pushToast("info", "当前回复还在进行中，结束后再交给团队");
+        return;
+      }
+      const nextMode: RunMode = target === "coordinate" ? "coordinate" : "parallel";
+      const team = (participants.length > 0 ? participants : current?.participants ?? []).map((spec) => ({
+        provider: spec.provider,
+        model: spec.model,
+        relayId: spec.relayId,
+        effort: spec.effort ?? "medium",
+        role: spec.role,
+      }));
+      if (team.length === 0) {
+        pushToast("warn", "团队还没有配置模型", "先在右侧编排栏加入参与模型，再交给团队。");
+        return;
+      }
+      const command =
+        current?.mode === "chat"
+          ? "请团队基于以上对话，接续给出最终答案。"
+          : current?.command?.trim() || commandDraft.text.trim();
+      if (!command) {
+        pushToast("warn", "先在命令台输入一条命令");
+        return;
+      }
+      setModeState(nextMode);
       pushToast(
         "info",
-        target === "coordinate"
-          ? "已切到配合：下一条命令由已配置的角色团队接着做，会带上 Chat 上下文"
-          : "已切到并行：下一条命令由已选模型团队接着做，会带上 Chat 上下文",
-        undefined,
+        nextMode === "coordinate" ? "已在同一对话中交给配合团队" : "已在同一对话中交给并行团队",
+        "新的团队回复会作为当前对话的下一轮，前面几轮会自动带入上下文。",
         4200,
       );
+      void (async () => {
+        await startRunRef.current?.({
+          command,
+          mode: nextMode,
+          participants: team,
+          newThread: false,
+        });
+      })();
     },
-    [pushToast],
+    [commandDraft.text, participants, pushToast],
   );
 
   const toggleParticipant = useCallback((spec: ParticipantSpec) => {
@@ -1713,6 +1753,8 @@ export function useWorkbench(): Workbench {
     ],
   );
 
+  startRunRef.current = startRun;
+
   const confirmRun = useCallback(async () => {
     const pending = pendingConfirm;
     if (!pending) return;
@@ -1866,7 +1908,7 @@ export function useWorkbench(): Workbench {
     await startRun({
       command: current.command,
       mode: current.mode,
-      newThread: true,
+      newThread: false,
       participants: current.participants.map((participant) => ({
         provider: participant.provider,
         model: participant.model,
@@ -1901,7 +1943,7 @@ export function useWorkbench(): Workbench {
     await startRun({
       command,
       mode: "council",
-      newThread: true,
+      newThread: false,
       participants: [{ provider: anchor.provider, model: anchor.model, role: "总协调 / 重新综合" }],
     });
   }, [pushToast, startRun]);
@@ -2009,6 +2051,82 @@ export function useWorkbench(): Workbench {
     setFollowUp(null);
   }, [stopStream]);
 
+  const setShowArchived = useCallback(
+    (value: boolean) => {
+      setShowArchivedState(value);
+      void (async () => {
+        try {
+          const list = await api.listThreads(30, value);
+          if (!mountedRef.current) return;
+          setThreads(list);
+        } catch {
+          /* 保持当前列表 */
+        }
+      })();
+    },
+    [],
+  );
+
+  const archiveThread = useCallback(
+    async (threadId: string, archived = true) => {
+      try {
+        await api.archiveThread(threadId, archived);
+        await refreshHistory();
+        pushToast("success", archived ? "已归档对话" : "已取消归档", undefined, 2200);
+      } catch (err) {
+        pushToast("error", archived ? "归档失败" : "取消归档失败", errorMessage(err));
+      }
+    },
+    [pushToast, refreshHistory],
+  );
+
+  const deleteThread = useCallback(
+    async (threadId: string) => {
+      try {
+        await api.deleteThread(threadId);
+        if (runRef.current?.threadId === threadId) resetRun();
+        await refreshHistory();
+        pushToast("success", "已删除对话", "运行与产物仍保留在本机，只是不再显示在历史里。", 3200);
+      } catch (err) {
+        pushToast("error", "删除失败", errorMessage(err));
+      }
+    },
+    [pushToast, refreshHistory, resetRun],
+  );
+
+  const branchThread = useCallback(
+    async (runId: string) => {
+      const sourceThread = runRef.current?.threadId;
+      if (!sourceThread) {
+        pushToast("warn", "当前对话还没有可分支的轮次");
+        return;
+      }
+      try {
+        const detail = await api.branchThread(sourceThread, runId);
+        pushToast("success", "已创建对话分支", "分支包含截至该轮的历史，可以独立继续。", 3200);
+        await loadThread(detail.thread.id);
+        await refreshHistory();
+      } catch (err) {
+        pushToast("error", "创建分支失败", errorMessage(err));
+      }
+    },
+    [loadThread, pushToast, refreshHistory],
+  );
+
+  const saveThreadMemory = useCallback(
+    async (threadId: string, memory: string) => {
+      try {
+        await api.saveThreadMemory(threadId, memory);
+        await refreshHistory();
+        pushToast("success", "对话记忆已保存", "下一次调用会自动带入这段记忆。", 3200);
+      } catch (err) {
+        pushToast("error", "保存记忆失败", errorMessage(err));
+      }
+    },
+    [pushToast, refreshHistory],
+  );
+
+
   const runDemo = useCallback(async () => {
     const demo = demoParticipants();
     setParticipants(demo);
@@ -2050,6 +2168,8 @@ export function useWorkbench(): Workbench {
     customModels,
     history,
     threads,
+    showArchived,
+    setShowArchived,
     pastRounds,
     settings,
     server,
@@ -2140,6 +2260,10 @@ export function useWorkbench(): Workbench {
     resynthesize,
     loadRun,
     loadThread,
+    archiveThread,
+    deleteThread,
+    branchThread,
+    saveThreadMemory,
     resetRun,
     runDemo,
     addParticipant,

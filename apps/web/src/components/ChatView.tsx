@@ -20,6 +20,7 @@ export interface ChatViewProps {
   onStop: () => void;
   onRerun: () => void;
   onHandoffToTeam: () => void;
+  onBranch?: () => void;
   /** 调档：运行中走热调（下一次调用生效），结束后写回 Chat 模型供下一轮使用 */
   onEffortChange: (effort: EffortLevel) => void;
   /** 当前 Chat 模型的下一条消息档位（历史运行时用来显示「下一轮」的选择） */
@@ -27,7 +28,7 @@ export interface ChatViewProps {
 }
 
 /** Chat 模式的一轮：用户气泡 + 模型气泡，不做参与者卡片网格。 */
-export function ChatView({ run, now, pastRounds, onStop, onRerun, onHandoffToTeam, onEffortChange, chatEffort }: ChatViewProps) {
+export function ChatView({ run, now, pastRounds, onStop, onRerun, onHandoffToTeam, onBranch, onEffortChange, chatEffort }: ChatViewProps) {
   const participant = run.participants[0];
   const meta = participant ? PROVIDER_BY_ID[participant.provider] : undefined;
   const running = run.state === "running";
@@ -188,9 +189,14 @@ export function ChatView({ run, now, pastRounds, onStop, onRerun, onHandoffToTea
               >
                 <IconUsers size={11} /> 交给团队
               </button>
-              <button type="button" className="btn btn-sm" onClick={onRerun} title="用相同输入重新生成">
+              <button type="button" className="btn btn-sm" onClick={onRerun} title="用相同输入重新生成，仍在当前对话的下一轮">
                 重新生成
               </button>
+              {onBranch ? (
+                <button type="button" className="btn btn-sm" onClick={onBranch} title="把截至这一轮的对话复制成一个新分支">
+                  分支
+                </button>
+              ) : null}
             </>
           )}
         </div>

@@ -318,6 +318,40 @@ export class CredentialManager {
     throw new Error("订阅凭证已过期，请在设置里重新登录");
   }
 
+  /**
+   * 调用收到 401/403 时强制刷新一次（仅 source=user，避免轮换 DSH 共用令牌）。
+   * 本机复用凭证重新从 DSH 文件读取，若拿到更新的 token 则返回。
+   */
+  async forceRefresh(resolved: ResolvedCredential): Promise<Credential | undefined> {
+    const { row, credential } = resolved;
+    const oauth = credential.oauth;
+    try {
+      if (row.source === "user" && oauth?.refresh) {
+        const next =
+          row.provider === "openai"
+            ? await refreshOpenAIToken(oauth.refresh)
+            : row.provider === "kimi"
+              ? await refreshKimiToken(oauth.refresh)
+              : undefined;
+        if (next) {
+          const merged: Credential = { ...credential, oauth: { ...oauth, ...next } };
+          this.storage.updateCredentialPayload(row.id, merged, { healthy: true, detail: undefined });
+          this.log.info("凭证 401，已强制刷新订阅令牌", { provider: row.provider });
+          return merged;
+        }
+      }
+      if (row.source !== "user") {
+        const reloaded = this.reloadLocal(row, credential);
+        const before = oauth?.access ?? "";
+        const after = reloaded.oauth?.access ?? "";
+        if (after && after !== before) return reloaded;
+      }
+    } catch (error) {
+      this.log.warn("强制刷新凭证失败", { provider: row.provider, message: (error as Error).message });
+    }
+    return undefined;
+  }
+
   /** 本机复用的凭证：从源文件重新读一遍，取更新的 token（不刷新、不回写源文件）。 */
   private reloadLocal(row: StoredCredential, current: Credential): Credential {
     try {

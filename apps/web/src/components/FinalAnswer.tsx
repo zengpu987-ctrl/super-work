@@ -165,7 +165,17 @@ export function FinalAnswer({
     if (!text.trim() && images.length > 0) setTab("images");
     else if (!text.trim() && images.length === 0 && videos.length > 0) setTab("videos");
     else if (!text.trim() && images.length === 0 && videos.length === 0 && codes.length > 0) setTab("code");
-  }, [codes.length, images.length, manualTab, text, videos.length]);
+    else if (!text.trim() && images.length === 0 && videos.length === 0 && codes.length === 0 && files.length > 0) setTab("files");
+  }, [codes.length, files.length, images.length, manualTab, text, videos.length]);
+
+  const fileCountRef = useRef(files.length);
+  // 新交付文件：自动切到文件页签；FileArtifacts 会在右侧打开预览。
+  useEffect(() => {
+    if (files.length > fileCountRef.current && files.length > 0 && !manualTab) {
+      setTab("files");
+    }
+    fileCountRef.current = files.length;
+  }, [files.length, manualTab]);
 
   useEffect(() => {
     if (tab !== "code" || codeTab !== "preview" || vendor !== "idle") return;

@@ -91,6 +91,7 @@ export function RunCanvas({
   judgeKey,
   onStop,
   onRerun,
+  onBranch,
   onReSynthesize,
   onFollowUp,
   onOpenSettings,
@@ -208,6 +209,7 @@ export function RunCanvas({
         pastRounds={pastRounds}
         onStop={onStop}
         onRerun={onRerun}
+        onBranch={onBranch}
         onHandoffToTeam={() => onHandoffToTeam?.()}
         chatEffort={chatEffort}
         onEffortChange={(effort) => {
@@ -370,6 +372,11 @@ export function RunCanvas({
                 >
                   <IconRefresh size={12} /> 重新运行
                 </button>
+                {onBranch ? (
+                  <button type="button" className="btn btn-sm" onClick={onBranch} title="把截至这一轮的对话复制成新分支">
+                    分支
+                  </button>
+                ) : null}
               </>
             )}
           </div>

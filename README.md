@@ -12,7 +12,7 @@ Super Work 是一个**跑在你自己电脑上的独立网站**：启动后浏�
 [![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
 ![modes](https://img.shields.io/badge/modes-8-6d5efc)
 ![providers](https://img.shields.io/badge/providers-15-22d3ee)
-![tests](https://img.shields.io/badge/tests-191-10b981)
+![tests](https://img.shields.io/badge/tests-194-10b981)
 [![Paper](https://img.shields.io/badge/paper-中英双语-1f6b55)](paper/super-work-paper.pdf)
 
 > **开源仓库**：https://github.com/zengpu987-ctrl/super-work · **文档站**：https://zengpu987-ctrl.github.io/super-work/ · **许可证**：Apache-2.0  
@@ -83,6 +83,12 @@ v0.0.2（本版，界面由 Kimi K3.1 Pro 评审驱动）：
 | ![产物](docs/screenshots/13-v2-artifacts.png) | ![Mac](docs/screenshots/14-mac-app.png) |
 
 ---
+
+## GPT 调用稳定性修复（2026-11-21）
+
+- 修复多轮对话中 assistant 历史消息使用 `input_text` 导致的 400（改为 `output_text`）；
+- 401/403 自动刷新订阅 token 并重试一次；429/5xx 自动重试；默认超时 180s；
+- 细节与验证：[docs/GPT-STABILITY.md](docs/GPT-STABILITY.md)。
 
 ## v0.0.5 插件：全部适配、有效化
 
@@ -241,6 +247,7 @@ Claude Opus/Sonnet 5.5、GLM-5.3、Qwen4-Max、Gemini 3.1 Pro、Grok 4.7、MiniM
 
 - **许可证**：Apache-2.0；第三方组件与素材见 [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md)。
 - **论文**：中英双语 12 页，[PDF](paper/super-work-paper.pdf) / [源文](paper/super-work-paper.md)。
+- **对话能力**：[同对话交给团队/重新生成、分支、记忆、归档删除、右侧文件预览](docs/CONVERSATIONS.md)
 - **模型健康**：[2026-11-21 全模型逐项自检](docs/MODEL-HEALTH-2026-11-21.md)（修复后 60/60 文本模型通过；14 个不可用项已下架/禁用；2 图片模型未测；29 未连接）。
 - **使用说明**：[全功能手册](docs/USER-GUIDE.md)；**评测报告**：[SOFTWARE-EVALUATION.md](docs/SOFTWARE-EVALUATION.md)。
 - **DeepSeek**：[接入、参数、计费与开发工作细节](docs/DEEPSEEK.md)。
@@ -288,7 +295,7 @@ http://127.0.0.1:12334
 ```bash
 pnpm build        # tsc -b（core → providers/orchestrator/memory/workflow → server）
 pnpm build:web    # 前端产物 apps/web/dist（含离线 three.js 预置）
-pnpm test         # 各包单元测试（191 项）
+pnpm test         # 各包单元测试（194 项）
 pnpm smoke        # v0.0.1 冒烟：隔离实例 + 演示模型跑一次议会
 pnpm smoke:v2     # v0.0.2 冒烟：中转站预设/强度/并行/配合严格性/记忆/工作流/计费
 pnpm build:mac    # 构建 apps/mac/build/Super Work.app
@@ -303,7 +310,7 @@ pnpm build:mac    # 构建 apps/mac/build/Super Work.app
 
 已实现：并行/配合两种模式、8 角色分工、5 档强度（运行中可调）、15 家 + 3 款中转站、
 中转站自助导入、计费/上下文/记忆/工作流四个系统、生图与 3D 代码产物、原生 Mac 应用、
-191 个单元测试 + 三套端到端冒烟。
+194 个单元测试 + 三套端到端冒烟。
 
 尚未实现：多用户与云端部署、工具调用（联网/表格）、对话式多轮上下文、文件输入、
 Gemini/Claude 官方 CLI 登录流、WorkBuddy token 自动刷新（过期需重新导入）、

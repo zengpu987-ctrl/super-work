@@ -31,7 +31,7 @@ export function PerformancePanel({ settings, onSave }: PerformancePanelProps) {
       await onSave({
         performance: {
           concurrency: Math.max(1, Math.min(8, Math.round(perf.concurrency ?? 3))),
-          timeoutMs: Math.max(15_000, Math.min(300_000, Math.round(perf.timeoutMs ?? 90_000))),
+          timeoutMs: Math.max(15_000, Math.min(300_000, Math.round(perf.timeoutMs ?? 180_000))),
           defaultMaxTokens: Math.max(256, Math.min(32768, Math.round(perf.defaultMaxTokens ?? 4096))),
           streamChunkThrottleMs: Math.max(0, Math.min(2_000, Math.round(perf.streamChunkThrottleMs ?? 120))),
         },
@@ -68,11 +68,11 @@ export function PerformancePanel({ settings, onSave }: PerformancePanelProps) {
         <SliderField
           label="单模型调用超时"
           hint="超过该时长会中断本次调用并标记失败，不阻塞其他模型。"
-          value={Math.round((perf.timeoutMs ?? 90_000) / 1000)}
+          value={Math.round((perf.timeoutMs ?? 180_000) / 1000)}
           min={15}
           max={300}
           step={5}
-          suffix={`${Math.round((perf.timeoutMs ?? 90_000) / 1000)}s`}
+          suffix={`${Math.round((perf.timeoutMs ?? 180_000) / 1000)}s`}
           onChange={(value) => update("timeoutMs", value * 1000)}
         />
         <SliderField

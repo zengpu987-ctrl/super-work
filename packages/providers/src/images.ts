@@ -98,9 +98,16 @@ export function geminiParts(message: ChatMessage): Array<Record<string, unknown>
  */
 export function responsesContent(message: ChatMessage): Array<Record<string, unknown>> {
   const parts: Array<Record<string, unknown>> = [];
-  if (message.content !== "") parts.push({ type: "input_text", text: message.content });
-  for (const url of messageImages(message)) {
-    parts.push({ type: "input_image", image_url: url });
+  // Responses API 对 assistant 历史消息只接受 output_text；user/system 用 input_text。
+  // 之前统一 input_text 会被 Codex 后端以 400 拒绝（Invalid value: 'input_text'）。
+  const assistant = message.role === "assistant";
+  if (message.content !== "") {
+    parts.push({ type: assistant ? "output_text" : "input_text", text: message.content });
+  }
+  if (!assistant) {
+    for (const url of messageImages(message)) {
+      parts.push({ type: "input_image", image_url: url });
+    }
   }
   return parts;
 }

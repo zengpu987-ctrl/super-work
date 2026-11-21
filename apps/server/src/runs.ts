@@ -403,6 +403,12 @@ export class RunManager {
       this.storage.setRunThread(rows[0]!.id, requestedThread, rows[0]!.round_index ?? 1);
     }
 
+    this.storage.ensureThreadMeta(threadId, createdAt);
+    const threadMemory = this.storage.getThreadMeta(threadId)?.memory?.trim();
+    const combinedMemoryContext = [memory.context, threadMemory ? `【本对话记忆】\n${threadMemory}` : ""]
+      .filter((part): part is string => Boolean(part && part.trim()))
+      .join("\n\n") || undefined;
+
     const options = {
       critique: cheapMode ? false : true,
       rounds: cheapMode ? 1 : 2,
@@ -419,7 +425,7 @@ export class RunManager {
       perCallMaxTokens,
       concurrency: performance?.concurrency,
       performance,
-      memoryContext: memory.context,
+      memoryContext: combinedMemoryContext,
       memoryIds: memory.ids,
       budgetLimitTokens: budgets?.perRunTokenLimit,
       budgetLimitCost: budgets?.perRunCostLimit,
@@ -976,7 +982,7 @@ export class RunManager {
   }
 
   /** 一个工作（多轮对话）由若干轮运行组成；这里把运行记录聚合成工作列表。 */
-  listThreads(limit = 30): ThreadSummary[] {
+  listThreads(limit = 30, includeArchived = false): ThreadSummary[] {
     const rows = this.storage.listRunRows(Math.max(60, Math.min(800, limit * 8)));
     const groups = new Map<string, typeof rows>();
     for (const row of rows) {
@@ -985,13 +991,18 @@ export class RunManager {
       if (group) group.push(row);
       else groups.set(key, [row]);
     }
+    const metas = new Map(this.storage.listThreadMetas().map((meta) => [meta.thread_id, meta]));
     const summaries: ThreadSummary[] = [];
     for (const group of groups.values()) {
-      const summary = this.threadSummaryFromRows(group);
+      const threadId = group[0]!.thread_id ?? group[0]!.id;
+      const meta = metas.get(threadId);
+      if (meta?.deleted_at) continue;
+      if (meta?.archived && !includeArchived) continue;
+      const summary = this.threadSummaryFromRows(group, meta);
       if (summary) summaries.push(summary);
     }
     return summaries
-      .sort((a, b) => b.updatedAt - a.updatedAt)
+      .sort((a, b) => Number(Boolean(a.archived)) - Number(Boolean(b.archived)) || b.updatedAt - a.updatedAt)
       .slice(0, Math.max(1, Math.min(200, limit)));
   }
 
@@ -999,7 +1010,9 @@ export class RunManager {
   threadDetail(threadId: string): ThreadDetail | undefined {
     const rows = this.storage.getThreadRunRows(threadId);
     if (rows.length === 0) return undefined;
-    const thread = this.threadSummaryFromRows(rows);
+    const meta = this.storage.getThreadMeta(threadId);
+    if (meta?.deleted_at) return undefined;
+    const thread = this.threadSummaryFromRows(rows, meta);
     if (!thread) return undefined;
     const runs: RunDetail[] = [];
     for (const row of rows) {
@@ -1009,7 +1022,78 @@ export class RunManager {
     return { thread, runs };
   }
 
-  private threadSummaryFromRows(rows: RunRow[]): ThreadSummary | undefined {
+  /** 归档 / 取消归档。归档线程默认不出现在历史列表。 */
+  setThreadArchived(threadId: string, archived: boolean): ThreadSummary | undefined {
+    const rows = this.storage.getThreadRunRows(threadId);
+    if (rows.length === 0) return undefined;
+    this.storage.updateThreadMeta(threadId, { archived });
+    return this.threadSummaryFromRows(rows, this.storage.getThreadMeta(threadId));
+  }
+
+  /** 软删除：从历史隐藏；运行与产物保留，避免误删文件引用。 */
+  deleteThread(threadId: string): boolean {
+    const rows = this.storage.getThreadRunRows(threadId);
+    if (rows.length === 0) return false;
+    this.storage.updateThreadMeta(threadId, { deletedAt: Date.now(), archived: false });
+    return true;
+  }
+
+  saveThreadMemory(threadId: string, memory: string): ThreadSummary | undefined {
+    const rows = this.storage.getThreadRunRows(threadId);
+    if (rows.length === 0) return undefined;
+    const text = memory.trim();
+    this.storage.updateThreadMeta(threadId, { memory: text || null });
+    return this.threadSummaryFromRows(rows, this.storage.getThreadMeta(threadId));
+  }
+
+  /**
+   * 从某条对话的指定轮次创建分支：复制截至该轮的运行（含产物路径）到新工作。
+   * 分支是完整可继续的对话，不依赖原对话后续是否归档/删除。
+   */
+  branchThread(threadId: string, fromRunId?: string): ThreadDetail | undefined {
+    const rows = this.storage.getThreadRunRows(threadId);
+    if (rows.length === 0) return undefined;
+    const end = fromRunId ? rows.findIndex((row) => row.id === fromRunId) : rows.length - 1;
+    if (end < 0) throw new Error("分支来源轮次不存在");
+    const selected = rows.slice(0, end + 1);
+    if (selected.length === 0) return undefined;
+    const sourceMeta = this.storage.getThreadMeta(threadId);
+    const newThreadId = `thread_${Date.now().toString(36)}${crypto.randomBytes(3).toString("hex")}`;
+    this.storage.ensureThreadMeta(newThreadId);
+    this.storage.updateThreadMeta(newThreadId, {
+      parentThreadId: threadId,
+      branchedFromRunId: selected[selected.length - 1]!.id,
+      memory: sourceMeta?.memory ?? null,
+    });
+    for (const row of selected) {
+      const newRunId = `run_${Date.now().toString(36)}${crypto.randomBytes(3).toString("hex")}`;
+      const artifactsJson = this.copyArtifactsForBranch(row.id, newRunId, row.artifacts_json);
+      this.storage.copyRunRow(row, newRunId, newThreadId, artifactsJson);
+    }
+    return this.threadDetail(newThreadId);
+  }
+
+  private copyArtifactsForBranch(
+    sourceRunId: string,
+    newRunId: string,
+    artifactsJson: string | null,
+  ): string | null {
+    const home = this.paths?.home ?? path.join(process.env.HOME ?? ".", ".super-work");
+    const sourceDir = path.join(home, "artifacts", sourceRunId);
+    const targetDir = path.join(home, "artifacts", newRunId);
+    try {
+      if (fs.existsSync(sourceDir)) {
+        fs.mkdirSync(path.dirname(targetDir), { recursive: true, mode: 0o700 });
+        fs.cpSync(sourceDir, targetDir, { recursive: true });
+      }
+    } catch (error) {
+      this.log.warn("分支产物复制失败", { sourceRunId, message: safeErrorMessage(error) });
+    }
+    if (!artifactsJson) return artifactsJson;
+    return artifactsJson.replaceAll(`/api/artifacts/${sourceRunId}/`, `/api/artifacts/${newRunId}/`);
+  }
+
+  private threadSummaryFromRows(rows: RunRow[], meta?: import("./storage.js").ThreadMetaRow): ThreadSummary | undefined {
     if (rows.length === 0) return undefined;
     const sorted = [...rows].sort(
       (a, b) => (a.round_index ?? 1) - (b.round_index ?? 1) || a.created_at - b.created_at,
@@ -1050,6 +1134,11 @@ export class RunManager {
       participantCount,
       usage: Object.keys(usage).length > 0 ? usage : undefined,
       cost: priced ? cost : undefined,
+      archived: Boolean(meta?.archived),
+      parentThreadId: meta?.parent_thread_id ?? undefined,
+      branchedFromRunId: meta?.branched_from_run_id ?? undefined,
+      memory: meta?.memory ?? undefined,
+      memoryUpdatedAt: meta?.memory_updated_at ?? undefined,
     };
   }
 
