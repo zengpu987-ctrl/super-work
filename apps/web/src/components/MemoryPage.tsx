@@ -16,6 +16,7 @@ import {
   IconUpload,
   IconX,
 } from "./Icons";
+import { PaddleSwitch } from "./PaddleSwitch";
 
 export interface MemoryPageProps {
   pushToast: (kind: "info" | "success" | "error" | "warn", message: string, detail?: string) => void;
@@ -616,17 +617,12 @@ export function MemoryPage({ pushToast }: MemoryPageProps) {
                             {entry.useCount ? ` · 用过 ${entry.useCount} 次` : ""}
                           </span>
                           <div className="entry__actions">
-                            <button
-                              type="button"
-                              className={`switch${entry.enabled ? " is-on" : ""}`}
-                              role="switch"
-                              aria-checked={entry.enabled}
-                              aria-label={entry.enabled ? "停用记忆" : "启用记忆"}
+                            <PaddleSwitch
+                              checked={entry.enabled}
+                              onChange={() => void toggleEntry(entry)}
                               disabled={busy === `toggle:${entry.id}`}
-                              onClick={() => void toggleEntry(entry)}
-                            >
-                              <span />
-                            </button>
+                              ariaLabel={entry.enabled ? "停用记忆" : "启用记忆"}
+                            />
                             <button
                               type="button"
                               className="icon-btn"

@@ -19,6 +19,7 @@ import {
   IconTrash,
   IconX,
 } from "./Icons";
+import { PaddleSwitch } from "./PaddleSwitch";
 
 export interface RelaySettingsProps {
   pushToast: (kind: "info" | "success" | "error" | "warn", message: string, detail?: string) => void;
@@ -752,18 +753,13 @@ export function RelaySettings({ pushToast, onChanged }: RelaySettingsProps) {
                   {busy === `test:${relay.id}` ? <IconLoader size={11} className="spin" /> : <IconExternal size={11} />}
                   测试
                 </button>
-                <button
-                  type="button"
-                  className={`switch${relay.enabled ? " is-on" : ""}`}
-                  role="switch"
-                  aria-checked={relay.enabled}
-                  aria-label={`${relay.name}${relay.enabled ? "停用" : "启用"}`}
+                <PaddleSwitch
+                  checked={relay.enabled}
+                  onChange={() => void toggleEnabled(relay)}
                   disabled={busy === `toggle:${relay.id}`}
-                  onClick={() => void toggleEnabled(relay)}
+                  ariaLabel={`${relay.name}${relay.enabled ? "停用" : "启用"}`}
                   title={relay.enabled ? "停用（模型从池中移除可用性）" : "启用"}
-                >
-                  <span />
-                </button>
+                />
                 <button
                   type="button"
                   className={`icon-btn${confirmId === relay.id ? " is-danger" : ""}`}

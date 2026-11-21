@@ -84,6 +84,14 @@ v0.0.2（本版，界面由 Kimi K3.1 Pro 评审驱动）：
 
 ---
 
+## v0.0.4 UI：透明玻璃 + 拨片开关
+
+- 全界面改为**透明玻璃**：极光底 + 细网格 + 磨砂面板（顶栏/左右栏/命令台/答案卡/设置弹窗/团队抽屉），
+  保留 Earth 3D 地球作为背景；`backdrop-filter` 不支持时自动回退不透明底。
+- 所有开关统一为**拨片开关**（PaddleSwitch）：玻璃凹槽 + 金属拨片 + 防滑纹，位移用带过冲的弹簧曲线，
+  按下压缩、切换光晕脉冲；支持键盘与 reduced-motion。
+- 细节见 [`docs/UI-GLASS.md`](docs/UI-GLASS.md)。
+
 ## v0.0.3 新增
 
 - **工作区实时光照 3D 地球**：NOAA 太阳位置驱动昼夜线，运行中缩到左上角自转，新建对话放大（详见 [`docs/SOFTWARE-EVALUATION.md`](docs/SOFTWARE-EVALUATION.md)）；
@@ -221,7 +229,7 @@ Claude Opus/Sonnet 5.5、GLM-5.3、Qwen4-Max、Gemini 3.1 Pro、Grok 4.7、MiniM
 
 - **许可证**：Apache-2.0；第三方组件与素材见 [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md)。
 - **论文**：中英双语 12 页，[PDF](paper/super-work-paper.pdf) / [源文](paper/super-work-paper.md)。
-- **模型健康**：[2026-11-21 全模型逐项自检](docs/MODEL-HEALTH-2026-11-21.md)（58 通过 / 14 失败 / 2 图片模型未测 / 29 未连接）。
+- **模型健康**：[2026-11-21 全模型逐项自检](docs/MODEL-HEALTH-2026-11-21.md)（修复后 58/58 文本模型通过；14 个不可用项已下架/禁用；2 图片模型未测；29 未连接）。
 - **使用说明**：[全功能手册](docs/USER-GUIDE.md)；**评测报告**：[SOFTWARE-EVALUATION.md](docs/SOFTWARE-EVALUATION.md)。
 - **DeepSeek**：[接入、参数、计费与开发工作细节](docs/DEEPSEEK.md)。
 - **如何参与**：fork + PR（文档可在 GitHub 网页直接改）；讨论区、Wiki、Codespaces 与维护者路径见 [docs/COMMUNITY.md](docs/COMMUNITY.md)。

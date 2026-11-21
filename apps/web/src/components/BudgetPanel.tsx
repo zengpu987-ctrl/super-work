@@ -4,6 +4,7 @@ import type { AppSettings, BudgetSettings } from "@super-work/core";
 import type { BudgetUsageView } from "../lib/api";
 import { formatNumber } from "../lib/format";
 import { IconAlert, IconCheck, IconInfo, IconWallet } from "./Icons";
+import { PaddleSwitch } from "./PaddleSwitch";
 
 export interface BudgetPanelProps {
   settings: AppSettings;
@@ -225,21 +226,22 @@ export function BudgetPanel({ settings, usage, loading, onSave }: BudgetPanelPro
           </label>
         </div>
 
-        <button
-          type="button"
-          className={`budget-cheap${budgets.cheapMode ? " is-on" : ""}`}
-          role="switch"
-          aria-checked={budgets.cheapMode === true}
-          onClick={() => update("cheapMode", !budgets.cheapMode)}
-        >
-          <span className="budget-cheap__switch" aria-hidden="true">
-            <span />
-          </span>
-          <span className="budget-cheap__main">
+        <div className={`budget-cheap${budgets.cheapMode ? " is-on" : ""}`}>
+          <PaddleSwitch
+            checked={budgets.cheapMode === true}
+            onChange={(next) => update("cheapMode", next)}
+            ariaLabel="省钱模式"
+            title="默认档位降为 Low、关闭互评轮、压缩上下文"
+          />
+          <button
+            type="button"
+            className="budget-cheap__main"
+            onClick={() => update("cheapMode", !budgets.cheapMode)}
+          >
             <strong>省钱模式</strong>
             <span>默认档位降为 Low、关闭互评轮、附件与上下文更激进地压缩（约 8 轮）。</span>
-          </span>
-        </button>
+          </button>
+        </div>
       </section>
 
       <div className="settings-panel__foot">

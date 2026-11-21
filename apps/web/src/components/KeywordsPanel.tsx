@@ -32,6 +32,7 @@ import {
   IconTrash,
   IconX,
 } from "./Icons";
+import { PaddleSwitch } from "./PaddleSwitch";
 
 export interface KeywordsPanelProps {
   settings: AppSettings;
@@ -325,16 +326,12 @@ function KeywordRow({
     <>
       <tr className={`${expanded ? "is-expanded" : ""}${hit ? " is-hit" : ""}`}>
         <td>
-          <button
-            type="button"
-            className={`switch switch--xs${rule.enabled ? " is-on" : ""}`}
-            role="switch"
-            aria-checked={rule.enabled}
-            aria-label={`${rule.enabled ? "停用" : "启用"}规则 ${rule.keyword}`}
-            onClick={onToggle}
-          >
-            <span />
-          </button>
+          <PaddleSwitch
+            size="sm"
+            checked={rule.enabled}
+            onChange={() => onToggle()}
+            ariaLabel={`${rule.enabled ? "停用" : "启用"}规则 ${rule.keyword}`}
+          />
         </td>
         <td>
           <input

@@ -37,6 +37,7 @@ import {
   IconTrash,
   IconX,
 } from "./Icons";
+import { PaddleSwitch } from "./PaddleSwitch";
 
 function safeHost(url: string): string {
   try {
@@ -896,17 +897,24 @@ function ApiKeyForm({ provider, pushToast, onConnected }: ApiKeyFormProps) {
         />
       </div>
 
-      <label className={`check-row${skipValidation ? " is-on" : ""}`}>
-        <input
-          type="checkbox"
-          checked={skipValidation}
-          onChange={(event) => setSkipValidation(event.target.checked)}
-        />
+      <div
+        className={`check-row${skipValidation ? " is-on" : ""}`}
+        onClick={() => setSkipValidation((prev) => !prev)}
+        role="button"
+        tabIndex={0}
+        onKeyDown={(event) => {
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            setSkipValidation((prev) => !prev);
+          }
+        }}
+      >
+        <PaddleSwitch checked={skipValidation} onChange={(next) => setSkipValidation(next)} ariaLabel="跳过网络校验" />
         <span>
           <strong>跳过网络校验，直接保存凭证</strong>
           <em>上游未提供 /models 或网络受限时使用；保存后不再自动探测模型，可在模型池手动添加。</em>
         </span>
-      </label>
+      </div>
 
       <div className="form-actions">
         <button
@@ -1008,13 +1016,10 @@ function LocalReusePanel({
       </div>
 
       <div className="switch-row">
-        <button
-          type="button"
-          className={`switch${allowLocalReuse ? " is-on" : ""}`}
-          onClick={() => onToggleLocalReuse(!allowLocalReuse)}
-          role="switch"
-          aria-checked={allowLocalReuse}
-          aria-label="允许读取本机 DSH 凭证"
+        <PaddleSwitch
+          checked={allowLocalReuse}
+          onChange={(next) => onToggleLocalReuse(next)}
+          ariaLabel="允许读取本机 DSH 凭证"
         />
         <div className="switch-row__main">
           <div className="switch-row__title">允许读取本机 DSH 凭证</div>

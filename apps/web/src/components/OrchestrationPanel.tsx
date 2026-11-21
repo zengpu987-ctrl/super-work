@@ -35,6 +35,7 @@ import {
   IconStar,
   IconTrash,
 } from "./Icons";
+import { PaddleSwitch } from "./PaddleSwitch";
 
 interface RoleRowMeta {
   id: string;
@@ -425,19 +426,14 @@ export function OrchestrationPanel({
                       </button>
                     </span>
                   ) : null}
-                  <span
-                    className={`switch switch--xs${active ? " is-on" : ""}`}
-                    role="switch"
-                    aria-checked={active}
-                    aria-label={`${role.name}${enabled ? "停用" : "启用"}`}
+                  <PaddleSwitch
+                    size="sm"
+                    checked={active}
+                    disabled={running || list.length === 0}
+                    onChange={() => onSetRoleEnabled(role.id, !enabled)}
+                    ariaLabel={`${role.name}${enabled ? "停用" : "启用"}`}
                     title={active ? "停用该角色（不会调用）" : "启用该角色"}
-                    onClick={(event) => {
-                      event.stopPropagation();
-                      if (!running && list.length > 0) onSetRoleEnabled(role.id, !enabled);
-                    }}
-                  >
-                    <span />
-                  </span>
+                  />
                 </div>
 
                 {open ? (

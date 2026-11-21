@@ -19,6 +19,7 @@ import {
   IconUpload,
   IconX,
 } from "./Icons";
+import { PaddleSwitch } from "./PaddleSwitch";
 
 export interface ComposerProps {
   command: string;
@@ -96,6 +97,9 @@ export function Composer({
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const dragDepth = useRef(0);
   const [dragActive, setDragActive] = useState(false);
+  const tokenLimitExceeded =
+    attachmentTokenLimit != null && attachmentTokenLimit > 0 && attachmentTokens > attachmentTokenLimit;
+  const runDisabled = busy || attachmentBusy || command.trim().length === 0 || tokenLimitExceeded;
 
   // 输入内容变化时自适应高度（上限由 CSS 控制）。
   useEffect(() => {
@@ -107,12 +111,12 @@ export function Composer({
 
   const handleKeyDown = useCallback(
     (event: KeyboardEvent<HTMLTextAreaElement>) => {
-      if ((event.metaKey || event.ctrlKey) && event.key === "Enter") {
+      if (!event.nativeEvent.isComposing && (event.metaKey || event.ctrlKey) && event.key === "Enter") {
         event.preventDefault();
-        if (!running && !attachmentBusy) onRun();
+        if (!running && !runDisabled && !event.repeat) onRun();
       }
     },
-    [attachmentBusy, onRun, running],
+    [onRun, runDisabled, running],
   );
 
   const handlePaste = useCallback(
@@ -170,9 +174,6 @@ export function Composer({
   const chat = mode === "chat";
   const isJudge = (participant: ParticipantSpec): boolean =>
     judgeKey != null && specKey(participant) === judgeKey;
-  const tokenLimitExceeded =
-    attachmentTokenLimit != null && attachmentTokenLimit > 0 && attachmentTokens > attachmentTokenLimit;
-  const runDisabled = busy || attachmentBusy || command.trim().length === 0 || tokenLimitExceeded;
 
   return (
     <section
@@ -390,21 +391,16 @@ export function Composer({
             ) : null}
             <span>{estimateText}</span>
             <span className="composer__bar-divider" aria-hidden="true" />
-            <button
-              type="button"
-              className={`memory-switch${useMemory ? " is-on" : ""}`}
-              onClick={() => onUseMemoryChange(!useMemory)}
-              role="switch"
-              aria-checked={useMemory}
-              aria-label="使用记忆"
-              title="运行时召回长期记忆并注入 system prompt"
-            >
+            <span className="paddle-inline" title="运行时召回长期记忆并注入 system prompt">
               <IconBrain size={12} />
-              使用记忆
-              <span className="memory-switch__track" aria-hidden="true">
-                <span className="memory-switch__thumb" />
-              </span>
-            </button>
+              <span>使用记忆</span>
+              <PaddleSwitch
+                size="sm"
+                checked={useMemory}
+                onChange={(next) => onUseMemoryChange(next)}
+                ariaLabel="使用记忆"
+              />
+            </span>
             <span className="composer__bar-divider" aria-hidden="true" />
             <span>
               <kbd className="kbd">⌘</kbd>

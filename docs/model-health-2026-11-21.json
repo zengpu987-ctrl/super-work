@@ -1,8 +1,8 @@
 {
-  "checkedAt": "2026-11-21T22:36:26+0800",
-  "totalModels": 103,
-  "available": 74,
-  "tested": 72,
+  "checkedAt": "2026-11-21T22:52:38+0800",
+  "totalModels": 89,
+  "available": 60,
+  "tested": 58,
   "results": [
     {
       "provider": "deepseek",
@@ -17,28 +17,12 @@
       "error": null,
       "tokens": {
         "inputTokens": 805,
-        "outputTokens": 10,
-        "totalTokens": 815,
-        "cachedInputTokens": 0,
-        "reasoningTokens": 8
+        "outputTokens": 8,
+        "totalTokens": 813,
+        "cachedInputTokens": 768,
+        "reasoningTokens": 6
       },
-      "elapsedMs": 2023
-    },
-    {
-      "provider": "deepseek",
-      "providerLabel": "deepseek",
-      "model": "deepseek-v4.1-flash",
-      "name": "DeepSeek V4.1 Flash",
-      "contextWindow": 1000000,
-      "imageGen": false,
-      "status": "error",
-      "runStatus": "error",
-      "text": "",
-      "error": null,
-      "tokens": null,
-      "elapsedMs": 1008,
-      "errorDetail": "所有模型调用都失败了：deepseek 请求失败（HTTP 400）：{\"error\":{\"message\":\"The supported API model names are deepseek-flash, deepseek-v4-pro, but you passed deepseek-v4.1-flash. (request_id: 5e27c109-e666-4980-ba40-58dc8ecbadbe)\",\"type\":\"invalid_request_error\",\"param\":null,\"code\":\"invalid_request_error\"}}",
-      "category": "DeepSeek 当前 Key 不支持该模型名"
+      "elapsedMs": 2021
     },
     {
       "provider": "deepseek",
@@ -55,26 +39,10 @@
         "inputTokens": 831,
         "outputTokens": 2,
         "totalTokens": 833,
-        "cachedInputTokens": 0,
+        "cachedInputTokens": 640,
         "reasoningTokens": 0
       },
-      "elapsedMs": 1010
-    },
-    {
-      "provider": "deepseek",
-      "providerLabel": "deepseek",
-      "model": "deepseek-v3.2",
-      "name": "DeepSeek V3.2（兼容）",
-      "contextWindow": 131072,
-      "imageGen": false,
-      "status": "error",
-      "runStatus": "error",
-      "text": "",
-      "error": null,
-      "tokens": null,
-      "elapsedMs": 1010,
-      "errorDetail": "所有模型调用都失败了：deepseek 请求失败（HTTP 400）：{\"error\":{\"message\":\"The supported API model names are deepseek-flash, deepseek-v4-pro, but you passed deepseek-v3.2. (request_id: 02d6489f-490e-4703-af1d-8a66f1667542)\",\"type\":\"invalid_request_error\",\"param\":null,\"code\":\"invalid_request_error\"}}",
-      "category": "DeepSeek 当前 Key 不支持该模型名"
+      "elapsedMs": 1011
     },
     {
       "provider": "kimi",
@@ -88,12 +56,12 @@
       "text": "### KIMI · Kimi K3.1 Pro（会员）\n\nOK",
       "error": null,
       "tokens": {
-        "inputTokens": 871,
-        "outputTokens": 92,
-        "totalTokens": 963,
-        "cachedInputTokens": 0
+        "inputTokens": 0,
+        "outputTokens": 65,
+        "totalTokens": 65,
+        "cachedInputTokens": 871
       },
-      "elapsedMs": 4024
+      "elapsedMs": 3025
     },
     {
       "provider": "kimi",
@@ -107,12 +75,12 @@
       "text": "### KIMI · Kimi K3（会员）\n\nOK",
       "error": null,
       "tokens": {
-        "inputTokens": 872,
-        "outputTokens": 54,
-        "totalTokens": 926,
-        "cachedInputTokens": 0
+        "inputTokens": 0,
+        "outputTokens": 41,
+        "totalTokens": 41,
+        "cachedInputTokens": 872
       },
-      "elapsedMs": 3014
+      "elapsedMs": 3019
     },
     {
       "provider": "kimi",
@@ -127,11 +95,11 @@
       "error": null,
       "tokens": {
         "inputTokens": 0,
-        "outputTokens": 49,
-        "totalTokens": 49,
+        "outputTokens": 95,
+        "totalTokens": 95,
         "cachedInputTokens": 872
       },
-      "elapsedMs": 3015
+      "elapsedMs": 4027
     },
     {
       "provider": "kimi",
@@ -145,12 +113,12 @@
       "text": "### KIMI · Kimi For Coding（K2.8）\n\nOK",
       "error": null,
       "tokens": {
-        "inputTokens": 872,
-        "outputTokens": 74,
-        "totalTokens": 946,
-        "cachedInputTokens": 0
+        "inputTokens": 0,
+        "outputTokens": 73,
+        "totalTokens": 73,
+        "cachedInputTokens": 872
       },
-      "elapsedMs": 3020
+      "elapsedMs": 3015
     },
     {
       "provider": "kimi",
@@ -164,12 +132,12 @@
       "text": "### KIMI · Kimi For Coding Highspeed（K2.7 2x）\n\nOK",
       "error": null,
       "tokens": {
-        "inputTokens": 786,
-        "outputTokens": 202,
-        "totalTokens": 988,
-        "cachedInputTokens": 0
+        "inputTokens": 0,
+        "outputTokens": 16,
+        "totalTokens": 16,
+        "cachedInputTokens": 786
       },
-      "elapsedMs": 2018
+      "elapsedMs": 1011
     },
     {
       "provider": "kimi",
@@ -183,12 +151,12 @@
       "text": "### KIMI · K3.1 Pro Highspeed（2x）\n\nOK",
       "error": null,
       "tokens": {
-        "inputTokens": 871,
-        "outputTokens": 41,
-        "totalTokens": 912,
-        "cachedInputTokens": 0
+        "inputTokens": 0,
+        "outputTokens": 55,
+        "totalTokens": 55,
+        "cachedInputTokens": 871
       },
-      "elapsedMs": 9062
+      "elapsedMs": 5034
     },
     {
       "provider": "openai",
@@ -208,7 +176,7 @@
         "cachedInputTokens": 0,
         "reasoningTokens": 0
       },
-      "elapsedMs": 3022
+      "elapsedMs": 5038
     },
     {
       "provider": "openai",
@@ -228,7 +196,7 @@
         "cachedInputTokens": 0,
         "reasoningTokens": 0
       },
-      "elapsedMs": 5030
+      "elapsedMs": 6035
     },
     {
       "provider": "openai",
@@ -248,7 +216,7 @@
         "cachedInputTokens": 0,
         "reasoningTokens": 0
       },
-      "elapsedMs": 3020
+      "elapsedMs": 3016
     },
     {
       "provider": "openai",
@@ -268,7 +236,7 @@
         "cachedInputTokens": 0,
         "reasoningTokens": 0
       },
-      "elapsedMs": 5026
+      "elapsedMs": 3016
     },
     {
       "provider": "openai",
@@ -288,7 +256,7 @@
         "cachedInputTokens": 0,
         "reasoningTokens": 0
       },
-      "elapsedMs": 4023
+      "elapsedMs": 3025
     },
     {
       "provider": "openai",
@@ -308,7 +276,7 @@
         "cachedInputTokens": 0,
         "reasoningTokens": 0
       },
-      "elapsedMs": 5027
+      "elapsedMs": 3021
     },
     {
       "provider": "openai",
@@ -328,7 +296,7 @@
         "cachedInputTokens": 0,
         "reasoningTokens": 0
       },
-      "elapsedMs": 3021
+      "elapsedMs": 3022
     },
     {
       "provider": "openai",
@@ -348,7 +316,7 @@
         "cachedInputTokens": 0,
         "reasoningTokens": 0
       },
-      "elapsedMs": 3021
+      "elapsedMs": 4029
     },
     {
       "provider": "openai",
@@ -368,7 +336,7 @@
         "cachedInputTokens": 0,
         "reasoningTokens": 0
       },
-      "elapsedMs": 6035
+      "elapsedMs": 4030
     },
     {
       "provider": "openai",
@@ -388,7 +356,7 @@
         "cachedInputTokens": 0,
         "reasoningTokens": 0
       },
-      "elapsedMs": 5030
+      "elapsedMs": 3024
     },
     {
       "provider": "mock",
@@ -406,7 +374,7 @@
         "outputTokens": 60,
         "totalTokens": 1055
       },
-      "elapsedMs": 1004
+      "elapsedMs": 1008
     },
     {
       "provider": "mock",
@@ -438,11 +406,11 @@
       "text": "### 中转站 · claude-fable-5\n\nOK",
       "error": null,
       "tokens": {
-        "inputTokens": 1421,
+        "inputTokens": 1437,
         "outputTokens": 4,
-        "totalTokens": 1425
+        "totalTokens": 1441
       },
-      "elapsedMs": 5029
+      "elapsedMs": 9046
     },
     {
       "provider": "relay",
@@ -460,7 +428,7 @@
         "outputTokens": 4,
         "totalTokens": 1427
       },
-      "elapsedMs": 2010
+      "elapsedMs": 4030
     },
     {
       "provider": "relay",
@@ -471,11 +439,14 @@
       "imageGen": false,
       "status": "ok",
       "runStatus": "done",
-      "text": "OK",
+      "text": "### 中转站 · claude-fable-5-2\n\nOK",
       "error": null,
-      "tokens": null,
-      "elapsedMs": 3021,
-      "recovered": "修复 temperature 后通过"
+      "tokens": {
+        "inputTokens": 1423,
+        "outputTokens": 4,
+        "totalTokens": 1427
+      },
+      "elapsedMs": 3020
     },
     {
       "provider": "relay",
@@ -486,11 +457,14 @@
       "imageGen": false,
       "status": "ok",
       "runStatus": "done",
-      "text": "OK",
+      "text": "### 中转站 · claude-haiku-4-5\n\nOK",
       "error": null,
-      "tokens": null,
-      "elapsedMs": 3021,
-      "recovered": "修复 temperature + reasoning_effort 后通过"
+      "tokens": {
+        "inputTokens": 1366,
+        "outputTokens": 4,
+        "totalTokens": 1370
+      },
+      "elapsedMs": 3022
     },
     {
       "provider": "relay",
@@ -501,11 +475,14 @@
       "imageGen": false,
       "status": "ok",
       "runStatus": "done",
-      "text": "OK",
+      "text": "### 中转站 · claude-haiku-5-5\n\nOK",
       "error": null,
-      "tokens": null,
-      "elapsedMs": 1007,
-      "recovered": "修复 temperature 后通过"
+      "tokens": {
+        "inputTokens": 1423,
+        "outputTokens": 4,
+        "totalTokens": 1427
+      },
+      "elapsedMs": 3019
     },
     {
       "provider": "relay",
@@ -519,11 +496,11 @@
       "text": "### 中转站 · claude-opus-4-5\n\nOK",
       "error": null,
       "tokens": {
-        "inputTokens": 1476,
+        "inputTokens": 1366,
         "outputTokens": 4,
-        "totalTokens": 1480
+        "totalTokens": 1370
       },
-      "elapsedMs": 2014
+      "elapsedMs": 3021
     },
     {
       "provider": "relay",
@@ -541,7 +518,7 @@
         "outputTokens": 4,
         "totalTokens": 1371
       },
-      "elapsedMs": 6037
+      "elapsedMs": 3018
     },
     {
       "provider": "relay",
@@ -559,7 +536,7 @@
         "outputTokens": 6,
         "totalTokens": 1432
       },
-      "elapsedMs": 3020
+      "elapsedMs": 2008
     },
     {
       "provider": "relay",
@@ -577,7 +554,7 @@
         "outputTokens": 4,
         "totalTokens": 1425
       },
-      "elapsedMs": 2013
+      "elapsedMs": 2014
     },
     {
       "provider": "relay",
@@ -595,7 +572,7 @@
         "outputTokens": 4,
         "totalTokens": 1425
       },
-      "elapsedMs": 2008
+      "elapsedMs": 3023
     },
     {
       "provider": "relay",
@@ -613,7 +590,7 @@
         "outputTokens": 4,
         "totalTokens": 1427
       },
-      "elapsedMs": 2015
+      "elapsedMs": 4028
     },
     {
       "provider": "relay",
@@ -631,7 +608,7 @@
         "outputTokens": 1,
         "totalTokens": 850
       },
-      "elapsedMs": 4030
+      "elapsedMs": 3018
     },
     {
       "provider": "relay",
@@ -645,11 +622,11 @@
       "text": "### 中转站 · claude-sonnet-4-6\n\nOK",
       "error": null,
       "tokens": {
-        "inputTokens": 1367,
-        "outputTokens": 4,
-        "totalTokens": 1371
+        "inputTokens": 849,
+        "outputTokens": 1,
+        "totalTokens": 850
       },
-      "elapsedMs": 5033
+      "elapsedMs": 2017
     },
     {
       "provider": "relay",
@@ -663,11 +640,11 @@
       "text": "### 中转站 · claude-sonnet-5\n\nOK",
       "error": null,
       "tokens": {
-        "inputTokens": 1208,
-        "outputTokens": 64,
-        "totalTokens": 1272
+        "inputTokens": 1421,
+        "outputTokens": 4,
+        "totalTokens": 1425
       },
-      "elapsedMs": 3019
+      "elapsedMs": 4025
     },
     {
       "provider": "relay",
@@ -678,11 +655,14 @@
       "imageGen": false,
       "status": "ok",
       "runStatus": "done",
-      "text": "OK",
+      "text": "### 中转站 · claude-sonnet-5-5\n\nOK",
       "error": null,
-      "tokens": null,
-      "elapsedMs": 4024,
-      "recovered": "修复 temperature 后通过"
+      "tokens": {
+        "inputTokens": 849,
+        "outputTokens": 1,
+        "totalTokens": 850
+      },
+      "elapsedMs": 3023
     },
     {
       "provider": "relay",
@@ -698,9 +678,10 @@
       "tokens": {
         "inputTokens": 2340,
         "outputTokens": 5,
-        "totalTokens": 2345
+        "totalTokens": 2345,
+        "cachedInputTokens": 2176
       },
-      "elapsedMs": 5036
+      "elapsedMs": 4030
     },
     {
       "provider": "relay",
@@ -715,11 +696,12 @@
       "error": null,
       "tokens": {
         "inputTokens": 6658,
-        "outputTokens": 38,
-        "totalTokens": 6696,
-        "reasoningTokens": 37
+        "outputTokens": 26,
+        "totalTokens": 6684,
+        "cachedInputTokens": 5376,
+        "reasoningTokens": 25
       },
-      "elapsedMs": 4022
+      "elapsedMs": 3018
     },
     {
       "provider": "relay",
@@ -735,9 +717,10 @@
       "tokens": {
         "inputTokens": 5015,
         "outputTokens": 5,
-        "totalTokens": 5020
+        "totalTokens": 5020,
+        "cachedInputTokens": 4352
       },
-      "elapsedMs": 5033
+      "elapsedMs": 4030
     },
     {
       "provider": "relay",
@@ -753,9 +736,10 @@
       "tokens": {
         "inputTokens": 5281,
         "outputTokens": 5,
-        "totalTokens": 5286
+        "totalTokens": 5286,
+        "cachedInputTokens": 4608
       },
-      "elapsedMs": 4027
+      "elapsedMs": 5035
     },
     {
       "provider": "relay",
@@ -770,11 +754,11 @@
       "error": null,
       "tokens": {
         "inputTokens": 5117,
-        "outputTokens": 18,
-        "totalTokens": 5135,
-        "reasoningTokens": 11
+        "outputTokens": 5,
+        "totalTokens": 5122,
+        "cachedInputTokens": 4480
       },
-      "elapsedMs": 5025
+      "elapsedMs": 4028
     },
     {
       "provider": "relay",
@@ -791,9 +775,10 @@
         "inputTokens": 8083,
         "outputTokens": 51,
         "totalTokens": 8134,
+        "cachedInputTokens": 6912,
         "reasoningTokens": 50
       },
-      "elapsedMs": 7046
+      "elapsedMs": 5027
     },
     {
       "provider": "relay",
@@ -810,73 +795,10 @@
         "inputTokens": 8188,
         "outputTokens": 51,
         "totalTokens": 8239,
+        "cachedInputTokens": 6528,
         "reasoningTokens": 50
       },
-      "elapsedMs": 6042
-    },
-    {
-      "provider": "workbuddy",
-      "providerLabel": "WorkBuddy · 茉莉雨",
-      "model": "hy4std",
-      "name": "Hy4",
-      "contextWindow": 960000,
-      "imageGen": false,
-      "status": "error",
-      "runStatus": "error",
-      "text": "",
-      "error": null,
-      "tokens": null,
-      "elapsedMs": 6036,
-      "errorDetail": "所有模型都没有产出内容（检查连接状态或提高 maxTokens）",
-      "category": "WorkBuddy 返回空正文"
-    },
-    {
-      "provider": "workbuddy",
-      "providerLabel": "WorkBuddy · 茉莉雨",
-      "model": "balanced-model",
-      "name": "均衡",
-      "contextWindow": 300000,
-      "imageGen": false,
-      "status": "error",
-      "runStatus": "error",
-      "text": "",
-      "error": null,
-      "tokens": null,
-      "elapsedMs": 9048,
-      "errorDetail": "所有模型都没有产出内容（检查连接状态或提高 maxTokens）",
-      "category": "WorkBuddy 返回空正文"
-    },
-    {
-      "provider": "workbuddy",
-      "providerLabel": "WorkBuddy · 茉莉雨",
-      "model": "deep-model",
-      "name": "极致",
-      "contextWindow": 300000,
-      "imageGen": false,
-      "status": "error",
-      "runStatus": "error",
-      "text": "",
-      "error": null,
-      "tokens": null,
-      "elapsedMs": 8050,
-      "errorDetail": "所有模型都没有产出内容（检查连接状态或提高 maxTokens）",
-      "category": "WorkBuddy 返回空正文"
-    },
-    {
-      "provider": "workbuddy",
-      "providerLabel": "WorkBuddy · 茉莉雨",
-      "model": "hy4-preview-x",
-      "name": "Hy4 preview",
-      "contextWindow": 960000,
-      "imageGen": false,
-      "status": "error",
-      "runStatus": "error",
-      "text": "",
-      "error": null,
-      "tokens": null,
-      "elapsedMs": 3024,
-      "errorDetail": "所有模型调用都失败了：workbuddy 请求失败（HTTP 400）：{\"code\":11102,\"msg\":\"model [hy4-preview-x] service info not found\",\"requestId\":\"31403a2c-e951-4745-8122-c4b6518009ae\",\"retry_policy\":{\"retry\":false},\"displayMsg\":{\"en\":\"Model unavailable. Please switch models\",\"zh\":\"当前模型不可用，请切换模型\",\"zh-hant\":\"目前模型無法使用，請切換模型\"},\"displayTips\":{\"en\":\"This model is not c…",
-      "category": "WorkBuddy 上游无此模型/服务"
+      "elapsedMs": 7039
     },
     {
       "provider": "workbuddy",
@@ -896,7 +818,7 @@
         "cachedInputTokens": 0,
         "reasoningTokens": 0
       },
-      "elapsedMs": 3021
+      "elapsedMs": 3019
     },
     {
       "provider": "workbuddy",
@@ -907,16 +829,16 @@
       "imageGen": false,
       "status": "ok",
       "runStatus": "done",
-      "text": "### WorkBuddy · GLM-5.3\n\nOK",
+      "text": "### WorkBuddy · GLM-5.3\n\n好的",
       "error": null,
       "tokens": {
-        "inputTokens": 825,
-        "outputTokens": 2,
+        "inputTokens": 824,
+        "outputTokens": 3,
         "totalTokens": 827,
         "cachedInputTokens": 0,
-        "reasoningTokens": 0
+        "reasoningTokens": 2
       },
-      "elapsedMs": 5029
+      "elapsedMs": 3027
     },
     {
       "provider": "workbuddy",
@@ -936,7 +858,7 @@
         "cachedInputTokens": 0,
         "reasoningTokens": 0
       },
-      "elapsedMs": 4026
+      "elapsedMs": 3022
     },
     {
       "provider": "workbuddy",
@@ -951,92 +873,12 @@
       "error": null,
       "tokens": {
         "inputTokens": 824,
-        "outputTokens": 46,
-        "totalTokens": 870,
+        "outputTokens": 28,
+        "totalTokens": 852,
         "cachedInputTokens": 0,
-        "reasoningTokens": 44
+        "reasoningTokens": 26
       },
-      "elapsedMs": 4030
-    },
-    {
-      "provider": "workbuddy",
-      "providerLabel": "WorkBuddy · 茉莉雨",
-      "model": "glm-5.0",
-      "name": "GLM-5.0",
-      "contextWindow": 200000,
-      "imageGen": false,
-      "status": "error",
-      "runStatus": "error",
-      "text": "",
-      "error": null,
-      "tokens": null,
-      "elapsedMs": 2015,
-      "errorDetail": "所有模型调用都失败了：workbuddy 请求失败（HTTP 400）：{\"code\":11102,\"msg\":\"model [glm-5.0] service info not found\",\"requestId\":\"98b59eb9-5477-480b-aa6b-3a7acdb1ec51\",\"retry_policy\":{\"retry\":false},\"displayMsg\":{\"en\":\"Model unavailable. Please switch models\",\"zh\":\"当前模型不可用，请切换模型\",\"zh-hant\":\"目前模型無法使用，請切換模型\"},\"displayTips\":{\"en\":\"This model is not connect…",
-      "category": "WorkBuddy 上游无此模型/服务"
-    },
-    {
-      "provider": "workbuddy",
-      "providerLabel": "WorkBuddy · 茉莉雨",
-      "model": "glm-4.7",
-      "name": "GLM-4.7",
-      "contextWindow": 200000,
-      "imageGen": false,
-      "status": "error",
-      "runStatus": "error",
-      "text": "",
-      "error": null,
-      "tokens": null,
-      "elapsedMs": 1008,
-      "errorDetail": "所有模型调用都失败了：workbuddy 请求失败（HTTP 400）：{\"code\":11102,\"msg\":\"model [glm-4.7] service info not found\",\"requestId\":\"18a10f05-d90d-4c6f-a795-f0ae0e785c46\",\"retry_policy\":{\"retry\":false},\"displayMsg\":{\"en\":\"Model unavailable. Please switch models\",\"zh\":\"当前模型不可用，请切换模型\",\"zh-hant\":\"目前模型無法使用，請切換模型\"},\"displayTips\":{\"en\":\"This model is not connect…",
-      "category": "WorkBuddy 上游无此模型/服务"
-    },
-    {
-      "provider": "workbuddy",
-      "providerLabel": "WorkBuddy · 茉莉雨",
-      "model": "glm-4.6",
-      "name": "GLM-4.6",
-      "contextWindow": 168000,
-      "imageGen": false,
-      "status": "error",
-      "runStatus": "error",
-      "text": "",
-      "error": null,
-      "tokens": null,
-      "elapsedMs": 1007,
-      "errorDetail": "所有模型调用都失败了：workbuddy 请求失败（HTTP 400）：{\"code\":11102,\"msg\":\"model [glm-4.6] service info not found\",\"requestId\":\"919ecdc9-69e3-4f70-8d3d-957e160b9b58\",\"retry_policy\":{\"retry\":false},\"displayMsg\":{\"en\":\"Model unavailable. Please switch models\",\"zh\":\"当前模型不可用，请切换模型\",\"zh-hant\":\"目前模型無法使用，請切換模型\"},\"displayTips\":{\"en\":\"This model is not connect…",
-      "category": "WorkBuddy 上游无此模型/服务"
-    },
-    {
-      "provider": "workbuddy",
-      "providerLabel": "WorkBuddy · 茉莉雨",
-      "model": "glm-4.6v",
-      "name": "GLM-4.6V",
-      "contextWindow": 128000,
-      "imageGen": false,
-      "status": "error",
-      "runStatus": "error",
-      "text": "",
-      "error": null,
-      "tokens": null,
-      "elapsedMs": 2009,
-      "errorDetail": "所有模型调用都失败了：workbuddy 请求失败（HTTP 400）：{\"code\":11102,\"msg\":\"model [glm-4.6v] service info not found\",\"requestId\":\"a5e16cc7-6ebe-438b-a76c-51d0376d0c93\",\"retry_policy\":{\"retry\":false},\"displayMsg\":{\"en\":\"Model unavailable. Please switch models\",\"zh\":\"当前模型不可用，请切换模型\",\"zh-hant\":\"目前模型無法使用，請切換模型\"},\"displayTips\":{\"en\":\"This model is not connec…",
-      "category": "WorkBuddy 上游无此模型/服务"
-    },
-    {
-      "provider": "workbuddy",
-      "providerLabel": "WorkBuddy · 茉莉雨",
-      "model": "minimax-m2.5",
-      "name": "MiniMax-M2.5",
-      "contextWindow": 200000,
-      "imageGen": false,
-      "status": "error",
-      "runStatus": "error",
-      "text": "",
-      "error": null,
-      "tokens": null,
-      "elapsedMs": 1004,
-      "errorDetail": "所有模型调用都失败了：workbuddy 请求失败（HTTP 400）：{\"code\":11102,\"msg\":\"model [minimax-m2.5] service info not found\",\"requestId\":\"3c22731c-772a-4410-88e9-207a09fb7550\",\"retry_policy\":{\"retry\":false},\"displayMsg\":{\"en\":\"Model unavailable. Please switch models\",\"zh\":\"当前模型不可用，请切换模型\",\"zh-hant\":\"目前模型無法使用，請切換模型\"},\"displayTips\":{\"en\":\"This model is not co…",
-      "category": "WorkBuddy 上游无此模型/服务"
+      "elapsedMs": 4028
     },
     {
       "provider": "workbuddy",
@@ -1051,12 +893,12 @@
       "error": null,
       "tokens": {
         "inputTokens": 872,
-        "outputTokens": 51,
-        "totalTokens": 923,
+        "outputTokens": 50,
+        "totalTokens": 922,
         "cachedInputTokens": 0,
-        "reasoningTokens": 40
+        "reasoningTokens": 39
       },
-      "elapsedMs": 4024
+      "elapsedMs": 8052
     },
     {
       "provider": "workbuddy",
@@ -1071,44 +913,12 @@
       "error": null,
       "tokens": {
         "inputTokens": 872,
-        "outputTokens": 58,
-        "totalTokens": 930,
+        "outputTokens": 48,
+        "totalTokens": 920,
         "cachedInputTokens": 0,
-        "reasoningTokens": 42
+        "reasoningTokens": 32
       },
-      "elapsedMs": 12068
-    },
-    {
-      "provider": "workbuddy",
-      "providerLabel": "WorkBuddy · 茉莉雨",
-      "model": "kimi-k2.5",
-      "name": "Kimi-K2.5",
-      "contextWindow": 164000,
-      "imageGen": false,
-      "status": "error",
-      "runStatus": "error",
-      "text": "",
-      "error": null,
-      "tokens": null,
-      "elapsedMs": 11076,
-      "errorDetail": "所有模型都没有产出内容（检查连接状态或提高 maxTokens）",
-      "category": "WorkBuddy 返回空正文"
-    },
-    {
-      "provider": "workbuddy",
-      "providerLabel": "WorkBuddy · 茉莉雨",
-      "model": "kimi-k2-thinking",
-      "name": "Kimi-K2-Thinking",
-      "contextWindow": 164000,
-      "imageGen": false,
-      "status": "error",
-      "runStatus": "error",
-      "text": "",
-      "error": null,
-      "tokens": null,
-      "elapsedMs": 2012,
-      "errorDetail": "所有模型调用都失败了：workbuddy 请求失败（HTTP 400）：{\"code\":11102,\"msg\":\"model [kimi-k2-thinking] service info not found\",\"requestId\":\"ed744c87-acfc-44c6-a68a-83477f6aa455\",\"retry_policy\":{\"retry\":false},\"displayMsg\":{\"en\":\"Model unavailable. Please switch models\",\"zh\":\"当前模型不可用，请切换模型\",\"zh-hant\":\"目前模型無法使用，請切換模型\"},\"displayTips\":{\"en\":\"This model is no…",
-      "category": "WorkBuddy 上游无此模型/服务"
+      "elapsedMs": 10064
     },
     {
       "provider": "workbuddy",
@@ -1125,10 +935,10 @@
         "inputTokens": 831,
         "outputTokens": 2,
         "totalTokens": 833,
-        "cachedInputTokens": 0,
+        "cachedInputTokens": 640,
         "reasoningTokens": 0
       },
-      "elapsedMs": 2015
+      "elapsedMs": 4027
     },
     {
       "provider": "workbuddy",
@@ -1148,7 +958,7 @@
         "cachedInputTokens": 640,
         "reasoningTokens": 0
       },
-      "elapsedMs": 4028
+      "elapsedMs": 4033
     },
     {
       "provider": "workbuddy",
@@ -1163,12 +973,12 @@
       "error": null,
       "tokens": {
         "inputTokens": 805,
-        "outputTokens": 9,
-        "totalTokens": 814,
-        "cachedInputTokens": 0,
-        "reasoningTokens": 7
+        "outputTokens": 66,
+        "totalTokens": 871,
+        "cachedInputTokens": 768,
+        "reasoningTokens": 64
       },
-      "elapsedMs": 7045
+      "elapsedMs": 4025
     },
     {
       "provider": "workbuddy",
@@ -1185,26 +995,10 @@
         "inputTokens": 831,
         "outputTokens": 2,
         "totalTokens": 833,
-        "cachedInputTokens": 0,
+        "cachedInputTokens": 768,
         "reasoningTokens": 0
       },
-      "elapsedMs": 4023
-    },
-    {
-      "provider": "workbuddy",
-      "providerLabel": "WorkBuddy · 茉莉雨",
-      "model": "hunyuan-2.0-thinking",
-      "name": "Hunyuan-2.0-Thinking",
-      "contextWindow": 128000,
-      "imageGen": false,
-      "status": "error",
-      "runStatus": "error",
-      "text": "",
-      "error": null,
-      "tokens": null,
-      "elapsedMs": 2008,
-      "errorDetail": "所有模型调用都失败了：workbuddy 请求失败（HTTP 400）：{\"code\":11102,\"msg\":\"model [hunyuan-2.0-thinking] service info not found\",\"requestId\":\"88d693bb-3470-43a8-b7ba-535bd9d8dcb8\",\"retry_policy\":{\"retry\":false},\"displayMsg\":{\"en\":\"Model unavailable. Please switch models\",\"zh\":\"当前模型不可用，请切换模型\",\"zh-hant\":\"目前模型無法使用，請切換模型\"},\"displayTips\":{\"en\":\"This model i…",
-      "category": "WorkBuddy 上游无此模型/服务"
+      "elapsedMs": 6037
     },
     {
       "provider": "workbuddy",
@@ -1223,7 +1017,7 @@
         "totalTokens": 882,
         "cachedInputTokens": 0
       },
-      "elapsedMs": 3020
+      "elapsedMs": 4028
     },
     {
       "provider": "workbuddy",
@@ -1240,10 +1034,10 @@
         "inputTokens": 901,
         "outputTokens": 3,
         "totalTokens": 904,
-        "cachedInputTokens": 140,
+        "cachedInputTokens": 900,
         "reasoningTokens": 0
       },
-      "elapsedMs": 3015
+      "elapsedMs": 4028
     },
     {
       "provider": "workbuddy",
@@ -1254,16 +1048,11 @@
       "imageGen": false,
       "status": "ok",
       "runStatus": "done",
-      "text": "### WorkBuddy · Step-5-Preview\n\nOK",
+      "text": "OK",
       "error": null,
-      "tokens": {
-        "inputTokens": 822,
-        "outputTokens": 68,
-        "totalTokens": 890,
-        "cachedInputTokens": 0,
-        "reasoningTokens": 0
-      },
-      "elapsedMs": 6032
+      "tokens": null,
+      "elapsedMs": 6029,
+      "recovered": "复测两次通过（瞬时失败）"
     },
     {
       "provider": "workbuddy",
@@ -1278,12 +1067,12 @@
       "error": null,
       "tokens": {
         "inputTokens": 866,
-        "outputTokens": 13,
-        "totalTokens": 879,
-        "cachedInputTokens": 0,
-        "reasoningTokens": 10
+        "outputTokens": 39,
+        "totalTokens": 905,
+        "cachedInputTokens": 768,
+        "reasoningTokens": 36
       },
-      "elapsedMs": 4024
+      "elapsedMs": 4031
     },
     {
       "provider": "workbuddy",
@@ -1298,12 +1087,12 @@
       "error": null,
       "tokens": {
         "inputTokens": 947,
-        "outputTokens": 3,
-        "totalTokens": 950,
-        "cachedInputTokens": 128,
-        "reasoningTokens": 0
+        "outputTokens": 18,
+        "totalTokens": 965,
+        "cachedInputTokens": 0,
+        "reasoningTokens": 14
       },
-      "elapsedMs": 3013
+      "elapsedMs": 4022
     },
     {
       "provider": "workbuddy",
@@ -1318,12 +1107,12 @@
       "error": null,
       "tokens": {
         "inputTokens": 872,
-        "outputTokens": 34,
-        "totalTokens": 906,
+        "outputTokens": 29,
+        "totalTokens": 901,
         "cachedInputTokens": 0,
-        "reasoningTokens": 20
+        "reasoningTokens": 15
       },
-      "elapsedMs": 6031
+      "elapsedMs": 5026
     }
   ],
   "skippedImage": [
@@ -1486,5 +1275,53 @@
       "model": "grok-code-fast-1",
       "name": "Grok Code Fast"
     }
-  ]
+  ],
+  "remediation": {
+    "initial": {
+      "totalModels": 103,
+      "available": 74,
+      "tested": 72,
+      "passed": 58,
+      "failed": 14,
+      "imageSkipped": 2,
+      "unavailable": 29
+    },
+    "final": {
+      "visibleModels": 89,
+      "available": 60,
+      "tested": 58,
+      "passed": 58,
+      "failed": 0,
+      "imageSkipped": 2,
+      "unavailable": 29
+    },
+    "removedDeepSeek": [
+      "deepseek-v4.1-flash",
+      "deepseek-v3.2"
+    ],
+    "disabledWorkBuddy": [
+      "hy4std",
+      "balanced-model",
+      "deep-model",
+      "hy4-preview-x",
+      "glm-5.0",
+      "glm-4.7",
+      "glm-4.6",
+      "glm-4.6v",
+      "minimax-m2.5",
+      "kimi-k2.5",
+      "kimi-k2-thinking",
+      "hunyuan-2.0-thinking"
+    ],
+    "recoveredClaude": [
+      "claude-fable-5-2",
+      "claude-haiku-5-5",
+      "claude-sonnet-5-5",
+      "claude-haiku-4-5"
+    ],
+    "transientRetry": [
+      "step-5-preview"
+    ],
+    "note": "DeepSeek unsupported models removed from catalog; WorkBuddy unavailable models disabled in relay account; Claude strict gateways fixed in adapter."
+  }
 }

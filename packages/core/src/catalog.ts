@@ -56,18 +56,11 @@ export const PROVIDERS: ProviderMeta[] = [
         reasoning: true,
         vision: true,
       }),
-      m("deepseek", "deepseek-v4.1-flash", "DeepSeek V4.1 Flash", {
-        contextWindow: 1000000,
-        maxOutputTokens: 384000,
-        reasoning: true,
-        vision: true,
-      }),
       m("deepseek", "deepseek-flash", "DeepSeek Flash", {
         contextWindow: 1000000,
         maxOutputTokens: 128000,
         reasoning: true,
       }),
-      m("deepseek", "deepseek-v3.2", "DeepSeek V3.2（兼容）", { contextWindow: 131072 }),
     ],
   },
   {

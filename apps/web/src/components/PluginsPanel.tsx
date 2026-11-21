@@ -18,6 +18,7 @@ import {
   IconSearch,
   IconX,
 } from "./Icons";
+import { PaddleSwitch } from "./PaddleSwitch";
 
 export interface PluginsPanelProps {
   pushToast: (kind: "info" | "success" | "error" | "warn", message: string, detail?: string) => void;
@@ -349,18 +350,14 @@ function PluginRow({
           </span>
         </td>
         <td>
-          <button
-            type="button"
-            className={`switch switch--xs${plugin.enabled ? " is-on" : ""}`}
-            role="switch"
-            aria-checked={plugin.enabled}
-            aria-label={`${plugin.enabled ? "停用" : "启用"} ${plugin.name}`}
-            onClick={onToggle}
+          <PaddleSwitch
+            size="sm"
+            checked={plugin.enabled}
+            onChange={() => onToggle()}
             disabled={toggling}
+            ariaLabel={`${plugin.enabled ? "停用" : "启用"} ${plugin.name}`}
             title={plugin.enabled ? "停用" : "启用"}
-          >
-            <span />
-          </button>
+          />
         </td>
         <td>
           <button type="button" className="btn btn-sm" onClick={onTest} disabled={testing}>

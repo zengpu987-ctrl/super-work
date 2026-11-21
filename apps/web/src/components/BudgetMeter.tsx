@@ -3,6 +3,7 @@ import type { BudgetSettings } from "@super-work/core";
 import type { BudgetUsageView } from "../lib/api";
 import { formatNumber } from "../lib/format";
 import { IconAlert, IconLoader, IconWallet } from "./Icons";
+import { PaddleSwitch } from "./PaddleSwitch";
 
 export interface BudgetMeterProps {
   usage: BudgetUsageView | null;
@@ -97,24 +98,23 @@ export function BudgetMeter({
         </span>
       </button>
 
-      <button
-        type="button"
-        className={`cheap-switch${cheapMode ? " is-on" : ""}`}
-        onClick={() => onToggleCheapMode(!cheapMode)}
-        disabled={running}
-        role="switch"
-        aria-checked={cheapMode}
-        title={
-          running
-            ? "运行中不能切换省钱模式"
-            : cheapMode
-              ? "省钱模式已开启：默认档位 low、关闭互评、压缩上下文"
-              : "开启省钱模式：默认档位 low、关闭互评、压缩上下文"
-        }
-      >
-        <span className="cheap-switch__dot" aria-hidden="true" />
-        省钱
-      </button>
+      <span className="paddle-inline">
+        <PaddleSwitch
+          size="sm"
+          checked={cheapMode}
+          onChange={(next) => onToggleCheapMode(next)}
+          disabled={running}
+          ariaLabel="省钱模式"
+          title={
+            running
+              ? "运行中不能切换省钱模式"
+              : cheapMode
+                ? "省钱模式已开启：默认档位 low、关闭互评、压缩上下文"
+                : "开启省钱模式：默认档位 low、关闭互评、压缩上下文"
+          }
+        />
+        <span>省钱</span>
+      </span>
     </div>
   );
 }

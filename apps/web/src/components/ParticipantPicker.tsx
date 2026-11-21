@@ -25,6 +25,7 @@ import {
   IconTrash,
   IconUsers,
 } from "./Icons";
+import { PaddleSwitch } from "./PaddleSwitch";
 
 export interface ParticipantPickerProps {
   participants: ParticipantSpec[];
@@ -489,13 +490,10 @@ export function ParticipantPicker({
             {mode === "council" ? (
               <div className="option-row">
                 <span className="option-row__label">开启互评（第二轮补充/纠错）</span>
-                <button
-                  type="button"
-                  className={`switch${critique ? " is-on" : ""}`}
-                  onClick={() => onCritiqueChange(!critique)}
-                  role="switch"
-                  aria-checked={critique}
-                  aria-label="开启互评"
+                <PaddleSwitch
+                  checked={critique}
+                  onChange={(next) => onCritiqueChange(next)}
+                  ariaLabel="开启互评"
                 />
               </div>
             ) : null}
