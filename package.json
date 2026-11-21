@@ -1,8 +1,8 @@
 {
   "name": "super-work",
-  "version": "0.0.3",
+  "version": "1.0.0",
   "private": true,
-  "description": "Super Work — 多模型联合工作台（v0.0.1）",
+  "description": "Super Work — 多模型联合工作台（v1.0.0 Pro）",
   "type": "module",
   "engines": {
     "node": ">=22"

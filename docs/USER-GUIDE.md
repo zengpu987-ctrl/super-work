@@ -1,6 +1,6 @@
 # Super Work 使用说明 / User Guide
 
-> 版本 v0.0.3 · 2026-11-19 · 适用于 macOS 原生壳与浏览器访问  
+> 版本 v1.0.0 Pro · 2026-11-21 · 适用于 macOS 原生壳与浏览器访问  
 > 开源仓库：https://github.com/zengpu987-ctrl/super-work · 许可证 Apache-2.0
 
 ---

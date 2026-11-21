@@ -2,6 +2,17 @@
 
 ## Unreleased
 
+## v1.0.0 Pro — 2026-11-21
+
+- 同对话「交给团队」/「重新生成」：保持 threadId，不再新开对话。
+- 对话分支、逐对话长期记忆、归档 / 取消归档、软删除。
+- 右侧文件预览：PDF 直显、图片/视频/音频内嵌、代码/Markdown 高亮、HTML 沙箱。
+- OpenAI 直接接入账户；新增 DSH DeepSeek 账户通道 V4.1 Flash（`deepseek-account`）。
+- 模型有效期统一「长期有效」；KIMI 180s 保底超时、全局 300s；194 项测试。
+- 透明玻璃 + PaddleSwitch 视觉系统。
+
+
+
 - 开源整理：Apache-2.0、贡献指南、治理、路线图、Issue/PR 模板、CI、Dev Container。
 - 中英双语论文与使用说明；DeepSeek 集成/开发细节公开。
 - 3D 地球贴图 WebP 化与懒加载（进行中）。

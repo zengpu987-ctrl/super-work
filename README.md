@@ -1,6 +1,6 @@
 # Super Work
 
-> 多模型联合工作台 · v0.0.3
+> 多模型联合工作台 · v1.0.0 Pro
 >
 > 一句命令，让 DeepSeek、KIMI、GPT、Claude、GLM、千问、火山方舟、MiniMax、Gemini、Grok 一起干活。
 
@@ -10,6 +10,7 @@ Super Work 是一个**跑在你自己电脑上的独立网站**：启动后浏�
 
 [![CI](https://github.com/zengpu987-ctrl/super-work/actions/workflows/ci.yml/badge.svg)](https://github.com/zengpu987-ctrl/super-work/actions/workflows/ci.yml)
 [![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
+![version](https://img.shields.io/badge/version-1.0.0%20Pro-22d3ee)
 ![modes](https://img.shields.io/badge/modes-8-6d5efc)
 ![providers](https://img.shields.io/badge/providers-15-22d3ee)
 ![tests](https://img.shields.io/badge/tests-194-10b981)
@@ -99,7 +100,7 @@ v0.0.2（本版，界面由 Kimi K3.1 Pro 评审驱动）：
 - 插件中心「运行」按钮打开动作面板（字段 + 图片/视频/文件结果），测试仅对桥接命令可用。
 - 全量清单与动作：[docs/PLUGINS.md](docs/PLUGINS.md)。
 
-## v0.0.4 UI：透明玻璃 + 拨片开关
+## v1.0.0 Pro：透明玻璃 + 拨片开关
 
 - 全界面改为**透明玻璃**：极光底 + 细网格 + 磨砂面板（顶栏/左右栏/命令台/答案卡/设置弹窗/团队抽屉），
   保留 Earth 3D 地球作为背景；`backdrop-filter` 不支持时自动回退不透明底。
