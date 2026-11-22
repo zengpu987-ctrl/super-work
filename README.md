@@ -102,7 +102,7 @@ v0.0.2（本版，界面由 Kimi K3.1 Pro 评审驱动）：
 
 ## v1.0.1 Verse 新增
 
-- **WorkBuddy 国际版**：新增网页登录接入（workbuddy.ai），自动导入 GPT-5.6、Gemini-3.5-Flash、GLM-5.3、Kimi-K3 等国际版模型；国内版与国际版账号并存，模型池分组区分。
+- **WorkBuddy 国际版**：新增网页登录接入（workbuddy.ai），自动导入 GPT-6.2、Gemini-3.8/4、Grok-4.7、GLM-5.3、Kimi-K3.1 等国际版模型；国内版与国际版账号并存，模型池分组区分。
 - 国际版登录不依赖国际版客户端：设置 → 中转站 → WorkBuddy →「网页登录并导入」，浏览器完成后自动拉取目录。
 - 版本命名：**v1.0.1 Verse**。
 

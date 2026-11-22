@@ -22,7 +22,7 @@ export function buildPoolGroups(models: ModelOption[], customModels: ModelInfo[]
       provider === "relay"
         ? `relay:${relayId ?? "unknown"}`
         : provider === "workbuddy"
-          ? "workbuddy"
+          ? `workbuddy:${raw.relayId ?? raw.providedBy ?? "default"}`
           : `provider:${provider}`;
     let group = map.get(key);
     if (!group) {

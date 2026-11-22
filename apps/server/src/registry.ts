@@ -89,12 +89,18 @@ export class ModelRegistry {
         };
       }
       if (provider === "workbuddy") {
-        const account = this.relays.workbuddyAccount();
+        const account = model.relayId ? this.relays.get(model.relayId) : this.relays.workbuddyAccount();
+        const available = Boolean(
+          account &&
+            account.enabled &&
+            account.hasKey &&
+            account.models.some((m) => m.id === model.id && m.enabled),
+        );
         return {
           ...model,
-          available: Boolean(account),
+          available,
           connections,
-          disabledReason: account ? undefined : "还没有导入 WorkBuddy 账号",
+          disabledReason: available ? undefined : account ? "该账号未启用此模型" : "还没有导入 WorkBuddy 账号",
         };
       }
       const resolved = this.creds.resolve(provider, model.via);
@@ -116,6 +122,7 @@ export class ModelRegistry {
   private resolveAdapter(
     provider: ProviderId,
     model: string,
+    relayId?: string,
   ): { adapter: ReturnType<typeof adapterForCall>; cred: Credential; remoteModel: string } {
     if (provider === "relay") {
       const hit = this.relays.resolveRelayModel(model);
@@ -125,7 +132,18 @@ export class ModelRegistry {
       return { adapter: adapterForCall("relay", cred), cred, remoteModel: hit.remoteId };
     }
     if (provider === "workbuddy") {
-      const account = this.relays.workbuddyAccount();
+      const account =
+        (relayId ? this.relays.get(relayId) : undefined) ??
+        this.relays
+          .list()
+          .find(
+            (r) =>
+              r.kind === "workbuddy" &&
+              r.enabled &&
+              r.hasKey &&
+              r.models.some((m) => m.id === model && m.enabled),
+          ) ??
+        this.relays.workbuddyAccount();
       if (!account) throw new ProviderCallError("还没有导入 WorkBuddy 账号，请到设置 → 中转站导入", provider, model);
       const cred = this.relays.credentialFor(account);
       if (!cred) throw new ProviderCallError("WorkBuddy 凭证不可用，请重新导入", provider, model);
@@ -145,7 +163,7 @@ export class ModelRegistry {
     }
 
     if (spec.provider === "relay" || spec.provider === "workbuddy") {
-      const resolved = this.resolveAdapter(spec.provider, spec.model);
+      const resolved = this.resolveAdapter(spec.provider, spec.model, spec.relayId);
       try {
         yield* resolved.adapter.chat(this.toOptions({ ...spec, model: resolved.remoteModel }, resolved.cred.baseUrl), resolved.cred);
       } catch (error) {
@@ -216,6 +234,7 @@ export class ModelRegistry {
   async generateImage(spec: {
     provider: ProviderId;
     model: string;
+    relayId?: string;
     prompt: string;
     size?: string;
     signal?: AbortSignal;
@@ -227,7 +246,7 @@ export class ModelRegistry {
         spec.model,
       );
     }
-    const { adapter, cred, remoteModel } = this.resolveAdapter("workbuddy", spec.model);
+    const { adapter, cred, remoteModel } = this.resolveAdapter("workbuddy", spec.model, spec.relayId);
     if (!adapter.generateImage) {
       throw new ProviderCallError("该模型不支持生图", spec.provider, spec.model);
     }

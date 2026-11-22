@@ -414,6 +414,7 @@ export class RelayStore {
           id: model.id,
           name: model.name || model.id,
           provider: "workbuddy",
+          relayId: relay.id,
           providedBy: relay.name,
           contextWindow: model.contextWindow,
           maxOutputTokens: model.maxOutputTokens,
@@ -628,8 +629,14 @@ export class RelayStore {
       relayId = existing.id;
       this.update(existing.id, { enabled: true, apiKey: accessToken, extraHeaders: extra, baseUrl });
     } else {
+      const accountName =
+        target.region === "global" && target.accountLabel === "WorkBuddy 国际版"
+          ? "WorkBuddy 国际版"
+          : target.region === "global"
+            ? `WorkBuddy 国际版 · ${target.accountLabel}`
+            : `WorkBuddy · ${target.accountLabel}`;
       const created = this.create({
-        name: target.region === "global" ? `WorkBuddy 国际版 · ${target.accountLabel}` : `WorkBuddy · ${target.accountLabel}`,
+        name: accountName,
         kind: "workbuddy",
         presetId: "workbuddy",
         baseUrl,

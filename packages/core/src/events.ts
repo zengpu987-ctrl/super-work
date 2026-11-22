@@ -60,6 +60,8 @@ export interface Participant {
   id: string;
   provider: ProviderId;
   model: string;
+  /** provider=workbuddy/relay 时指定账号 */
+  relayId?: string;
   label: string;
   role: string;
   /** 强度档位（运行中可热调） */
@@ -257,6 +259,8 @@ export interface OrchestratorDeps {
   callModel(req: {
     provider: ProviderId;
     model: string;
+    /** provider=workbuddy/relay 时指定账号 */
+    relayId?: string;
     system?: string;
     messages: Array<{ role: "user" | "assistant"; content: string }>;
     maxTokens?: number;
@@ -272,6 +276,7 @@ export interface OrchestratorDeps {
   generateImage?(req: {
     provider: ProviderId;
     model: string;
+    relayId?: string;
     prompt: string;
     size?: string;
     signal?: AbortSignal;

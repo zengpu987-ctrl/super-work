@@ -221,6 +221,7 @@ export class RunManager {
       id,
       provider: spec.provider,
       model: spec.model,
+      relayId: spec.relayId,
       label,
       role: spec.role?.trim() || fallbackRole,
       effort: spec.effort ?? defaultEffort,
@@ -770,6 +771,7 @@ export class RunManager {
             this.registry.generateImage({
               provider: req.provider,
               model: req.model,
+              relayId: req.relayId,
               prompt: req.prompt,
               size: req.size,
               signal: req.signal ?? state.abort.signal,

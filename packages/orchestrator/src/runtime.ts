@@ -710,6 +710,7 @@ export class RunContext {
       const raw = this.deps.callModel({
         provider: participant.provider,
         model: participant.model,
+        relayId: participant.relayId,
         system,
         messages,
         maxTokens,
@@ -897,6 +898,7 @@ export class RunContext {
       const result = await generate({
         provider: participant.provider,
         model: participant.model,
+        relayId: participant.relayId,
         prompt: request.prompt,
         size: request.size,
         signal: imageSignal,
