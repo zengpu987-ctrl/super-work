@@ -580,3 +580,8 @@
 .artifact-preview__head {
   background: #111d31;
 }
+.workbuddy-global {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px dashed var(--line-1);
+}

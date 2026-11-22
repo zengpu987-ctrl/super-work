@@ -132,6 +132,44 @@ function chatBaseFor(domain: string): string {
   return CN_CHAT_BASE;
 }
 
+const WORKBUDDY_GLOBAL_AUTH_BASE = "https://www.workbuddy.ai";
+const WORKBUDDY_CN_AUTH_BASE = "https://www.codebuddy.cn";
+const WORKBUDDY_PLUGIN_PREFIX = "/v2/plugin";
+
+interface WorkBuddyOAuthSession {
+  loginId: string;
+  region: "cn" | "global";
+  base: string;
+  state: string;
+  createdAt: number;
+}
+
+function oauthEnvelopeData(payload: unknown): Record<string, unknown> {
+  if (!payload || typeof payload !== "object" || Array.isArray(payload)) return {};
+  const data = (payload as Record<string, unknown>).data;
+  return data && typeof data === "object" && !Array.isArray(data) ? (data as Record<string, unknown>) : {};
+}
+
+function oauthString(source: Record<string, unknown>, keys: string[]): string {
+  for (const key of keys) {
+    const value = source[key];
+    if (typeof value === "string" && value.trim() !== "") return value.trim();
+    if (typeof value === "number" && Number.isFinite(value)) return String(value);
+  }
+  return "";
+}
+
+function oauthExpirySeconds(source: Record<string, unknown>, keys: string[]): number {
+  for (const key of keys) {
+    const value = source[key];
+    const num = typeof value === "string" ? Number(value) : value;
+    if (typeof num === "number" && Number.isFinite(num) && num > 0) {
+      return num > 10_000_000_000 ? Math.floor(num / 1000) : Math.floor(num);
+    }
+  }
+  return 0;
+}
+
 export class RelayStore {
   constructor(
     private storage: Storage,
@@ -445,6 +483,123 @@ export class RelayStore {
     return this.get(id);
   }
 
+  /* ------------------------ WorkBuddy 网页登录 ------------------------ */
+
+  private wbOAuthSessions = new Map<string, WorkBuddyOAuthSession>();
+
+  /**
+   * 启动 WorkBuddy 网页登录（国际版默认 workbuddy.ai）。
+   * 返回给前端的只有登录 id 与授权地址，不会返回任何 token。
+   */
+  async startWorkBuddyOAuth(region: "cn" | "global" = "global"): Promise<{
+    loginId: string;
+    verificationUri: string;
+    expiresIn: number;
+  }> {
+    const base = region === "cn" ? WORKBUDDY_CN_AUTH_BASE : WORKBUDDY_GLOBAL_AUTH_BASE;
+    const res = await fetch(`${base}${WORKBUDDY_PLUGIN_PREFIX}/auth/state?platform=workbuddy`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
+      body: "{}",
+      signal: AbortSignal.timeout(30_000),
+    });
+    const payload = (await res.json().catch(() => ({}))) as unknown;
+    const data = oauthEnvelopeData(payload);
+    const state = oauthString(data, ["state", "State"]);
+    if (!state) throw new Error(`WorkBuddy 登录服务未返回 state（HTTP ${res.status}）`);
+    const authUrl =
+      oauthString(data, ["authUrl", "auth_url", "url", "Url"]) ||
+      `${base}/login?platform=workbuddy&state=${encodeURIComponent(state)}`;
+    const loginId = `wbo_${crypto.randomUUID().replace(/-/g, "")}`;
+    this.wbOAuthSessions.set(loginId, {
+      loginId,
+      region,
+      base,
+      state,
+      createdAt: Date.now(),
+    });
+    // 过期会话在每次启动时顺手清理。
+    for (const [id, session] of this.wbOAuthSessions) {
+      if (Date.now() - session.createdAt > 10 * 60_000) this.wbOAuthSessions.delete(id);
+    }
+    return { loginId, verificationUri: authUrl, expiresIn: 600 };
+  }
+
+  /** 轮询网页登录；成功后写入 WorkBuddy vault 并自动导入模型。 */
+  async pollWorkBuddyOAuth(loginId: string): Promise<{
+    done: boolean;
+    account?: RelayAccount;
+    error?: string;
+  }> {
+    const session = this.wbOAuthSessions.get(loginId);
+    if (!session) return { done: true, error: "登录会话不存在，请重新发起" };
+    if (Date.now() - session.createdAt > 10 * 60_000) {
+      this.wbOAuthSessions.delete(loginId);
+      return { done: true, error: "登录已超时，请重新发起" };
+    }
+    const tokenRes = await fetch(
+      `${session.base}${WORKBUDDY_PLUGIN_PREFIX}/auth/token?state=${encodeURIComponent(session.state)}`,
+      { headers: { Accept: "application/json" }, signal: AbortSignal.timeout(30_000) },
+    );
+    const tokenPayload = (await tokenRes.json().catch(() => ({}))) as unknown;
+    const tokenCode = Number((tokenPayload as Record<string, unknown> | null)?.code);
+    if (Number.isFinite(tokenCode) && tokenCode !== 0 && tokenCode !== 200) return { done: false };
+    const tokenData = oauthEnvelopeData(tokenPayload);
+    const accessToken = oauthString(tokenData, ["accessToken", "access_token", "AccessToken"]);
+    if (!accessToken) return { done: false };
+
+    const domain = oauthString(tokenData, ["domain", "Domain"]) || new URL(session.base).hostname;
+    let profile: Record<string, unknown> = {};
+    try {
+      const profileRes = await fetch(`${session.base}${WORKBUDDY_PLUGIN_PREFIX}/login/account`, {
+        headers: { Authorization: `Bearer ${accessToken}`, Accept: "application/json", "X-Domain": domain },
+        signal: AbortSignal.timeout(30_000),
+      });
+      profile = oauthEnvelopeData((await profileRes.json().catch(() => ({}))) as unknown);
+    } catch {
+      /* 账号资料失败不阻塞登录；vault 仍可保存 */
+    }
+    const uid = oauthString(profile, ["uid", "Uid", "userId", "UserID"]);
+    const nickname = oauthString(profile, ["nickname", "NickName", "ScreenName"]) || "WorkBuddy 国际版";
+    const uin = oauthString(profile, ["uin", "Uin"]);
+    const accountId = uid || crypto.randomUUID();
+    const expiresAt = oauthExpirySeconds(tokenData, ["expiresAt", "expires_at", "expires"]);
+    const refreshExpiresAt = oauthExpirySeconds(tokenData, ["refreshExpiresAt", "refresh_expires_at"]);
+    const vaultDir = path.join(os.homedir(), ".dsh", "workbuddy-vault", session.region);
+    fs.mkdirSync(vaultDir, { recursive: true, mode: 0o700 });
+    const vaultFile = path.join(vaultDir, `${accountId}.json`);
+    const now = Date.now();
+    fs.writeFileSync(
+      vaultFile,
+      JSON.stringify(
+        {
+          version: 1,
+          accountId,
+          refreshedAtMs: now,
+          auth: {
+            accessToken,
+            refreshToken: oauthString(tokenData, ["refreshToken", "refresh_token", "RefreshToken"]),
+            expiresAt,
+            refreshExpiresAt,
+            lastRefreshTime: now,
+            domain,
+          },
+          account: { uid, nickname, uin },
+        },
+        null,
+        2,
+      ),
+      { mode: 0o600 },
+    );
+    this.wbOAuthSessions.delete(loginId);
+    try {
+      const account = await this.importWorkBuddy({ region: session.region, uid: uid || undefined });
+      return { done: true, account };
+    } catch (error) {
+      return { done: true, error: `账号已登录，但导入模型失败：${safeErrorMessage(error)}` };
+    }
+  }
+
   /* ----------------------------- WorkBuddy ----------------------------- */
 
   async importWorkBuddy(args: { region?: "cn" | "global"; uid?: string } = {}): Promise<RelayAccount> {
@@ -459,10 +614,14 @@ export class RelayStore {
     const accessToken = raw.auth?.accessToken;
     if (!accessToken) throw new Error("WorkBuddy 凭证缺少 accessToken");
 
-    const existing = this.list().find(
-      (r) => r.kind === "workbuddy" && r.accountLabel === target.accountLabel && r.presetId === "workbuddy",
-    );
     const baseUrl = chatBaseFor(target.domain);
+    const existing = this.list().find(
+      (r) =>
+        r.kind === "workbuddy" &&
+        r.accountLabel === target.accountLabel &&
+        r.presetId === "workbuddy" &&
+        r.baseUrl === baseUrl,
+    );
     const extra = { "X-User-Id": target.uid, "X-Domain": target.domain };
     let relayId: string;
     if (existing) {
@@ -470,7 +629,7 @@ export class RelayStore {
       this.update(existing.id, { enabled: true, apiKey: accessToken, extraHeaders: extra, baseUrl });
     } else {
       const created = this.create({
-        name: `WorkBuddy · ${target.accountLabel}`,
+        name: target.region === "global" ? `WorkBuddy 国际版 · ${target.accountLabel}` : `WorkBuddy · ${target.accountLabel}`,
         kind: "workbuddy",
         presetId: "workbuddy",
         baseUrl,

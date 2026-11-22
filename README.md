@@ -1,6 +1,6 @@
 # Super Work
 
-> 多模型联合工作台 · v1.0.0 Pro
+> 多模型联合工作台 · v1.0.1 Verse
 >
 > 一句命令，让 DeepSeek、KIMI、GPT、Claude、GLM、千问、火山方舟、MiniMax、Gemini、Grok 一起干活。
 
@@ -10,14 +10,14 @@ Super Work 是一个**跑在你自己电脑上的独立网站**：启动后浏�
 
 [![CI](https://github.com/zengpu987-ctrl/super-work/actions/workflows/ci.yml/badge.svg)](https://github.com/zengpu987-ctrl/super-work/actions/workflows/ci.yml)
 [![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
-![version](https://img.shields.io/badge/version-1.0.0%20Pro-22d3ee)
+![version](https://img.shields.io/badge/version-1.0.1%20Verse-22d3ee)
 ![modes](https://img.shields.io/badge/modes-8-6d5efc)
 ![providers](https://img.shields.io/badge/providers-15-22d3ee)
 ![tests](https://img.shields.io/badge/tests-194-10b981)
 [![Paper](https://img.shields.io/badge/paper-中英双语-1f6b55)](paper/super-work-paper.pdf)
 
 > **开源仓库**：https://github.com/zengpu987-ctrl/super-work · **文档站**：https://zengpu987-ctrl.github.io/super-work/ · **许可证**：Apache-2.0  
-> **使用说明**：[docs/USER-GUIDE.md](docs/USER-GUIDE.md) · **DeepSeek 细节**：[docs/DEEPSEEK.md](docs/DEEPSEEK.md) · **DSH 账户 V4.1 Flash**：[docs/DEEPSEEK-ACCOUNT.md](docs/DEEPSEEK-ACCOUNT.md) · **OpenAI 直连**：[docs/OPENAI-DIRECT.md](docs/OPENAI-DIRECT.md)  
+> **使用说明**：[docs/USER-GUIDE.md](docs/USER-GUIDE.md) · **DeepSeek 细节**：[docs/DEEPSEEK.md](docs/DEEPSEEK.md) · **DSH 账户 V4.1 Flash**：[docs/DEEPSEEK-ACCOUNT.md](docs/DEEPSEEK-ACCOUNT.md) · **OpenAI 直连**：[docs/OPENAI-DIRECT.md](docs/OPENAI-DIRECT.md) · **WorkBuddy 国际版**：[docs/WORKBUDDY-GLOBAL.md](docs/WORKBUDDY-GLOBAL.md)  
 > **中英双语论文**：[paper/super-work-paper.pdf](paper/super-work-paper.pdf) · **评测报告**：[docs/SOFTWARE-EVALUATION.md](docs/SOFTWARE-EVALUATION.md)  
 > **共建**：欢迎 Provider、文档排版、3D、安全、评测与翻译贡献，见 [CONTRIBUTING.md](CONTRIBUTING.md)、[ROADMAP.md](ROADMAP.md)、[COMMUNITY](docs/COMMUNITY.md)。
 
@@ -100,7 +100,13 @@ v0.0.2（本版，界面由 Kimi K3.1 Pro 评审驱动）：
 - 插件中心「运行」按钮打开动作面板（字段 + 图片/视频/文件结果），测试仅对桥接命令可用。
 - 全量清单与动作：[docs/PLUGINS.md](docs/PLUGINS.md)。
 
-## v1.0.0 Pro：透明玻璃 + 拨片开关
+## v1.0.1 Verse 新增
+
+- **WorkBuddy 国际版**：新增网页登录接入（workbuddy.ai），自动导入 GPT-5.6、Gemini-3.5-Flash、GLM-5.3、Kimi-K3 等国际版模型；国内版与国际版账号并存，模型池分组区分。
+- 国际版登录不依赖国际版客户端：设置 → 中转站 → WorkBuddy →「网页登录并导入」，浏览器完成后自动拉取目录。
+- 版本命名：**v1.0.1 Verse**。
+
+## v1.0.0 Pro 新增
 
 - 全界面改为**透明玻璃**：极光底 + 细网格 + 磨砂面板（顶栏/左右栏/命令台/答案卡/设置弹窗/团队抽屉），
   保留 Earth 3D 地球作为背景；`backdrop-filter` 不支持时自动回退不透明底。

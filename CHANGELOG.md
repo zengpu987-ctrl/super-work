@@ -2,6 +2,16 @@
 
 ## Unreleased
 
+- 开源整理：Apache-2.0、贡献指南、治理、路线图、Issue/PR 模板、CI、Dev Container。
+- 中英双语论文与使用说明；DeepSeek 集成/开发细节公开。
+- 3D 地球贴图 WebP 化与懒加载（进行中）。
+
+## v1.0.1 Verse — 2026-11-22
+
+- 接入 WorkBuddy 国际版：网页登录 workbuddy.ai，自动导入 GPT-5.6 / Gemini-3.5-Flash / GLM-5.3 / Kimi-K3 等模型。
+- WorkBuddy 国内版与国际版账号并存；国际版账号名带「国际版」标识，模型池分组可区分。
+- 国际版目录按 30 个模型实时拉取，登录即导入；不依赖国际版桌面客户端。
+
 ## v1.0.0 Pro — 2026-11-21
 
 - 同对话「交给团队」/「重新生成」：保持 threadId，不再新开对话。
@@ -10,12 +20,6 @@
 - OpenAI 直接接入账户；新增 DSH DeepSeek 账户通道 V4.1 Flash（`deepseek-account`）。
 - 模型有效期统一「长期有效」；KIMI 180s 保底超时、全局 300s；194 项测试。
 - 透明玻璃 + PaddleSwitch 视觉系统。
-
-
-
-- 开源整理：Apache-2.0、贡献指南、治理、路线图、Issue/PR 模板、CI、Dev Container。
-- 中英双语论文与使用说明；DeepSeek 集成/开发细节公开。
-- 3D 地球贴图 WebP 化与懒加载（进行中）。
 
 ## v0.0.3 — 2026-11-19
 

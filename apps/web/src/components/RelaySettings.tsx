@@ -50,6 +50,12 @@ export function RelaySettings({ pushToast, onChanged }: RelaySettingsProps) {
   const [selectedModelIds, setSelectedModelIds] = useState<Set<string>>(new Set());
   const [wb, setWb] = useState<WorkbuddyLocalDetect | null>(null);
   const [wbLoading, setWbLoading] = useState(false);
+  const [wbGlobal, setWbGlobal] = useState<{
+    loginId: string;
+    verificationUri: string;
+    status: "waiting" | "error";
+    message?: string;
+  } | null>(null);
   const [renameId, setRenameId] = useState<string | null>(null);
   const [renameValue, setRenameValue] = useState("");
   const [confirmId, setConfirmId] = useState<string | null>(null);
@@ -119,6 +125,60 @@ export function RelaySettings({ pushToast, onChanged }: RelaySettingsProps) {
     void detectWorkbuddy();
     // 只在首次挂载时检测
   }, [detectWorkbuddy]);
+
+  const startWorkbuddyGlobal = useCallback(async () => {
+    setBusy("workbuddy-global");
+    try {
+      const started = await api.startWorkBuddyOAuth("global");
+      setWbGlobal({ ...started, status: "waiting" });
+      window.open(started.verificationUri, "_blank", "noopener,noreferrer");
+      pushToast(
+        "info",
+        "已打开 WorkBuddy 国际版登录页",
+        "在浏览器完成登录后，这里会自动检测并导入模型。",
+        5000,
+      );
+    } catch (err) {
+      pushToast("error", "无法发起 WorkBuddy 国际版登录", errorMessage(err));
+    } finally {
+      setBusy(null);
+    }
+  }, [pushToast]);
+
+  useEffect(() => {
+    if (!wbGlobal || wbGlobal.status !== "waiting") return;
+    let cancelled = false;
+    const timer = setInterval(async () => {
+      try {
+        const result = await api.pollWorkBuddyOAuth(wbGlobal.loginId);
+        if (cancelled || !result.done) return;
+        if (result.error) {
+          setWbGlobal((prev) => (prev ? { ...prev, status: "error", message: result.error } : prev));
+          pushToast("error", "WorkBuddy 国际版登录失败", result.error);
+          return;
+        }
+        setWbGlobal(null);
+        if (result.account) {
+          pushToast(
+            "success",
+            "WorkBuddy 国际版已接入",
+            `${result.account.name} · ${result.account.models?.length ?? 0} 个模型`,
+            5000,
+          );
+          await load(true);
+          void detectWorkbuddy();
+          onChanged?.();
+        }
+      } catch (err) {
+        if (cancelled) return;
+        setWbGlobal((prev) => (prev ? { ...prev, status: "error", message: errorMessage(err) } : prev));
+      }
+    }, 3000);
+    return () => {
+      cancelled = true;
+      clearInterval(timer);
+    };
+  }, [detectWorkbuddy, load, onChanged, pushToast, wbGlobal]);
 
   const openPreset = (preset: RelayPreset): void => {
     if (preset.kind === "workbuddy") {
@@ -434,6 +494,43 @@ export function RelaySettings({ pushToast, onChanged }: RelaySettingsProps) {
                       </div>
                     </>
                   )}
+
+                  <div className="workbuddy-global">
+                    <div className="workbuddy-box__row">
+                      <span className="dot dot-off" aria-hidden="true" />
+                      <b>WorkBuddy 国际版</b>
+                      <span className="tag">workbuddy.ai</span>
+                    </div>
+                    <p className="workbuddy-box__detail">
+                      {wbGlobal?.status === "waiting"
+                        ? "等待浏览器完成登录；完成后会自动导入 GPT / Gemini / GLM 等国际版模型。"
+                        : wbGlobal?.status === "error"
+                          ? wbGlobal.message ?? "登录失败，请重试。"
+                          : "通过网页登录添加国际版账号（不需要安装国际版客户端）。"}
+                    </p>
+                    <div className="workbuddy-box__actions">
+                      {wbGlobal?.status === "waiting" ? (
+                        <>
+                          <a className="btn btn-sm" href={wbGlobal.verificationUri} target="_blank" rel="noreferrer">
+                            <IconExternal size={12} /> 重新打开登录页
+                          </a>
+                          <button type="button" className="btn btn-sm btn-ghost" onClick={() => setWbGlobal(null)}>
+                            取消
+                          </button>
+                        </>
+                      ) : (
+                        <button
+                          type="button"
+                          className="btn btn-sm"
+                          onClick={() => void startWorkbuddyGlobal()}
+                          disabled={busy === "workbuddy-global"}
+                        >
+                          {busy === "workbuddy-global" ? <IconLoader size={12} className="spin" /> : <IconExternal size={12} />}
+                          网页登录并导入
+                        </button>
+                      )}
+                    </div>
+                  </div>
                 </div>
               ) : (
                 <button type="button" className="btn btn-sm preset-card__add" onClick={() => openPreset(preset)}>

@@ -28,7 +28,7 @@ import { registerV3Routes, validateV3Settings } from "./routes-v3.js";
 import { createLogger } from "./log.js";
 import type { AppSettings } from "@super-work/core";
 
-const VERSION = "1.0.0 Pro";
+const VERSION = "1.0.1 Verse";
 
 function banner(url: string, connected: number, total: number, dataDir: string, proxy?: string): string {
   return [

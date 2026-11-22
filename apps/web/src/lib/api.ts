@@ -647,6 +647,8 @@ export const api = {
   testRelay,
   detectLocalWorkbuddy,
   importLocalWorkbuddy,
+  startWorkBuddyOAuth,
+  pollWorkBuddyOAuth,
   createRelayAndDiscover,
   importRelayModels,
   addRelayModels,
@@ -872,6 +874,34 @@ export function testRelay(id: string): Promise<{ ok: boolean; detail?: string }>
   return request<{ ok: boolean; detail?: string }>(`/api/relays/${encodeURIComponent(id)}/test`, {
     method: "POST",
     timeoutMs: 30_000,
+  });
+}
+
+export interface WorkBuddyOAuthStart {
+  loginId: string;
+  verificationUri: string;
+  expiresIn: number;
+}
+
+export interface WorkBuddyOAuthPoll {
+  done: boolean;
+  account?: RelayAccount;
+  error?: string;
+}
+
+export function startWorkBuddyOAuth(region: "cn" | "global" = "global"): Promise<WorkBuddyOAuthStart> {
+  return request<WorkBuddyOAuthStart>("/api/relays/local/workbuddy/oauth/start", {
+    method: "POST",
+    body: jsonBody({ region }),
+    timeoutMs: 40_000,
+  });
+}
+
+export function pollWorkBuddyOAuth(loginId: string): Promise<WorkBuddyOAuthPoll> {
+  return request<WorkBuddyOAuthPoll>("/api/relays/local/workbuddy/oauth/poll", {
+    method: "POST",
+    body: jsonBody({ loginId }),
+    timeoutMs: 40_000,
   });
 }
 

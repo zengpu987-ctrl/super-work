@@ -18,7 +18,8 @@
 | MiniMax | `MiniMax-M3`、`MiniMax-M3.1-Flash`、`MiniMax-M2.7`、`MiniMax-M2.5` | MiniMax 官方 release notes（M3 2026-06-01、M3.1 Flash 2026-10-19） |
 | Gemini | `gemini-3.1-pro`、`gemini-3.1-flash`、`gemini-3-pro`（兼容） | Google AI 文档 Gemini 3.1 Pro / 3.1 Flash |
 | Grok / xAI | `grok-4.7`、`grok-4.1`（兼容）、`grok-code-fast-1` | AWS Bedrock Grok 4.7 模型卡 |
-| WorkBuddy | 当前启用 18 个：`kimi-k3.1-pro`、`glm-5.3(flash)`、`deepseek-v4-pro`、`hunyuan-image-alpha` 等；12 个上游不可用项已禁用 | 本机登录态实测 `/v2/enterprises/personal/models`（2026-11-18）；2026-11-21 健康检查后禁用不可用项 |
+| WorkBuddy 国际版 | 上游实时目录（约 28 个）：`GPT-5.6`、`Gemini-3.5-Flash`、`GLM-5.3`、`Kimi-K3` 等 | 网页登录 workbuddy.ai，登录后自动拉取；2026-11-22 接入 |
+| WorkBuddy 国内版 | 当前启用 18 个：`kimi-k3.1-pro`、`glm-5.3(flash)`、`deepseek-v4-pro`、`hunyuan-image-alpha` 等；12 个上游不可用项已禁用 | 本机登录态实测 `/v2/enterprises/personal/models`（2026-11-18）；2026-11-21 健康检查后禁用不可用项 |
 | 中转站 | 用户导入的上游模型 | 设置 → 中转站，「测试并拉取模型」 |
 
 ## 模型池同步

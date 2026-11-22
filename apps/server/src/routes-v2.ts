@@ -77,6 +77,26 @@ export async function registerV2Routes(app: FastifyInstance, deps: RouteV2Deps):
     accounts: detectWorkBuddyLocalAccounts(),
   }));
 
+  app.post("/api/relays/local/workbuddy/oauth/start", async (req, reply) => {
+    const body = (req.body ?? {}) as { region?: "cn" | "global" };
+    const region = body.region === "cn" ? "cn" : "global";
+    try {
+      return await relays.startWorkBuddyOAuth(region);
+    } catch (error) {
+      return reply.code(400).send({ error: { code: "oauth_start_failed", message: safeErrorMessage(error) } });
+    }
+  });
+
+  app.post("/api/relays/local/workbuddy/oauth/poll", async (req, reply) => {
+    const body = (req.body ?? {}) as { loginId?: string };
+    if (!body.loginId?.trim()) return bad(reply, "缺少 loginId");
+    try {
+      return await relays.pollWorkBuddyOAuth(body.loginId.trim());
+    } catch (error) {
+      return reply.code(400).send({ error: { code: "oauth_poll_failed", message: safeErrorMessage(error) } });
+    }
+  });
+
   app.post("/api/relays/local/workbuddy/import", async (req, reply) => {
     const body = (req.body ?? {}) as { uid?: string; region?: "cn" | "global" };
     try {
